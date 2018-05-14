@@ -35,27 +35,27 @@ Shader::Shader(const std::string &vertex_path,
 
   // Shader compilation & linking
 
-  GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
-  glCompileShader(vertex_shader);
+  GL_CALL(GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER));
+  GL_CALL(glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL));
+  GL_CALL(glCompileShader(vertex_shader));
 
-  GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
-  glCompileShader(fragment_shader);
+  GL_CALL(GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER));
+  GL_CALL(glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL));
+  GL_CALL(glCompileShader(fragment_shader));
 
-  this->m_program = glCreateProgram();
-  glAttachShader(m_program, vertex_shader);
-  glAttachShader(m_program, fragment_shader);
-  glLinkProgram(m_program);
+  GL_CALL(this->m_program = glCreateProgram());
+  GL_CALL(glAttachShader(m_program, vertex_shader));
+  GL_CALL(glAttachShader(m_program, fragment_shader));
+  GL_CALL(glLinkProgram(m_program));
 
-  glDeleteShader(vertex_shader);
-  glDeleteShader(fragment_shader);
+  GL_CALL(glDeleteShader(vertex_shader));
+  GL_CALL(glDeleteShader(fragment_shader));
 }
 
 Shader::~Shader() {
-  glDeleteProgram(m_program);
+  GL_CALL(glDeleteProgram(m_program));
 }
 
 void Shader::use() {
-  glUseProgram(m_program);
+  GL_CALL(glUseProgram(m_program));
 }

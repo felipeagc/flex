@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <flex/config.hpp>
+#include "util.hpp"
 
 namespace flex {
 namespace gl {

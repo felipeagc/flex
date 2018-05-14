@@ -5,7 +5,7 @@
 #include <iostream>
 
 #define GL_CALL(x)                                                             \
-  flex::gl::glClearError();                                               \
+  flex::gl::glClearError();                                                    \
   x;                                                                           \
   assert(flex::gl::glLogCall(#x, __FILE__, __LINE__));
 
