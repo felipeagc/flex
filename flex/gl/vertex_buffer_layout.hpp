@@ -24,10 +24,10 @@ struct VertexElement {
   }
 };
 
-class VertexLayout {
+class VertexBufferLayout {
 public:
-  VertexLayout() : m_stride(0){};
-  ~VertexLayout(){};
+  VertexBufferLayout() : m_stride(0){};
+  ~VertexBufferLayout(){};
 
   void push_element(VertexElement element) { m_elements.push_back(element); }
 
@@ -44,22 +44,22 @@ private:
 };
 
 template <typename T>
-void push_element(VertexLayout &layout, unsigned int count) {}
+void push_element(VertexBufferLayout &layout, unsigned int count) {}
 
-template <> void push_element<float>(VertexLayout &layout, unsigned int count) {
+template <> void push_element<float>(VertexBufferLayout &layout, unsigned int count) {
   layout.push_element({GL_FLOAT, count, false});
   layout.add_to_stride(VertexElement::get_size_of_type(GL_FLOAT) * count);
 }
 
 template <>
-void push_element<unsigned int>(VertexLayout &layout, unsigned int count) {
+void push_element<unsigned int>(VertexBufferLayout &layout, unsigned int count) {
   layout.push_element({GL_UNSIGNED_INT, count, false});
   layout.add_to_stride(VertexElement::get_size_of_type(GL_UNSIGNED_INT) *
                        count);
 }
 
 template <>
-void push_element<unsigned char>(VertexLayout &layout, unsigned int count) {
+void push_element<unsigned char>(VertexBufferLayout &layout, unsigned int count) {
   layout.push_element({GL_UNSIGNED_BYTE, count, false});
   layout.add_to_stride(VertexElement::get_size_of_type(GL_UNSIGNED_BYTE) *
                        count);

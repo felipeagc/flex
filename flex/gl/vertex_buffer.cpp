@@ -6,9 +6,11 @@ VertexBuffer::VertexBuffer() { GL_CALL(glGenBuffers(1, &m_vbo)); }
 
 VertexBuffer::~VertexBuffer() { GL_CALL(glDeleteBuffers(1, &m_vbo)); }
 
-void VertexBuffer::buffer(const void *data, const GLuint size) {
+void VertexBuffer::buffer(const void *data, const GLuint size, bool dynamic) {
   this->bind();
-  GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
+
+  auto usage = dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+  GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, usage));
 }
 
 void VertexBuffer::bind() const {

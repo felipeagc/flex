@@ -2,7 +2,7 @@
 
 #include "util.hpp"
 #include "vertex_buffer.hpp"
-#include "vertex_layout.hpp"
+#include "vertex_buffer_layout.hpp"
 #include <glad/glad.h>
 
 namespace flex {
@@ -15,10 +15,11 @@ public:
   void bind();
   void unbind();
 
-  void set_buffer(const VertexBuffer &vb, const VertexLayout &layout);
+  void add_buffer(const VertexBuffer &vb, const VertexBufferLayout &layout);
 
 private:
   GLuint m_vao;
+  unsigned int m_attrib_count = 0;
 };
 } // namespace gl
 } // namespace flex

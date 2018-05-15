@@ -2,7 +2,7 @@
 #include <flex/gl/shader.hpp>
 #include <flex/gl/vertex_array.hpp>
 #include <flex/gl/vertex_buffer.hpp>
-#include <flex/gl/vertex_layout.hpp>
+#include <flex/gl/vertex_buffer_layout.hpp>
 #include <flex/window.hpp>
 #include <fstream>
 #include <glad/glad.h>
@@ -13,18 +13,26 @@
 int main() {
   flex::Window window("Hello", 800, 600);
 
-  float vertices[] = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
+  float positions[] = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
+  float colors[] = {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0};
 
   // VBO and VAO stuff
 
-  flex::gl::VertexBuffer vb;
-  vb.buffer(vertices, sizeof(vertices));
+  flex::gl::VertexBuffer vb_positions;
+  vb_positions.buffer(positions, sizeof(positions));
 
-  flex::gl::VertexLayout layout;
-  flex::gl::push_element<float>(layout, 3);
+  flex::gl::VertexBufferLayout pos_layout;
+  flex::gl::push_element<float>(pos_layout, 3);
+
+  flex::gl::VertexBuffer vb_colors;
+  vb_colors.buffer(colors, sizeof(colors));
+
+  flex::gl::VertexBufferLayout colors_layout;
+  flex::gl::push_element<float>(colors_layout, 3);
 
   flex::gl::VertexArray vao;
-  vao.set_buffer(vb, layout);
+  vao.add_buffer(vb_positions, pos_layout);
+  vao.add_buffer(vb_colors, colors_layout);
 
   // Shader stuff
   flex::gl::Shader shader("simple.glslv", "simple.glslf");
