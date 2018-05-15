@@ -57,7 +57,7 @@ Shader::Shader(const std::string &vertex_path,
 
 Shader::~Shader() { GL_CALL(glDeleteProgram(m_program)); }
 
-void Shader::use() { GL_CALL(glUseProgram(m_program)); }
+void Shader::use() const { GL_CALL(glUseProgram(m_program)); }
 
 void Shader::check_compile_errors(GLuint shader, std::string type) {
   int success;

@@ -15,7 +15,7 @@ public:
   Shader(const std::string &vertex_path, const std::string &fragment_path);
   ~Shader();
 
-  void use();
+  void use() const;
 
 private:
   GLuint m_program;
