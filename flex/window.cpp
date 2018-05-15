@@ -18,6 +18,12 @@ Window::Window(const std::string &name, int width, int height) {
     std::exit(1);
   }
 
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetSwapInterval(0);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
   auto context = SDL_GL_CreateContext(m_window);
   if (context == NULL) {
     std::cout << "Failed to initialize OpenGL context" << std::endl;

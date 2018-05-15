@@ -38,24 +38,43 @@ Shader::Shader(const std::string &vertex_path,
   GL_CALL(GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER));
   GL_CALL(glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL));
   GL_CALL(glCompileShader(vertex_shader));
+  check_compile_errors(vertex_shader, "VERTEX");
 
   GL_CALL(GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER));
   GL_CALL(glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL));
   GL_CALL(glCompileShader(fragment_shader));
+  check_compile_errors(fragment_shader, "FRAGMENT");
 
   GL_CALL(this->m_program = glCreateProgram());
   GL_CALL(glAttachShader(m_program, vertex_shader));
   GL_CALL(glAttachShader(m_program, fragment_shader));
   GL_CALL(glLinkProgram(m_program));
+  check_compile_errors(m_program, "PROGRAM");
 
   GL_CALL(glDeleteShader(vertex_shader));
   GL_CALL(glDeleteShader(fragment_shader));
 }
 
-Shader::~Shader() {
-  GL_CALL(glDeleteProgram(m_program));
-}
+Shader::~Shader() { GL_CALL(glDeleteProgram(m_program)); }
 
-void Shader::use() {
-  GL_CALL(glUseProgram(m_program));
+void Shader::use() { GL_CALL(glUseProgram(m_program)); }
+
+void Shader::check_compile_errors(GLuint shader, std::string type) {
+  int success;
+  char infoLog[1024];
+  if (type != "PROGRAM") {
+    GL_CALL(glGetShaderiv(shader, GL_COMPILE_STATUS, &success));
+    if (!success) {
+      GL_CALL(glGetShaderInfoLog(shader, 1024, NULL, infoLog));
+      std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
+                << infoLog << std::endl;
+    }
+  } else {
+    GL_CALL(glGetProgramiv(shader, GL_LINK_STATUS, &success));
+    if (!success) {
+      GL_CALL(glGetProgramInfoLog(shader, 1024, NULL, infoLog));
+      std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
+                << infoLog << std::endl;
+    }
+  }
 }

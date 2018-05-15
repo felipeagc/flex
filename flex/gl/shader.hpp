@@ -19,6 +19,8 @@ public:
 
 private:
   GLuint m_program;
+
+  void check_compile_errors(GLuint shader, std::string type);
 };
 } // namespace gl
 } // namespace flex
