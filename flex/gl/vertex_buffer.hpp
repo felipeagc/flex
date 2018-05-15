@@ -1,7 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
 #include "util.hpp"
+#include <glad/glad.h>
 
 namespace flex {
 namespace gl {
@@ -10,9 +10,9 @@ public:
   VertexBuffer();
   ~VertexBuffer();
 
-  void buffer(const void* data, const GLuint size);
-  void bind();
-  void unbind();
+  void buffer(const void *data, const GLuint size);
+  void bind() const;
+  void unbind() const;
 
 private:
   GLuint m_vbo;
