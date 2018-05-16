@@ -1,12 +1,14 @@
 #pragma once
 
+#include "util.hpp"
+#include <flex/config.hpp>
 #include <fstream>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <flex/config.hpp>
-#include "util.hpp"
 
 namespace flex {
 namespace gl {
@@ -16,6 +18,10 @@ public:
   ~Shader();
 
   void use() const;
+
+  void set(const std::string &name, float value);
+  void set(const std::string &name, glm::vec3 value);
+  void set(const std::string &name, glm::mat4 value);
 
 private:
   GLuint m_program;

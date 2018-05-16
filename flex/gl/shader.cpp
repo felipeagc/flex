@@ -78,3 +78,21 @@ void Shader::check_compile_errors(GLuint shader, std::string type) {
     }
   }
 }
+
+void Shader::set(const std::string &name, float value) {
+  this->use();
+  GL_CALL(GLint location = glGetUniformLocation(m_program, name.c_str()));
+  GL_CALL(glUniform1f(location, value));
+}
+
+void Shader::set(const std::string &name, glm::vec3 value) {
+  this->use();
+  GL_CALL(GLint location = glGetUniformLocation(m_program, name.c_str()));
+  GL_CALL(glUniform3fv(location, 1, glm::value_ptr(value)));
+}
+
+void Shader::set(const std::string &name, glm::mat4 value) {
+  this->use();
+  GL_CALL(GLint location = glGetUniformLocation(m_program, name.c_str()));
+  GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value)));
+}

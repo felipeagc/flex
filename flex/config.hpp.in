@@ -1,3 +1,1 @@
-#pragma once
-
 #define FLEX_RES_PATH "@res_path@/"
