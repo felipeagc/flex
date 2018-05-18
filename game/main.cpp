@@ -73,6 +73,8 @@ int main() {
     mesh.draw(shader);
   });
 
+  window.on_key_down([&](flex::keyboard::Key key, bool repeat) {});
+
   window.run();
 
   return 0;

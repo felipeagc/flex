@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <flex/config.hpp>
 #include <flex/gl/util.hpp>
+#include <flex/keyboard/keyboard.hpp>
 #include <functional>
 #include <glad/glad.h>
 #include <iostream>
@@ -36,6 +37,15 @@ public:
     this->m_on_resized = callback;
   };
 
+  void on_key_up(std::function<void(keyboard::Key key, bool repeat)> callback) {
+    this->m_on_key_up = callback;
+  };
+
+  void
+  on_key_down(std::function<void(keyboard::Key key, bool repeat)> callback) {
+    this->m_on_key_down = callback;
+  };
+
 private:
   SDL_Window *m_window;
   bool m_should_quit = false;
@@ -43,6 +53,10 @@ private:
   std::function<void()> m_on_quit = []() {};
   std::function<void(float)> m_on_update = [](float delta) {};
   std::function<void(int, int)> m_on_resized = [](int w, int h) {};
+  std::function<void(keyboard::Key key, bool repeat)> m_on_key_up =
+      [](keyboard::Key key, bool repeat) {};
+  std::function<void(keyboard::Key key, bool repeat)> m_on_key_down =
+      [](keyboard::Key key, bool repeat) {};
 
   float m_last_time = 0.0;
 };

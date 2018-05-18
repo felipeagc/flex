@@ -55,6 +55,12 @@ void Window::run() {
       case SDL_QUIT:
         this->m_should_quit = true;
         break;
+      case SDL_KEYUP:
+        this->m_on_key_up(e.key.keysym.sym, e.key.repeat);
+        break;
+      case SDL_KEYDOWN:
+        this->m_on_key_down(e.key.keysym.sym, e.key.repeat);
+        break;
       case SDL_WINDOWEVENT:
         switch (e.window.event) {
         case SDL_WINDOWEVENT_RESIZED:
