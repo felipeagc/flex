@@ -2,6 +2,7 @@ flex_sources = [
   'window.cpp',
   'mesh.cpp',
   'camera.cpp',
+  'gl/buffer.cpp',
   'gl/vertex_buffer.cpp',
   'gl/index_buffer.cpp',
   'gl/vertex_array.cpp',

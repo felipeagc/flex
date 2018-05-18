@@ -1,9 +1,4 @@
-#include <flex/camera.hpp>
-#include <flex/config.hpp>
-#include <flex/gl/shader.hpp>
-#include <flex/mesh.hpp>
-#include <flex/scancodes.hpp>
-#include <flex/window.hpp>
+#include <flex/flex.hpp>
 #include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -46,7 +41,7 @@ int main() {
 
   window.on_update([&](float delta) {
     glm::vec3 movement;
-    float velocity = delta * 10.0f;
+    float velocity = delta * 3.0f;
 
     if (window.is_key_pressed(FLEX_SCANCODE_W)) {
       movement += camera.get_front() * velocity;

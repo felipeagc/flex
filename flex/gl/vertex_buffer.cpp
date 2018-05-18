@@ -2,19 +2,19 @@
 
 using namespace flex::gl;
 
-VertexBuffer::VertexBuffer() { GL_CALL(glGenBuffers(1, &m_vbo)); }
-
-VertexBuffer::~VertexBuffer() { GL_CALL(glDeleteBuffers(1, &m_vbo)); }
-
-void VertexBuffer::buffer(const void *data, const GLuint size, bool dynamic) {
+void VertexBuffer::buffer(const void *data, const GLuint size) {
   this->bind();
 
-  auto usage = dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
-  GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, usage));
+  GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
+}
+
+void VertexBuffer::buffer_sub_data(const void *data, const GLuint size,
+                                   const GLintptr offset) {
+  GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
 }
 
 void VertexBuffer::bind() const {
-  GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_vbo));
+  GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_buffer));
 }
 
 void VertexBuffer::unbind() const { GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0)); }

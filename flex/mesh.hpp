@@ -21,6 +21,10 @@ namespace flex {
 
     void draw(const gl::Shader &shader);
 
+    void set_vertices(std::vector<Vertex> vertices);
+    void set_indices(std::vector<GLuint> indices);
+    void set_vertices_and_indices(std::vector<Vertex> vertices, std::vector<GLuint> indices);
+
   private:
     gl::VertexBuffer m_vb;
     gl::IndexBuffer m_ib;
