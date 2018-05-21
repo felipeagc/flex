@@ -2,3 +2,7 @@
 * RESOURCE: [[https://www.khronos.org/opengl/wiki/Vertex_Specification_Best_Practices][Khronos Group: Vertex Specification Best Practices]]
 * TODO Use different VBOs for each vertex attribute
 * TODO Optimize camera to do less updating
+* TODO Load textures from files
+* TODO Load models with Assimp
+* TODO Canvas drawing
+* TODO Multipass rendering

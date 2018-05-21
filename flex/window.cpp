@@ -36,7 +36,8 @@ Window::Window(const std::string &name, int width, int height) {
     std::exit(1);
   }
 
-  glViewport(0, 0, width, height);
+  GL_CALL(glEnable(GL_DEPTH_TEST));
+  GL_CALL(glViewport(0, 0, width, height));
 }
 
 Window::~Window() {
@@ -48,7 +49,7 @@ void Window::run() {
   SDL_Event e;
   while (!this->m_should_quit) {
     GL_CALL(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
-    GL_CALL(glClear(GL_COLOR_BUFFER_BIT));
+    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
     while (SDL_PollEvent(&e)) {
       switch (e.type) {

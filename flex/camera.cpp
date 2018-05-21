@@ -2,9 +2,10 @@
 
 using namespace flex;
 
-Camera3D::Camera3D(int width, int height, glm::vec3 position, glm::vec3 up,
-                   float yaw, float pitch) {
+Camera3D::Camera3D(int width, int height, glm::vec3 position, float fov,
+                   glm::vec3 up, float yaw, float pitch) {
   m_pos = position;
+  m_fov = fov;
   m_world_up = up;
   m_yaw = yaw;
   m_pitch = pitch;

@@ -6,7 +6,7 @@
 namespace flex {
 class Camera3D {
 public:
-  Camera3D(int width, int height, glm::vec3 position = {},
+  Camera3D(int width, int height, glm::vec3 position = {}, float fov = 70.0f,
            glm::vec3 up = {0, 1.0f, 0}, float yaw = -90.0f, float pitch = 0);
   ~Camera3D();
 
@@ -40,6 +40,6 @@ private:
 
   float m_yaw;
   float m_pitch;
-  float m_fov = 90.0f;
+  float m_fov;
 };
 } // namespace flex

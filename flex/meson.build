@@ -1,18 +1,24 @@
 flex_sources = [
   'window.cpp',
   'mesh.cpp',
+  'model.cpp',
   'camera.cpp',
   'gl/buffer.cpp',
   'gl/vertex_buffer.cpp',
   'gl/index_buffer.cpp',
   'gl/vertex_array.cpp',
+  'gl/texture.cpp',
+  'gl/framebuffer.cpp',
+  'gl/renderbuffer.cpp',
   'gl/shader.cpp',
 ]
 
 flex_deps = [
   dependency('sdl2'),
   dependency('glm'),
+  dependency('assimp'),
   dependency('glad', fallback: ['glad', 'glad_dep']),
+  dependency('stb_image', fallback: ['stb_image', 'stb_image_dep']),
 ]
 
 conf_data = configuration_data()

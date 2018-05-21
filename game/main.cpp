@@ -7,14 +7,18 @@
 #include <sstream>
 #include <string>
 
+glm::vec3 lerp(glm::vec3 v1, glm::vec3 v2, float t) {
+  return v1 + t * (v2 - v1);
+}
+
 int main() {
   flex::Window window("Hello", 800, 600);
 
   std::vector<flex::Vertex> vertices{
-      {{.5f, .5f, .0f}, {1.0, 1.0, 1.0}},   // top right
-      {{.5f, -.5f, .0f}, {0.0, 0.0, 0.0}},  // bottom right
-      {{-.5f, -.5f, .0f}, {1.0, 0.0, 0.0}}, // bottom left
-      {{-.5f, .5f, .0f}, {0.0, 0.0, 1.0}},  // top left
+      {{.5f, .5f, .0f}, {}, {1.0, 1.0, 1.0}, {1.0, 1.0}},   // top right
+      {{.5f, -.5f, .0f}, {}, {0.0, 0.0, 0.0}, {1.0, 0.0}},  // bottom right
+      {{-.5f, -.5f, .0f}, {}, {1.0, 0.0, 0.0}, {0.0, 0.0}}, // bottom left
+      {{-.5f, .5f, .0f}, {}, {0.0, 0.0, 1.0}, {0.0, 1.0}},  // top left
   };
 
   std::vector<unsigned int> indices{
@@ -24,6 +28,8 @@ int main() {
 
   // Mesh stuff
   flex::Mesh mesh(vertices, indices);
+
+  flex::Model monkey("models/cube/cube.obj");
 
   // Camera stuff
   flex::Camera3D camera(window.get_width(), window.get_height());
@@ -35,6 +41,8 @@ int main() {
   shader.set("model", model);
 
   window.set_relative_mouse(true);
+
+  glm::vec3 camera_target = camera.get_pos();
 
   // Window stuff
   window.on_quit([&]() { std::cout << "Quit" << std::endl; });
@@ -56,13 +64,19 @@ int main() {
       movement += camera.get_right() * velocity;
     }
 
-    camera.set_pos(camera.get_pos() + movement);
+    camera_target += movement;
+    glm::vec3 smoothed_pos =
+        lerp(camera.get_pos(), camera_target, delta * 10.0f);
 
-    const float sensitivity = 0.1f;
-    int x, y;
-    window.get_relative_mouse_pos(&x, &y);
-    camera.set_pitch(camera.get_pitch() - (y * sensitivity));
-    camera.set_yaw(camera.get_yaw() + (x * sensitivity));
+    camera.set_pos(smoothed_pos);
+
+    if (window.get_relative_mouse()) {
+      const float sensitivity = 0.1f;
+      int x, y;
+      window.get_relative_mouse_pos(&x, &y);
+      camera.set_pitch(camera.get_pitch() - (y * sensitivity));
+      camera.set_yaw(camera.get_yaw() + (x * sensitivity));
+    }
 
     camera.update(window.get_width(), window.get_height());
 
@@ -71,9 +85,15 @@ int main() {
 
     // Drawing stuff
     mesh.draw(shader);
+
+    monkey.draw(shader);
   });
 
-  window.on_key_down([&](flex::keyboard::Key key, bool repeat) {});
+  window.on_key_down([&](flex::keyboard::Key key, bool repeat) {
+    if (key == FLEX_KEY_ESCAPE) {
+      window.set_relative_mouse(!window.get_relative_mouse());
+    }
+  });
 
   window.run();
 

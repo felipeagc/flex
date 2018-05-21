@@ -79,6 +79,18 @@ void Shader::check_compile_errors(GLuint shader, std::string type) {
   }
 }
 
+void Shader::set(const std::string &name, bool value) {
+  this->use();
+  GL_CALL(GLint location = glGetUniformLocation(m_program, name.c_str()));
+  GL_CALL(glUniform1i(location, value));
+}
+
+void Shader::set(const std::string &name, unsigned int value) {
+  this->use();
+  GL_CALL(GLint location = glGetUniformLocation(m_program, name.c_str()));
+  GL_CALL(glUniform1i(location, value));
+}
+
 void Shader::set(const std::string &name, float value) {
   this->use();
   GL_CALL(GLint location = glGetUniformLocation(m_program, name.c_str()));
