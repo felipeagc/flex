@@ -17,7 +17,8 @@ static inline void glClearError() {
     ;
 }
 
-static inline bool glLogCall(const char *function, const char *file, const int line) {
+static inline bool glLogCall(const char *function, const char *file,
+                             const int line) {
   while (GLenum error = glGetError()) {
     std::cout << "[OpenGL Error] (" << error << "): " << function << " in "
               << file << " at line " << line << std::endl;
