@@ -29,16 +29,13 @@ int main() {
   // Mesh stuff
   flex::Mesh mesh(vertices, indices);
 
-  flex::Model monkey("models/cube/cube.obj");
+  flex::Model cube("models/cube/cube.obj");
 
   // Camera stuff
   flex::Camera3D camera(window.get_width(), window.get_height());
 
   // Shader stuff
   flex::gl::Shader shader("simple.vert", "simple.frag");
-
-  glm::mat4 model = glm::translate(glm::mat4(1.0f), {0.0, 0.0, 0.0});
-  shader.set("model", model);
 
   window.set_relative_mouse(true);
 
@@ -84,9 +81,11 @@ int main() {
     shader.set("proj", camera.get_projection_matrix());
 
     // Drawing stuff
+    shader.set("model", glm::translate(glm::mat4(), {-2.0, 0.0, 0.0}));
     mesh.draw(shader);
 
-    monkey.draw(shader);
+    shader.set("model", glm::translate(glm::mat4(), {2.0, 0.0, 0.0}));
+    cube.draw(shader);
   });
 
   window.on_key_down([&](flex::keyboard::Key key, bool repeat) {

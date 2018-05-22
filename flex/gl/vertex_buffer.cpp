@@ -10,6 +10,7 @@ void VertexBuffer::buffer(const void *data, const GLuint size) {
 
 void VertexBuffer::buffer_sub_data(const void *data, const GLuint size,
                                    const GLintptr offset) {
+  this->bind();
   GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
 }
 
@@ -17,4 +18,4 @@ void VertexBuffer::bind() const {
   GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_buffer));
 }
 
-void VertexBuffer::unbind() const { GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0)); }
+void VertexBuffer::unbind() { GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0)); }

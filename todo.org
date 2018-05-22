@@ -1,8 +1,10 @@
 * RESOURCE: [[https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2][Cherno's youtube series]]
 * RESOURCE: [[https://www.khronos.org/opengl/wiki/Vertex_Specification_Best_Practices][Khronos Group: Vertex Specification Best Practices]]
-* TODO Use different VBOs for each vertex attribute
+* TODO Make a module called flex_app with higher level abstractions
+* TODO Make logging helper functions with categories (use a bitmask)
 * TODO Optimize camera to do less updating
-* TODO Load textures from files
-* TODO Load models with Assimp
+* TODO Integrate SoLoud (maybe port it to meson)
 * TODO Canvas drawing
 * TODO Multipass rendering
+* TODO Add glTF support with embedded textures
+* TODO Use different VBOs for each vertex attribute

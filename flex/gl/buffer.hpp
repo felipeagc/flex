@@ -14,7 +14,7 @@ public:
   virtual void buffer_sub_data(const void *data, const GLuint size, const GLintptr offset) = 0;
 
   virtual void bind() const = 0;
-  virtual void unbind() const = 0;
+  static void unbind();
 
 protected:
   GLuint m_buffer;

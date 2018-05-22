@@ -101,7 +101,6 @@ Model::load_material_textures(aiMaterial *mat, aiTextureType type,
   for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
     aiString str;
     mat->GetTexture(type, i, &str);
-    std::cout << str.C_Str() << std::endl;
 
     bool skip = false;
     for (unsigned int j = 0; j < m_textures_loaded.size(); j++) {
@@ -118,8 +117,6 @@ Model::load_material_textures(aiMaterial *mat, aiTextureType type,
     if (!skip) {
       std::shared_ptr<gl::Texture> texture = std::make_shared<gl::Texture>();
       std::string path = FLEX_RES_PATH + this->m_directory + '/' + std::string(str.C_Str());
-      std::cout << path << std::endl;
-      std::cout << type_name << std::endl;
       texture->load_from_file(path);
 
       textures.push_back(texture);

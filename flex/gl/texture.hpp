@@ -12,7 +12,7 @@ public:
   ~Texture();
 
   void bind(GLuint unit = 0) const;
-  static void unbind();
+  static void unbind(GLuint unit = 0);
 
   GLuint get_id() const;
   const std::string &get_path() const;

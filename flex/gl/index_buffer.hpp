@@ -8,11 +8,11 @@ namespace flex {
 namespace gl {
 class IndexBuffer : public Buffer {
 public:
-  void buffer(const void *indices, const GLuint size);
-  void buffer_sub_data(const void *data, const GLuint size, const GLintptr offset);
+  void buffer(const void *indices, const GLuint size) override;
+  void buffer_sub_data(const void *data, const GLuint size, const GLintptr offset) override;
 
-  void bind() const;
-  void unbind() const;
+  void bind() const override;
+  static void unbind();
 };
 } // namespace gl
 } // namespace flex

@@ -13,7 +13,7 @@ public:
                        const GLintptr offset);
 
   void bind() const;
-  void unbind() const;
+  static void unbind();
 };
 } // namespace gl
 } // namespace flex

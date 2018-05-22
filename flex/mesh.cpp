@@ -57,8 +57,6 @@ void Mesh::draw(gl::Shader &shader) {
 
   shader.set("is_textured", n != 0);
 
-  gl::Texture::unbind();
-
   m_va.bind();
   m_ib.bind();
   GL_CALL(glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0));
