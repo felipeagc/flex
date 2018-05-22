@@ -1,8 +1,8 @@
 #pragma once
 
-#include <flex/gl/buffer.hpp>
-#include <flex/gl/util.hpp>
-#include <glad/glad.h>
+#include "buffer.hpp"
+#include "util.hpp"
+#include "gl.hpp"
 
 namespace flex {
 namespace gl {

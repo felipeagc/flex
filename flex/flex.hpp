@@ -1,10 +1,10 @@
 #pragma once
 
-#include <flex/window.hpp>
-#include <flex/camera.hpp>
-#include <flex/mesh.hpp>
-#include <flex/model.hpp>
-#include <flex/canvas.hpp>
-#include <flex/keyboard/keyboard.hpp>
-#include <flex/keyboard/scancodes.hpp>
-#include <flex/keyboard/keycodes.hpp>
+#include "window.hpp"
+#include "camera.hpp"
+#include "mesh.hpp"
+#include "model.hpp"
+#include "canvas.hpp"
+#include "keyboard/keyboard.hpp"
+#include "keyboard/scancodes.hpp"
+#include "keyboard/keycodes.hpp"

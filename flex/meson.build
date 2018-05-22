@@ -17,7 +17,7 @@ flex_deps = [
   dependency('sdl2'),
   dependency('glm'),
   dependency('assimp'),
-  dependency('glad', fallback: ['glad', 'glad_dep']),
+  dependency('epoxy'),
   dependency('stb_image', fallback: ['stb_image', 'stb_image_dep']),
 ]
 

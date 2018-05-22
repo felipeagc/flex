@@ -1,7 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <flex/gl/util.hpp>
+#include "gl.hpp"
+#include "util.hpp"
 
 namespace flex {
 namespace gl {

@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include <flex/config.hpp>
 #include <fstream>
-#include <glad/glad.h>
+#include "gl.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>

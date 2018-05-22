@@ -1,8 +1,8 @@
 #pragma once
 
-#include <flex/gl/framebuffer.hpp>
-#include <flex/gl/renderbuffer.hpp>
-#include <flex/gl/texture.hpp>
+#include "gl/framebuffer.hpp"
+#include "gl/renderbuffer.hpp"
+#include "gl/texture.hpp"
 
 namespace flex {
 class Canvas {

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "gl.hpp"
 #include "util.hpp"
 #include "vertex_buffer.hpp"
 #include "vertex_buffer_layout.hpp"
-#include <glad/glad.h>
 
 namespace flex {
 namespace gl {

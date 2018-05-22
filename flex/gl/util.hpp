@@ -1,23 +1,23 @@
 #pragma once
 
+#include "gl.hpp"
 #include <cassert>
-#include <glad/glad.h>
 #include <iostream>
+
+namespace flex {
+namespace gl {
 
 #define GL_CALL(x)                                                             \
   flex::gl::glClearError();                                                    \
   x;                                                                           \
   assert(flex::gl::glLogCall(#x, __FILE__, __LINE__));
 
-namespace flex {
-namespace gl {
-
-static void glClearError() {
+static inline void glClearError() {
   while (glGetError() != GL_NO_ERROR)
     ;
 }
 
-static bool glLogCall(const char *function, const char *file, const int line) {
+static inline bool glLogCall(const char *function, const char *file, const int line) {
   while (GLenum error = glGetError()) {
     std::cout << "[OpenGL Error] (" << error << "): " << function << " in "
               << file << " at line " << line << std::endl;

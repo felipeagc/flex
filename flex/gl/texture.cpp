@@ -1,4 +1,4 @@
-#include <flex/gl/texture.hpp>
+#include "texture.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
@@ -27,7 +27,7 @@ void Texture::load_from_file(const std::string &path) {
 
   int width, height, n_components;
   unsigned char *data =
-      stbi_load(path.c_str(), &width, &height, &n_components, 0);
+    stbi_load(path.c_str(), &width, &height, &n_components, 0);
   if (data) {
     GLenum format = GL_RGB;
     if (n_components == 1)

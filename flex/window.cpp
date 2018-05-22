@@ -31,11 +31,6 @@ Window::Window(const std::string &name, int width, int height) {
     std::exit(1);
   }
 
-  if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
-    std::cout << "Failed to initialize OpenGL context" << std::endl;
-    std::exit(1);
-  }
-
   GL_CALL(glEnable(GL_DEPTH_TEST));
   GL_CALL(glViewport(0, 0, width, height));
 }

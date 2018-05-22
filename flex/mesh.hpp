@@ -1,12 +1,12 @@
 #pragma once
 
+#include "gl/index_buffer.hpp"
+#include "gl/shader.hpp"
+#include "gl/texture.hpp"
+#include "gl/vertex_array.hpp"
+#include "gl/vertex_buffer.hpp"
+#include "gl/vertex_buffer_layout.hpp"
 #include <algorithm>
-#include <flex/gl/index_buffer.hpp>
-#include <flex/gl/shader.hpp>
-#include <flex/gl/texture.hpp>
-#include <flex/gl/vertex_array.hpp>
-#include <flex/gl/vertex_buffer.hpp>
-#include <flex/gl/vertex_buffer_layout.hpp>
 #include <glm/glm.hpp>
 #include <memory>
 #include <vector>

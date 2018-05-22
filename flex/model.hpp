@@ -1,11 +1,11 @@
 #pragma once
 
+#include <flex/config.hpp>
+#include "gl/texture.hpp"
+#include "mesh.hpp"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <flex/config.hpp>
-#include <flex/gl/texture.hpp>
-#include <flex/mesh.hpp>
 #include <memory>
 #include <string>
 #include <vector>
