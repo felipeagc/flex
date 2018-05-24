@@ -1,1 +1,1 @@
-#define FLEX_RES_PATH "@res_path@/"
+#define FLEX_RES_PATH "@res_path@"

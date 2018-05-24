@@ -9,9 +9,6 @@ Texture::Texture() { GL_CALL(glGenTextures(1, &m_id)); }
 Texture::~Texture() { GL_CALL(glDeleteTextures(1, &m_id)); }
 
 void Texture::bind(GLuint unit) const {
-  flex::log(L_DEBUG, L_GL,
-            "Texture " + std::to_string(m_id) + " bound at unit " +
-                std::to_string(unit));
   GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
   GL_CALL(glBindTexture(GL_TEXTURE_2D, m_id));
 }

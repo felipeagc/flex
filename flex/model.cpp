@@ -4,8 +4,8 @@ using namespace flex;
 
 Model::Model(std::string path) {
   Assimp::Importer import;
-  const aiScene *scene = import.ReadFile(
-      FLEX_RES_PATH + path, aiProcess_Triangulate | aiProcess_FlipUVs);
+  const aiScene *scene =
+      import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
       !scene->mRootNode) {
@@ -17,6 +17,8 @@ Model::Model(std::string path) {
   m_directory = path.substr(0, path.find_last_of('/'));
 
   process_node(scene->mRootNode, scene);
+
+  flex::log(L_DEBUG, L_IMPORT, "Model loaded: " + path);
 }
 
 Model::~Model() {}
@@ -117,8 +119,7 @@ Model::load_material_textures(aiMaterial *mat, aiTextureType type,
 
     if (!skip) {
       std::shared_ptr<gl::Texture> texture = std::make_shared<gl::Texture>();
-      std::string path =
-          FLEX_RES_PATH + this->m_directory + '/' + std::string(str.C_Str());
+      std::string path = this->m_directory + '/' + std::string(str.C_Str());
       texture->load_from_file(path);
 
       textures.push_back(texture);

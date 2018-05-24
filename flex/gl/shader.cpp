@@ -15,8 +15,8 @@ Shader::Shader(const std::string &vertex_path,
   f_shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
   try {
     // open files
-    v_shader_file.open(FLEX_RES_PATH + vertex_path);
-    f_shader_file.open(FLEX_RES_PATH + fragment_path);
+    v_shader_file.open(vertex_path);
+    f_shader_file.open(fragment_path);
     std::stringstream vShaderStream, fShaderStream;
     // read file's buffer contents into streams
     vShaderStream << v_shader_file.rdbuf();

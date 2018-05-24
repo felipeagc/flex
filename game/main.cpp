@@ -25,21 +25,17 @@ private:
   };
 
   flex::Mesh mesh{vertices, indices};
-  flex::Model cube{"models/cube/cube.obj"};
+  flex::Model cube{flex::path("models/cube/cube.obj")};
   flex::Camera3D camera{get_window()->get_width(), get_window()->get_height()};
-  flex::gl::Shader shader{"simple.vert", "simple.frag"};
+  flex::gl::Shader shader{flex::path("simple.vert"), flex::path("simple.frag")};
   glm::vec3 camera_target{camera.get_pos()};
 
 public:
   using flex::App::App;
 
-  void load() {
-    get_window()->set_relative_mouse(true);
-  }
+  void load() { get_window()->set_relative_mouse(true); }
 
-  void quit() {
-    flex::log("Quit");
-  }
+  void quit() { flex::log("Quit"); }
 
   void update(float delta) {
     glm::vec3 movement;
@@ -94,7 +90,7 @@ public:
 
 int main() {
   flex::Window window("Half-Life 3", 800, 600);
-  MyApp app{ window };
+  MyApp app{window};
 
   window.run(app);
 

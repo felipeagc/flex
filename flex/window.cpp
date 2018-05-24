@@ -20,6 +20,8 @@ Window::Window(const std::string &title, int width, int height) {
     std::exit(1);
   }
 
+  flex::log(L_DEBUG, L_WINDOW, "Window created successfully");
+
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
@@ -32,6 +34,8 @@ Window::Window(const std::string &title, int width, int height) {
     flex::log(L_ERROR, L_GL, "Failed to initialize OpenGL context");
     std::exit(1);
   }
+
+  flex::log(L_DEBUG, L_GL, "GL context initialized successfully");
 
   GL_CALL(glEnable(GL_DEPTH_TEST));
   GL_CALL(glViewport(0, 0, width, height));
@@ -86,6 +90,8 @@ void Window::run(App &app) {
   }
 
   app.quit();
+
+  flex::log(L_DEBUG, L_WINDOW, "Quitting...");
 }
 
 bool Window::should_quit() const { return m_should_quit; }

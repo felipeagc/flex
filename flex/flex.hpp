@@ -1,6 +1,7 @@
 #pragma once
 
 #include "logging.hpp"
+#include "filesystem.hpp"
 #include "app.hpp"
 #include "window.hpp"
 #include "camera.hpp"
