@@ -10,9 +10,8 @@ glm::vec3 lerp(glm::vec3 v1, glm::vec3 v2, float t) {
   return v1 + t * (v2 - v1);
 }
 
-int main() {
-  flex::Window window("Hello", 800, 600);
-
+class MyApp : public flex::App {
+private:
   std::vector<flex::Vertex> vertices{
       {{.5f, .5f, .0f}, {}, {1.0, 1.0, 1.0}, {1.0, 1.0}},   // top right
       {{.5f, -.5f, .0f}, {}, {0.0, 0.0, 0.0}, {1.0, 0.0}},  // bottom right
@@ -25,38 +24,37 @@ int main() {
       1, 2, 3, // second triangle
   };
 
-  // Mesh stuff
-  flex::Mesh mesh(vertices, indices);
+  flex::Mesh mesh{vertices, indices};
+  flex::Model cube{"models/cube/cube.obj"};
+  flex::Camera3D camera{get_window()->get_width(), get_window()->get_height()};
+  flex::gl::Shader shader{"simple.vert", "simple.frag"};
+  glm::vec3 camera_target{camera.get_pos()};
 
-  flex::Model cube("models/cube/cube.obj");
+public:
+  using flex::App::App;
 
-  // Camera stuff
-  flex::Camera3D camera(window.get_width(), window.get_height());
+  void load() {
+    get_window()->set_relative_mouse(true);
+  }
 
-  // Shader stuff
-  flex::gl::Shader shader("simple.vert", "simple.frag");
+  void quit() {
+    std::cout << "Quit" << std::endl;
+  }
 
-  window.set_relative_mouse(true);
-
-  glm::vec3 camera_target = camera.get_pos();
-
-  // Window stuff
-  window.on_quit([&]() { std::cout << "Quit" << std::endl; });
-
-  window.on_update([&](float delta) {
+  void update(float delta) {
     glm::vec3 movement;
     float velocity = delta * 3.0f;
 
-    if (window.is_key_pressed(FLEX_SCANCODE_W)) {
+    if (get_window()->is_key_pressed(FLEX_SCANCODE_W)) {
       movement += camera.get_front() * velocity;
     }
-    if (window.is_key_pressed(FLEX_SCANCODE_S)) {
+    if (get_window()->is_key_pressed(FLEX_SCANCODE_S)) {
       movement += camera.get_front() * -velocity;
     }
-    if (window.is_key_pressed(FLEX_SCANCODE_A)) {
+    if (get_window()->is_key_pressed(FLEX_SCANCODE_A)) {
       movement += camera.get_right() * -velocity;
     }
-    if (window.is_key_pressed(FLEX_SCANCODE_D)) {
+    if (get_window()->is_key_pressed(FLEX_SCANCODE_D)) {
       movement += camera.get_right() * velocity;
     }
 
@@ -66,15 +64,15 @@ int main() {
 
     camera.set_pos(smoothed_pos);
 
-    if (window.get_relative_mouse()) {
+    if (get_window()->get_relative_mouse()) {
       const float sensitivity = 0.1f;
       int x, y;
-      window.get_relative_mouse_pos(&x, &y);
+      get_window()->get_relative_mouse_pos(&x, &y);
       camera.set_pitch(camera.get_pitch() - (y * sensitivity));
       camera.set_yaw(camera.get_yaw() + (x * sensitivity));
     }
 
-    camera.update(window.get_width(), window.get_height());
+    camera.update(get_window()->get_width(), get_window()->get_height());
 
     shader.set("view", camera.get_view_matrix());
     shader.set("proj", camera.get_projection_matrix());
@@ -85,15 +83,20 @@ int main() {
 
     shader.set("model", glm::translate(glm::mat4(), {2.0, 0.0, 0.0}));
     cube.draw(shader);
-  });
+  }
 
-  window.on_key_down([&](flex::keyboard::Key key, bool repeat) {
+  void key_down(flex::keyboard::Key key, bool repeat) {
     if (key == FLEX_KEY_ESCAPE) {
-      window.set_relative_mouse(!window.get_relative_mouse());
+      get_window()->set_relative_mouse(!get_window()->get_relative_mouse());
     }
-  });
+  }
+};
 
-  window.run();
+int main() {
+  flex::Window window("Half-Life 3", 800, 600);
+  MyApp app{ window };
+
+  window.run(app);
 
   return 0;
 }

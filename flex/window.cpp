@@ -2,13 +2,13 @@
 
 using namespace flex;
 
-Window::Window(const std::string &name, int width, int height) {
+Window::Window(const std::string &title, int width, int height) {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
     std::exit(1);
   }
 
-  this->m_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED,
+  this->m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                     SDL_WINDOWPOS_CENTERED, width, height,
                                     SDL_WINDOW_OPENGL);
 
@@ -40,44 +40,54 @@ Window::~Window() {
   SDL_Quit();
 }
 
-void Window::run() {
+void Window::update(App &app) {
   SDL_Event e;
-  while (!this->m_should_quit) {
-    GL_CALL(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
-    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+  GL_CALL(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
+  GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
-    while (SDL_PollEvent(&e)) {
-      switch (e.type) {
-      case SDL_QUIT:
-        this->m_should_quit = true;
-        break;
-      case SDL_KEYUP:
-        this->m_on_key_up(e.key.keysym.sym, e.key.repeat);
-        break;
-      case SDL_KEYDOWN:
-        this->m_on_key_down(e.key.keysym.sym, e.key.repeat);
-        break;
-      case SDL_WINDOWEVENT:
-        switch (e.window.event) {
-        case SDL_WINDOWEVENT_RESIZED:
-          GL_CALL(glViewport(0, 0, e.window.data1, e.window.data2));
-          this->m_on_resized(e.window.data1, e.window.data2);
-          break;
-        }
+  while (SDL_PollEvent(&e)) {
+    switch (e.type) {
+    case SDL_QUIT:
+      this->m_should_quit = true;
+      break;
+    case SDL_KEYUP:
+      app.key_up(e.key.keysym.sym, e.key.repeat);
+      break;
+    case SDL_KEYDOWN:
+      app.key_down(e.key.keysym.sym, e.key.repeat);
+      break;
+    case SDL_WINDOWEVENT:
+      switch (e.window.event) {
+      case SDL_WINDOWEVENT_RESIZED:
+        GL_CALL(glViewport(0, 0, e.window.data1, e.window.data2));
+        app.resized(e.window.data1, e.window.data2);
         break;
       }
+      break;
     }
-
-    float now = (float)SDL_GetTicks() / 1000.0;
-
-    this->m_on_update(now - m_last_time);
-
-    m_last_time = now;
-
-    SDL_GL_SwapWindow(m_window);
   }
 
-  this->m_on_quit();
+  float now = (float)SDL_GetTicks() / 1000.0;
+
+  app.update(now - m_last_time);
+
+  m_last_time = now;
+
+  SDL_GL_SwapWindow(m_window);
+}
+
+void Window::run(App &app) {
+  app.load();
+
+  while (!should_quit()) {
+    update(app);
+  }
+
+  app.quit();
+}
+
+bool Window::should_quit() const {
+  return m_should_quit;
 }
 
 int Window::get_width() const {

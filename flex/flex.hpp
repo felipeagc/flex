@@ -1,5 +1,6 @@
 #pragma once
 
+#include "app.hpp"
 #include "window.hpp"
 #include "camera.hpp"
 #include "mesh.hpp"
