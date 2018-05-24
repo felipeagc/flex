@@ -1,7 +1,6 @@
 * RESOURCE: [[https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2][Cherno's youtube series]]
 * RESOURCE: [[https://www.khronos.org/opengl/wiki/Vertex_Specification_Best_Practices][Khronos Group: Vertex Specification Best Practices]]
 * TODO Optimize camera to do less updating
-* TODO Integrate SoLoud (maybe port it to meson)
 * TODO Canvas drawing
 * TODO Multipass rendering
 * TODO Add glTF support with embedded textures

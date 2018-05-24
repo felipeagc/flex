@@ -24,10 +24,14 @@ private:
       1, 2, 3, // second triangle
   };
 
+  flex::gl::Shader shader{flex::path("simple.vert"), flex::path("simple.frag")};
+
   flex::Mesh mesh{vertices, indices};
   flex::Model cube{flex::path("models/cube/cube.obj")};
+
+  flex::Audio shot{flex::path("shotgun.wav")};
+
   flex::Camera3D camera{get_window()->get_width(), get_window()->get_height()};
-  flex::gl::Shader shader{flex::path("simple.vert"), flex::path("simple.frag")};
   glm::vec3 camera_target{camera.get_pos()};
 
 public:
@@ -85,14 +89,17 @@ public:
     if (key == FLEX_KEY_ESCAPE) {
       get_window()->set_relative_mouse(!get_window()->get_relative_mouse());
     }
+    if (key == FLEX_KEY_SPACE && !repeat) {
+      get_audio()->play(shot, 0.1);
+    }
   }
 };
 
 int main() {
-  flex::Window window("Half-Life 3", 800, 600);
-  MyApp app{window};
+  flex::Engine engine("Half-Life 3", 800, 600);
+  MyApp app{engine};
 
-  window.run(app);
+  engine.get_window()->run(app);
 
   return 0;
 }

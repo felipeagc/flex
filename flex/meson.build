@@ -1,5 +1,8 @@
 flex_sources = [
+  'engine.cpp',
+  'app.cpp',
   'window.cpp',
+  'audio.cpp',
   'mesh.cpp',
   'model.cpp',
   'camera.cpp',
@@ -19,6 +22,7 @@ flex_deps = [
   dependency('assimp'),
   dependency('epoxy'),
   dependency('stb_image', fallback: ['stb_image', 'stb_image_dep']),
+  dependency('soloud', fallback: ['soloud', 'soloud_dep']),
 ]
 
 conf_data = configuration_data()
