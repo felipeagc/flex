@@ -4,7 +4,8 @@ using namespace flex;
 
 Window::Window(const std::string &title, int width, int height) {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-    std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+    flex::log(L_ERROR, L_WINDOW,
+              "SDL_Init Error: " + std::string(SDL_GetError()));
     std::exit(1);
   }
 
@@ -13,7 +14,8 @@ Window::Window(const std::string &title, int width, int height) {
                                     SDL_WINDOW_OPENGL);
 
   if (this->m_window == NULL) {
-    std::cout << "Could not create SDL window: " << SDL_GetError() << std::endl;
+    flex::log(L_ERROR, L_WINDOW,
+              "Could not create SDL window: " + std::string(SDL_GetError()));
     SDL_Quit();
     std::exit(1);
   }
@@ -27,7 +29,7 @@ Window::Window(const std::string &title, int width, int height) {
 
   auto context = SDL_GL_CreateContext(m_window);
   if (context == NULL) {
-    std::cout << "Failed to initialize OpenGL context" << std::endl;
+    flex::log(L_ERROR, L_GL, "Failed to initialize OpenGL context");
     std::exit(1);
   }
 
@@ -86,9 +88,7 @@ void Window::run(App &app) {
   app.quit();
 }
 
-bool Window::should_quit() const {
-  return m_should_quit;
-}
+bool Window::should_quit() const { return m_should_quit; }
 
 int Window::get_width() const {
   int width;

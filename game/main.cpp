@@ -38,7 +38,7 @@ public:
   }
 
   void quit() {
-    std::cout << "Quit" << std::endl;
+    flex::log("Quit");
   }
 
   void update(float delta) {

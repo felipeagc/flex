@@ -28,7 +28,7 @@ Shader::Shader(const std::string &vertex_path,
     vertex_code = vShaderStream.str();
     fragment_code = fShaderStream.str();
   } catch (std::ifstream::failure &e) {
-    std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+    flex::log(L_ERROR, L_GL, "Error: Shader file not succesfully read");
   }
   const char *vertex_shader_source = vertex_code.c_str();
   const char *fragment_shader_source = fragment_code.c_str();
@@ -61,20 +61,22 @@ void Shader::use() const { GL_CALL(glUseProgram(m_program)); }
 
 void Shader::check_compile_errors(GLuint shader, std::string type) {
   int success;
-  char infoLog[1024];
+  char info_log[1024];
   if (type != "PROGRAM") {
     GL_CALL(glGetShaderiv(shader, GL_COMPILE_STATUS, &success));
     if (!success) {
-      GL_CALL(glGetShaderInfoLog(shader, 1024, NULL, infoLog));
-      std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
-                << infoLog << std::endl;
+      GL_CALL(glGetShaderInfoLog(shader, 1024, NULL, info_log));
+      flex::log(L_ERROR, L_GL,
+                "Error: Shader compilation error of type: " + type + "/n" +
+                    info_log);
     }
   } else {
     GL_CALL(glGetProgramiv(shader, GL_LINK_STATUS, &success));
     if (!success) {
-      GL_CALL(glGetProgramInfoLog(shader, 1024, NULL, infoLog));
-      std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
-                << infoLog << std::endl;
+      GL_CALL(glGetProgramInfoLog(shader, 1024, NULL, info_log));
+      flex::log(L_ERROR, L_GL,
+                "Error: Shader program linking error of type: " + type + "/n" +
+                    info_log);
     }
   }
 }

@@ -9,7 +9,8 @@ Model::Model(std::string path) {
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
       !scene->mRootNode) {
-    std::cout << "Assimp error: " << import.GetErrorString() << std::endl;
+    flex::log(L_ERROR, L_IMPORT,
+              std::string("Assimp error: ") + import.GetErrorString());
     return;
   }
 
@@ -116,7 +117,8 @@ Model::load_material_textures(aiMaterial *mat, aiTextureType type,
 
     if (!skip) {
       std::shared_ptr<gl::Texture> texture = std::make_shared<gl::Texture>();
-      std::string path = FLEX_RES_PATH + this->m_directory + '/' + std::string(str.C_Str());
+      std::string path =
+          FLEX_RES_PATH + this->m_directory + '/' + std::string(str.C_Str());
       texture->load_from_file(path);
 
       textures.push_back(texture);

@@ -39,6 +39,5 @@ public:
   void get_relative_mouse_pos(int *x, int *y);
 
   bool is_key_pressed(unsigned int scancode);
-
 };
 } // namespace flex

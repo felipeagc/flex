@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../logging.hpp"
 #include "gl.hpp"
 #include <cassert>
 #include <iostream>
@@ -20,8 +21,9 @@ static inline void glClearError() {
 static inline bool glLogCall(const char *function, const char *file,
                              const int line) {
   while (GLenum error = glGetError()) {
-    std::cout << "[OpenGL Error] (" << error << "): " << function << " in "
-              << file << " at line " << line << std::endl;
+    flex::log(L_ERROR, L_GL,
+              "Error (" + std::to_string(error) + "): " + function + " in " +
+                  file + " at line " + std::to_string(line));
     return false;
   }
   return true;

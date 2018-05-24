@@ -30,7 +30,7 @@ Canvas::Canvas(unsigned int width, unsigned int height) {
   m_texture.unbind();
 
   if (!gl::Framebuffer::is_complete()) {
-    std::cout << "ERROR: Framebuffer is not complete!" << std::endl;
+    flex::log(L_ERROR, L_RENDER, "ERROR: Framebuffer is not complete!");
   }
 
   m_fb.unbind();

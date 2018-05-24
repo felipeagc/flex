@@ -9,6 +9,9 @@ Texture::Texture() { GL_CALL(glGenTextures(1, &m_id)); }
 Texture::~Texture() { GL_CALL(glDeleteTextures(1, &m_id)); }
 
 void Texture::bind(GLuint unit) const {
+  flex::log(L_DEBUG, L_GL,
+            "Texture " + std::to_string(m_id) + " bound at unit " +
+                std::to_string(unit));
   GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
   GL_CALL(glBindTexture(GL_TEXTURE_2D, m_id));
 }
@@ -27,7 +30,7 @@ void Texture::load_from_file(const std::string &path) {
 
   int width, height, n_components;
   unsigned char *data =
-    stbi_load(path.c_str(), &width, &height, &n_components, 0);
+      stbi_load(path.c_str(), &width, &height, &n_components, 0);
   if (data) {
     GLenum format = GL_RGB;
     if (n_components == 1)
@@ -50,9 +53,11 @@ void Texture::load_from_file(const std::string &path) {
 
     GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 
+    flex::log(L_DEBUG, L_IMPORT, "Texture loaded: " + path);
+
     stbi_image_free(data);
   } else {
-    std::cout << "Texture failed to load at path: " << path << std::endl;
+    flex::log(L_ERROR, L_IMPORT, "Texture failed to load at path: " + path);
     stbi_image_free(data);
   }
 }
