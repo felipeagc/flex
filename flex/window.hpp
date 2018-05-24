@@ -3,7 +3,7 @@
 #include "app.hpp"
 #include "gl/gl.hpp"
 #include "gl/util.hpp"
-#include "keyboard/keyboard.hpp"
+#include "input/input.hpp"
 #include <SDL2/SDL.h>
 #include <flex/config.hpp>
 #include <functional>

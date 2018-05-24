@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine.hpp"
-#include "keyboard/keyboard.hpp"
+#include "input/input.hpp"
 #include <memory>
 
 namespace flex {
@@ -20,8 +20,12 @@ public:
   virtual void quit(){};
 
   virtual void resized(int w, int h){};
-  virtual void key_up(keyboard::Key key, bool repeat){};
-  virtual void key_down(keyboard::Key key, bool repeat){};
+
+  virtual void key_up(input::Key key, bool repeat){};
+  virtual void key_down(input::Key key, bool repeat){};
+
+  virtual void button_up(input::MouseButton button, int x, int y) {};
+  virtual void button_down(input::MouseButton button, int x, int y) {};
 
 protected:
   Window *get_window();

@@ -62,6 +62,12 @@ void Window::update(App &app) {
     case SDL_KEYDOWN:
       app.key_down(e.key.keysym.sym, e.key.repeat);
       break;
+    case SDL_MOUSEBUTTONDOWN:
+      app.button_down(e.button.button, e.button.x, e.button.y);
+      break;
+    case SDL_MOUSEBUTTONUP:
+      app.button_up(e.button.button, e.button.x, e.button.y);
+      break;
     case SDL_WINDOWEVENT:
       switch (e.window.event) {
       case SDL_WINDOWEVENT_RESIZED:

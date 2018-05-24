@@ -1,5 +1,6 @@
 #pragma once
 
+#include "logging.hpp"
 #include <soloud.h>
 #include <soloud_wav.h>
 #include <string>
@@ -28,8 +29,8 @@ public:
   AudioSystem();
   ~AudioSystem();
 
-  AudioHandle play(Audio &audio, float volume = 1.0f, float pan = 0.0f, int paused = 0,
-            int bus = 0);
+  AudioHandle play(Audio &audio, float volume = 1.0f, float pan = 0.0f,
+                   int paused = 0, int bus = 0);
 
   void stop(AudioHandle &h);
   void stop_audio(Audio &audio);

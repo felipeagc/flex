@@ -85,13 +85,17 @@ public:
     cube.draw(shader);
   }
 
-  void key_down(flex::keyboard::Key key, bool repeat) {
+  void key_down(flex::input::Key key, bool repeat) {
     if (key == FLEX_KEY_ESCAPE) {
       get_window()->set_relative_mouse(!get_window()->get_relative_mouse());
     }
     if (key == FLEX_KEY_SPACE && !repeat) {
       get_audio()->play(shot, 0.1);
     }
+  }
+
+  void button_down(flex::input::MouseButton button, int x, int y) {
+      get_audio()->play(shot, 0.1);
   }
 };
 
