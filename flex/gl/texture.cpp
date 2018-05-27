@@ -4,7 +4,14 @@
 
 using namespace flex::gl;
 
-Texture::Texture() { GL_CALL(glGenTextures(1, &m_id)); }
+Texture::Texture(TextureFilter filter) {
+  GL_CALL(glGenTextures(1, &m_id));
+  this->bind();
+
+  auto mode = filter == FILTER_LINEAR ? GL_LINEAR : GL_NEAREST;
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mode));
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode));
+}
 
 Texture::~Texture() { GL_CALL(glDeleteTextures(1, &m_id)); }
 
@@ -45,9 +52,6 @@ void Texture::load_from_file(const std::string &path) {
     GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
     GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
-    GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-    GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-
     GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 
     flex::log(L_DEBUG, L_IMPORT, "Texture loaded: " + path);
@@ -57,4 +61,11 @@ void Texture::load_from_file(const std::string &path) {
     flex::log(L_ERROR, L_IMPORT, "Texture failed to load at path: " + path);
     stbi_image_free(data);
   }
+}
+
+void Texture::set_filter(TextureFilter filter) {
+  this->bind();
+  auto mode = filter == FILTER_LINEAR ? GL_LINEAR : GL_NEAREST;
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mode));
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode));
 }

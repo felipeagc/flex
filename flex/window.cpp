@@ -1,9 +1,12 @@
 #include "window.hpp"
+#include "app.hpp"
+#include "gl/gl.hpp"
+#include "input/input.hpp"
 
 using namespace flex;
 
 Window::Window(const std::string &title, int width, int height) {
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
     flex::log(L_ERROR, L_WINDOW,
               "SDL_Init Error: " + std::string(SDL_GetError()));
     std::exit(1);
@@ -22,15 +25,27 @@ Window::Window(const std::string &title, int width, int height) {
 
   flex::log(L_DEBUG, L_WINDOW, "Window created successfully");
 
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-  SDL_GL_SetSwapInterval(0);
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
+  // SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,
+  //                     SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+  // SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+  // SDL_GL_CONTEXT_PROFILE_ES);
+  // SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-  auto context = SDL_GL_CreateContext(m_window);
-  if (context == NULL) {
+  int major;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
+  int minor;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &minor);
+
+  flex::log(L_DEBUG, L_GL,
+            "Using OpenGL version " + std::to_string(major) + "." +
+                std::to_string(minor));
+
+  m_context = SDL_GL_CreateContext(m_window);
+  if (m_context == NULL) {
     flex::log(L_ERROR, L_GL, "Failed to initialize OpenGL context");
     std::exit(1);
   }
@@ -39,19 +54,34 @@ Window::Window(const std::string &title, int width, int height) {
 
   GL_CALL(glEnable(GL_DEPTH_TEST));
   GL_CALL(glViewport(0, 0, width, height));
+
+  SDL_GL_SetSwapInterval(0);
+
+  // Init ImGui
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO &io = ImGui::GetIO();
+  (void)io;
+  ImGui_ImplSdlGL3_Init(m_window);
+  ImGui::StyleColorsDark();
 }
 
 Window::~Window() {
+  ImGui_ImplSdlGL3_Shutdown();
+  ImGui::DestroyContext();
+  SDL_GL_DeleteContext(m_context);
   SDL_DestroyWindow(this->m_window);
   SDL_Quit();
 }
 
 void Window::update(App &app) {
   SDL_Event e;
-  GL_CALL(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
-  GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+  gl::clear_color(0.2f, 0.3f, 0.3f, 1.0f);
+  gl::clear_buffers();
 
   while (SDL_PollEvent(&e)) {
+    ImGui_ImplSdlGL3_ProcessEvent(&e);
+
     switch (e.type) {
     case SDL_QUIT:
       this->m_should_quit = true;
@@ -79,9 +109,14 @@ void Window::update(App &app) {
     }
   }
 
+  ImGui_ImplSdlGL3_NewFrame(m_window);
+
   float now = (float)SDL_GetTicks() / 1000.0;
 
   app.update(now - m_last_time);
+
+  ImGui::Render();
+  ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
 
   m_last_time = now;
 

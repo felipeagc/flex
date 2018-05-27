@@ -24,14 +24,13 @@ public:
   virtual void key_up(input::Key key, bool repeat){};
   virtual void key_down(input::Key key, bool repeat){};
 
-  virtual void button_up(input::MouseButton button, int x, int y) {};
-  virtual void button_down(input::MouseButton button, int x, int y) {};
+  virtual void button_up(input::MouseButton button, int x, int y){};
+  virtual void button_down(input::MouseButton button, int x, int y){};
 
 protected:
-  Window *get_window();
-  AudioSystem *get_audio();
-
-private:
-  Engine *m_engine;
+  Engine &engine;
+  Window &window;
+  AudioSystem &audio;
+  GraphicsSystem &graphics;
 };
 } // namespace flex

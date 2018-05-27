@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gl.hpp"
-#include "util.hpp"
 
 namespace flex {
 namespace gl {

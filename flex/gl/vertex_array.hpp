@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gl.hpp"
-#include "util.hpp"
 #include "vertex_buffer.hpp"
 #include "vertex_buffer_layout.hpp"
 
@@ -15,7 +14,8 @@ public:
   void bind() const;
   static void unbind();
 
-  void add_buffer(const VertexBuffer &vb, const VertexBufferLayout &layout);
+  void add_buffer(const VertexBuffer &vb, const VertexBufferLayout &layout,
+                  bool instanced = false);
 
 private:
   GLuint m_vao;

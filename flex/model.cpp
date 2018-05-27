@@ -2,7 +2,7 @@
 
 using namespace flex;
 
-Model::Model(std::string path) {
+Model::Model(const std::string &path) {
   Assimp::Importer import;
   const aiScene *scene =
       import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -23,9 +23,16 @@ Model::Model(std::string path) {
 
 Model::~Model() {}
 
-void Model::draw(gl::Shader &shader) {
+void Model::set_texture_filter(gl::TextureFilter filter) {
   for (auto &mesh : m_meshes) {
-    mesh->draw(shader);
+    mesh->set_texture_filter(filter);
+  }
+}
+
+void Model::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
+                 glm::vec3 scale) {
+  for (auto &mesh : m_meshes) {
+    graphics.draw(*mesh, pos, rot, scale);
   }
 }
 

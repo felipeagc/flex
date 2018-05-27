@@ -1,7 +1,6 @@
 #pragma once
 
 #include "buffer.hpp"
-#include "util.hpp"
 #include "gl.hpp"
 
 namespace flex {

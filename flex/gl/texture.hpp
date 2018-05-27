@@ -1,14 +1,15 @@
 #pragma once
 
-#include "util.hpp"
 #include "gl.hpp"
 #include <string>
 
 namespace flex {
 namespace gl {
+enum TextureFilter { FILTER_NEAREST, FILTER_LINEAR };
+
 class Texture {
 public:
-  Texture();
+  Texture(TextureFilter filter = FILTER_LINEAR);
   ~Texture();
 
   void bind(GLuint unit = 0) const;
@@ -17,11 +18,14 @@ public:
   GLuint get_id() const;
   const std::string &get_path() const;
 
-  void load_from_file(const std::string& path);
+  void load_from_file(const std::string &path);
+
+  void set_filter(TextureFilter filter);
 
 private:
   GLuint m_id;
   std::string m_path;
 };
+
 } // namespace gl
 } // namespace flex

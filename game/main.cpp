@@ -10,6 +10,24 @@ glm::vec3 lerp(glm::vec3 v1, glm::vec3 v2, float t) {
   return v1 + t * (v2 - v1);
 }
 
+std::vector<glm::mat4> make_transforms(float offset = 0) {
+  std::vector<glm::mat4> transforms;
+  float size = 15.0;
+  int amount = 30;
+  for (int x = -amount / 2; x < amount / 2; x++) {
+    for (int y = -amount / 2; y < amount / 2; y++) {
+      for (int z = -amount / 2; z < amount / 2; z++) {
+        auto pos = glm::vec3(
+            x * size, (y * size) + (offset * sin(x * size) * sin(z * size)),
+            z * size);
+        auto translation = glm::translate(glm::mat4(1.0f), pos);
+        transforms.push_back(translation);
+      }
+    }
+  }
+  return transforms;
+}
+
 class MyApp : public flex::App {
 private:
   std::vector<flex::Vertex> vertices{
@@ -24,37 +42,52 @@ private:
       1, 2, 3, // second triangle
   };
 
-  flex::gl::Shader shader{flex::path("simple.vert"), flex::path("simple.frag")};
+  flex::gl::Shader m_shader{flex::path("shaders/simple.vert"),
+                            flex::path("shaders/simple.frag")};
+  flex::gl::Shader m_shader_instanced{
+      flex::path("shaders/simple_instanced.vert"),
+      flex::path("shaders/simple.frag")};
 
   flex::Mesh mesh{vertices, indices};
-  flex::Model cube{flex::path("models/cube/cube.obj")};
+  flex::InstancedModel cube{flex::path("models/cube.obj"), make_transforms()};
 
-  flex::Audio shot{flex::path("shotgun.wav")};
+  flex::Audio shot{flex::path("audio/shotgun.wav")};
 
-  flex::Camera3D camera{get_window()->get_width(), get_window()->get_height()};
+  flex::Camera3D camera{400, 400};
   glm::vec3 camera_target{camera.get_pos()};
+
+  flex::Canvas canvas{400, 400};
+
+  flex::Sprite sprite{flex::path("sprites/sprite.png"),
+                      flex::gl::FILTER_NEAREST};
+
+  double elapsed_time = 0;
 
 public:
   using flex::App::App;
 
-  void load() { get_window()->set_relative_mouse(true); }
+  void load() {
+    window.set_relative_mouse(true);
+
+    cube.set_texture_filter(flex::gl::FILTER_NEAREST);
+  }
 
   void quit() { flex::log("Quit"); }
 
-  void update(float delta) {
+  void camera_movement(float delta) {
     glm::vec3 movement;
-    float velocity = delta * 3.0f;
+    float velocity = delta * 30.0f;
 
-    if (get_window()->is_key_pressed(FLEX_SCANCODE_W)) {
+    if (window.is_key_pressed(FLEX_SCANCODE_W)) {
       movement += camera.get_front() * velocity;
     }
-    if (get_window()->is_key_pressed(FLEX_SCANCODE_S)) {
+    if (window.is_key_pressed(FLEX_SCANCODE_S)) {
       movement += camera.get_front() * -velocity;
     }
-    if (get_window()->is_key_pressed(FLEX_SCANCODE_A)) {
+    if (window.is_key_pressed(FLEX_SCANCODE_A)) {
       movement += camera.get_right() * -velocity;
     }
-    if (get_window()->is_key_pressed(FLEX_SCANCODE_D)) {
+    if (window.is_key_pressed(FLEX_SCANCODE_D)) {
       movement += camera.get_right() * velocity;
     }
 
@@ -64,38 +97,56 @@ public:
 
     camera.set_pos(smoothed_pos);
 
-    if (get_window()->get_relative_mouse()) {
+    if (window.get_relative_mouse()) {
       const float sensitivity = 0.1f;
       int x, y;
-      get_window()->get_relative_mouse_pos(&x, &y);
+      window.get_relative_mouse_pos(&x, &y);
       camera.set_pitch(camera.get_pitch() - (y * sensitivity));
       camera.set_yaw(camera.get_yaw() + (x * sensitivity));
     }
+  }
 
-    camera.update(get_window()->get_width(), get_window()->get_height());
+  void update(float delta) {
+    elapsed_time += delta;
+    camera_movement(delta);
 
-    shader.set("view", camera.get_view_matrix());
-    shader.set("proj", camera.get_projection_matrix());
+    camera.update(window.get_width(), window.get_height());
+    camera.set_uniforms(m_shader);
+    camera.set_uniforms(m_shader_instanced);
+
+    cube.set_transforms(make_transforms(sin(elapsed_time)));
 
     // Drawing stuff
-    shader.set("model", glm::translate(glm::mat4(), {-2.0, 0.0, 0.0}));
-    mesh.draw(shader);
+    {
+      graphics.use_shader(m_shader_instanced);
+      graphics.draw_instanced(cube);
+    }
 
-    shader.set("model", glm::translate(glm::mat4(), {2.0, 0.0, 0.0}));
-    cube.draw(shader);
+    {
+      graphics.use_shader(m_shader);
+
+      graphics.draw(mesh);
+      graphics.draw(sprite, {-2.0, 0.0, 0.0});
+    }
+
+    {
+      ImGui::Begin("Hello");
+      ImGui::Text("FPS: %f", 1.0 / delta);
+      ImGui::End();
+    }
   }
 
   void key_down(flex::input::Key key, bool repeat) {
     if (key == FLEX_KEY_ESCAPE) {
-      get_window()->set_relative_mouse(!get_window()->get_relative_mouse());
+      window.set_relative_mouse(!window.get_relative_mouse());
     }
     if (key == FLEX_KEY_SPACE && !repeat) {
-      get_audio()->play(shot, 0.1);
+      audio.play(shot, 0.1);
     }
   }
 
   void button_down(flex::input::MouseButton button, int x, int y) {
-      get_audio()->play(shot, 0.1);
+    audio.play(shot, 0.1);
   }
 };
 
@@ -103,7 +154,7 @@ int main() {
   flex::Engine engine("Half-Life 3", 800, 600);
   MyApp app{engine};
 
-  engine.get_window()->run(app);
+  engine.get_window().run(app);
 
   return 0;
 }

@@ -1,14 +1,8 @@
 #pragma once
 
-#include "app.hpp"
-#include "gl/gl.hpp"
-#include "gl/util.hpp"
-#include "input/input.hpp"
 #include <SDL2/SDL.h>
-#include <flex/config.hpp>
-#include <functional>
-#include <iostream>
-#include <memory>
+#include <imgui.h>
+#include <imgui_impl_sdl_gl3.h>
 #include <string>
 
 namespace flex {
@@ -17,6 +11,7 @@ class App;
 class Window {
 private:
   SDL_Window *m_window;
+  SDL_GLContext m_context;
   bool m_should_quit = false;
 
   float m_last_time = 0.0;

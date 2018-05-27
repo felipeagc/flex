@@ -5,7 +5,6 @@ using namespace flex::gl;
 Shader::Shader(const std::string &vertex_path,
                const std::string &fragment_path) {
   // Shader file loading
-
   std::string vertex_code;
   std::string fragment_code;
   std::ifstream v_shader_file;
@@ -34,22 +33,29 @@ Shader::Shader(const std::string &vertex_path,
   const char *fragment_shader_source = fragment_code.c_str();
 
   // Shader compilation & linking
+  bool success = true;
 
   GL_CALL(GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER));
   GL_CALL(glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL));
   GL_CALL(glCompileShader(vertex_shader));
-  check_compile_errors(vertex_shader, "VERTEX");
+  success = success && check_compile_errors(vertex_shader, "VERTEX");
 
   GL_CALL(GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER));
   GL_CALL(glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL));
   GL_CALL(glCompileShader(fragment_shader));
-  check_compile_errors(fragment_shader, "FRAGMENT");
+  success = success && check_compile_errors(fragment_shader, "FRAGMENT");
 
   GL_CALL(this->m_program = glCreateProgram());
   GL_CALL(glAttachShader(m_program, vertex_shader));
   GL_CALL(glAttachShader(m_program, fragment_shader));
   GL_CALL(glLinkProgram(m_program));
-  check_compile_errors(m_program, "PROGRAM");
+  success = success && check_compile_errors(m_program, "PROGRAM");
+
+  if (success) {
+    flex::log(L_DEBUG, L_GL,
+              "Loaded shader program: '" + vertex_path + "', '" +
+                  fragment_path + "'");
+  }
 
   GL_CALL(glDeleteShader(vertex_shader));
   GL_CALL(glDeleteShader(fragment_shader));
@@ -59,7 +65,7 @@ Shader::~Shader() { GL_CALL(glDeleteProgram(m_program)); }
 
 void Shader::use() const { GL_CALL(glUseProgram(m_program)); }
 
-void Shader::check_compile_errors(GLuint shader, std::string type) {
+bool Shader::check_compile_errors(GLuint shader, std::string type) {
   int success;
   char info_log[1024];
   if (type != "PROGRAM") {
@@ -79,6 +85,8 @@ void Shader::check_compile_errors(GLuint shader, std::string type) {
                     info_log);
     }
   }
+
+  return (success ? true : false);
 }
 
 void Shader::set(const std::string &name, bool value) {

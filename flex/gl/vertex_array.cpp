@@ -11,7 +11,7 @@ void VertexArray::bind() const { GL_CALL(glBindVertexArray(m_vao)); }
 void VertexArray::unbind() { GL_CALL(glBindVertexArray(0)); }
 
 void VertexArray::add_buffer(const VertexBuffer &vb,
-                             const VertexBufferLayout &layout) {
+                             const VertexBufferLayout &layout, bool instanced) {
   this->bind();
   vb.bind();
   const auto &elements = layout.get_elements();
@@ -22,6 +22,10 @@ void VertexArray::add_buffer(const VertexBuffer &vb,
                                   elements[i].type, elements[i].normalized,
                                   layout.get_stride(), (const void *)offset));
     GL_CALL(glEnableVertexAttribArray(m_attrib_count));
+
+    if (instanced) {
+      GL_CALL(glVertexAttribDivisor(m_attrib_count, 1));
+    }
 
     m_attrib_count++;
 

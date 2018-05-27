@@ -1,24 +1,29 @@
 #pragma once
 
-#include <flex/config.hpp>
+#include "drawable.hpp"
 #include "gl/texture.hpp"
 #include "mesh.hpp"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include <flex/config.hpp>
 #include <memory>
 #include <string>
 #include <vector>
 
 namespace flex {
-class Model {
+class Model : public Drawable {
 public:
-  Model(std::string path);
+  Model(const std::string &path);
   ~Model();
 
-  void draw(gl::Shader &shader);
+  void set_texture_filter(gl::TextureFilter filter);
 
-private:
+protected:
+  void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
+            glm::vec3 rot = glm::vec3(0.0),
+            glm::vec3 scale = glm::vec3(1.0)) override;
+
   std::vector<std::shared_ptr<Mesh>> m_meshes;
   std::string m_directory;
   std::vector<std::shared_ptr<gl::Texture>>

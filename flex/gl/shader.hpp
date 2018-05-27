@@ -1,9 +1,8 @@
 #pragma once
 
-#include "util.hpp"
+#include "gl.hpp"
 #include <flex/config.hpp>
 #include <fstream>
-#include "gl.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
@@ -28,7 +27,7 @@ public:
 private:
   GLuint m_program;
 
-  void check_compile_errors(GLuint shader, std::string type);
+  bool check_compile_errors(GLuint shader, std::string type);
 };
 } // namespace gl
 } // namespace flex

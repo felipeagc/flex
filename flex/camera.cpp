@@ -9,7 +9,9 @@ Camera3D::Camera3D(int width, int height, glm::vec3 position, float fov,
   m_world_up = up;
   m_yaw = yaw;
   m_pitch = pitch;
-  this->update(width, height);
+
+  this->update_directions();
+  this->update_projection(width, height);
 }
 
 Camera3D::~Camera3D() {}
@@ -21,17 +23,13 @@ glm::mat4 Camera3D::get_view_matrix() {
 glm::mat4 Camera3D::get_projection_matrix() { return m_projection; }
 
 void Camera3D::update(int width, int height) {
-  glm::vec3 front;
-  front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-  front.y = sin(glm::radians(m_pitch));
-  front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-  m_front = glm::normalize(front);
+  this->update_directions();
+  this->update_projection(width, height);
+}
 
-  m_right = glm::normalize(glm::cross(m_front, m_world_up));
-  m_up = glm::normalize(glm::cross(m_right, m_front));
-
-  m_projection = glm::perspective(glm::radians(m_fov),
-                                  (float)width / (float)height, 0.1f, 300.0f);
+void Camera3D::set_uniforms(gl::Shader &shader) {
+  shader.set("view", get_view_matrix());
+  shader.set("proj", get_projection_matrix());
 }
 
 void Camera3D::set_pos(glm::vec3 pos) { m_pos = pos; }
@@ -60,3 +58,19 @@ float Camera3D::get_fov() const { return m_fov; }
 glm::vec3 Camera3D::get_front() const { return m_front; }
 
 glm::vec3 Camera3D::get_right() const { return m_right; }
+
+void Camera3D::update_projection(int width, int height) {
+  m_projection = glm::perspective(glm::radians(m_fov),
+                                  (float)width / (float)height, 0.1f, 1000.0f);
+}
+
+void Camera3D::update_directions() {
+  glm::vec3 front;
+  front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+  front.y = sin(glm::radians(m_pitch));
+  front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+  m_front = glm::normalize(front);
+
+  m_right = glm::normalize(glm::cross(m_front, m_world_up));
+  m_up = glm::normalize(glm::cross(m_right, m_front));
+}

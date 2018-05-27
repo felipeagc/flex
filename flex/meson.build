@@ -1,11 +1,18 @@
 flex_sources = [
   'engine.cpp',
-  'app.cpp',
   'window.cpp',
   'audio.cpp',
+  'graphics.cpp',
+  'app.cpp',
+
+  'sprite.cpp',
   'mesh.cpp',
   'model.cpp',
+  'instancedmesh.cpp',
+  'instancedmodel.cpp',
   'camera.cpp',
+  'canvas.cpp',
+
   'gl/buffer.cpp',
   'gl/vertex_buffer.cpp',
   'gl/index_buffer.cpp',
@@ -17,12 +24,14 @@ flex_sources = [
 ]
 
 flex_deps = [
+  dependency('gl'),
   dependency('sdl2'),
   dependency('glm'),
   dependency('assimp'),
   dependency('epoxy'),
   dependency('stb_image', fallback: ['stb_image', 'stb_image_dep']),
   dependency('soloud', fallback: ['soloud', 'soloud_dep']),
+  dependency('imgui', fallback: ['imgui', 'imgui_dep']),
 ]
 
 conf_data = configuration_data()

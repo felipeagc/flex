@@ -1,11 +1,16 @@
 #pragma once
 
+#include "drawable.hpp"
 #include "gl/framebuffer.hpp"
 #include "gl/renderbuffer.hpp"
+#include "gl/shader.hpp"
 #include "gl/texture.hpp"
+#include "graphics.hpp"
+#include "mesh.hpp"
+#include <memory>
 
 namespace flex {
-class Canvas {
+class Canvas : public Drawable {
 public:
   Canvas(unsigned int width, unsigned int height);
   ~Canvas();
@@ -13,9 +18,24 @@ public:
   void bind() const;
   void unbind() const;
 
+  unsigned int get_width() const;
+  unsigned int get_height() const;
+
+protected:
+  void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
+            glm::vec3 rot = glm::vec3(0.0),
+            glm::vec3 scale = glm::vec3(1.0)) override;
+
+
 private:
-  gl::Texture m_texture;
+  static const std::vector<Vertex> VERTICES;
+  static const std::vector<unsigned int> INDICES;
+
+  unsigned int m_width, m_height;
+
+  std::shared_ptr<gl::Texture> m_texture{new gl::Texture{}};
   gl::Renderbuffer m_rb;
   gl::Framebuffer m_fb;
+  Mesh m_mesh{VERTICES, INDICES, {m_texture}};
 };
 } // namespace flex

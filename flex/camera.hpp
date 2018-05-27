@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "graphics.hpp"
 
 namespace flex {
 class Camera3D {
@@ -13,6 +14,7 @@ public:
   glm::mat4 get_view_matrix();
   glm::mat4 get_projection_matrix();
   void update(int width, int height);
+  void set_uniforms(gl::Shader &shader);
 
   void set_pos(glm::vec3 pos);
   glm::vec3 get_pos() const;
@@ -41,5 +43,8 @@ private:
   float m_yaw;
   float m_pitch;
   float m_fov;
+
+  void update_projection(int width, int height);
+  void update_directions();
 };
 } // namespace flex
