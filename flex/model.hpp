@@ -24,15 +24,5 @@ protected:
             glm::vec3 rot = glm::vec3(0.0),
             glm::vec3 scale = glm::vec3(1.0)) override;
 
-  std::vector<std::shared_ptr<Mesh>> m_meshes;
-  std::string m_directory;
-  std::vector<std::shared_ptr<gl::Texture>>
-      m_textures_loaded; // for optimization purposes
-
-  void process_node(aiNode *node, const aiScene *scene);
-  std::shared_ptr<Mesh> process_mesh(aiMesh *mesh, const aiScene *scene);
-  std::vector<std::shared_ptr<gl::Texture>>
-  load_material_textures(aiMaterial *mat, aiTextureType type,
-                         std::string type_name);
 };
 } // namespace flex
