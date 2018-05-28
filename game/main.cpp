@@ -10,16 +10,15 @@ glm::vec3 lerp(glm::vec3 v1, glm::vec3 v2, float t) {
   return v1 + t * (v2 - v1);
 }
 
-std::vector<glm::mat4> make_transforms(float offset = 0) {
+std::vector<glm::mat4> make_transforms(float time = 0) {
   std::vector<glm::mat4> transforms;
   float size = 15.0;
   int amount = 30;
   for (int x = -amount / 2; x < amount / 2; x++) {
     for (int y = -amount / 2; y < amount / 2; y++) {
       for (int z = -amount / 2; z < amount / 2; z++) {
-        auto pos = glm::vec3(
-            x * size, (y * size) + (offset * sin(x * size) * sin(z * size)),
-            z * size);
+        auto pos = glm::vec3(x * size, (y * size) + sin((time + x + z) * 2.0) * 2.0,
+                             z * size);
         auto translation = glm::translate(glm::mat4(1.0f), pos);
         transforms.push_back(translation);
       }
@@ -114,7 +113,7 @@ public:
     camera.set_uniforms(m_shader);
     camera.set_uniforms(m_shader_instanced);
 
-    cube.set_transforms(make_transforms(sin(elapsed_time)));
+    cube.set_transforms(make_transforms(elapsed_time));
 
     // Drawing stuff
     {
