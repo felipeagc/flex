@@ -34,6 +34,7 @@ flex_deps = [
   dependency('stb_image', fallback: ['stb_image', 'stb_image_dep']),
   dependency('soloud', fallback: ['soloud', 'soloud_dep']),
   dependency('imgui', fallback: ['imgui', 'imgui_dep']),
+  dependency('tinygltf', fallback: ['tinygltf', 'tinygltf_dep']),
 ]
 
 conf_data = configuration_data()
