@@ -1,6 +1,7 @@
 #include "texture.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#undef STB_IMAGE_IMPLEMENTATION
 
 using namespace flex::gl;
 
@@ -61,6 +62,20 @@ void Texture::load_from_file(const std::string &path) {
     flex::log(L_ERROR, L_IMPORT, "Texture failed to load at path: " + path);
     stbi_image_free(data);
   }
+}
+
+void Texture::load_from_data(void *data, unsigned int width,
+                             unsigned int height) {
+  this->bind();
+  GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+                       GL_UNSIGNED_BYTE, data));
+
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+
+  GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
+
+  flex::log(L_DEBUG, L_IMPORT, "Texture loaded from data");
 }
 
 void Texture::set_filter(TextureFilter filter) {

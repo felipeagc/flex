@@ -19,6 +19,7 @@ public:
   const std::string &get_path() const;
 
   void load_from_file(const std::string &path);
+  void load_from_data(void *data, unsigned int width, unsigned height);
 
   void set_filter(TextureFilter filter);
 
