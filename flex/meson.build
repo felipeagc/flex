@@ -23,6 +23,8 @@ flex_sources = [
   'gl/shader.cpp',
 ]
 
+add_project_arguments('-DGLM_ENABLE_EXPERIMENTAL', language: 'cpp')
+
 flex_deps = [
   dependency('gl'),
   dependency('sdl2'),

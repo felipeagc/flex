@@ -17,8 +17,8 @@ std::vector<glm::mat4> make_transforms(float time = 0) {
   for (int x = -amount / 2; x < amount / 2; x++) {
     for (int y = -amount / 2; y < amount / 2; y++) {
       for (int z = -amount / 2; z < amount / 2; z++) {
-        auto pos = glm::vec3(x * size, (y * size) + sin((time + x + z) * 2.0) * 2.0,
-                             z * size);
+        auto pos = glm::vec3(
+            x * size, (y * size) + sin((time + x + z) * 2.0) * 2.0, z * size);
         auto translation = glm::translate(glm::mat4(1.0f), pos);
         transforms.push_back(translation);
       }
@@ -30,10 +30,22 @@ std::vector<glm::mat4> make_transforms(float time = 0) {
 class MyApp : public flex::App {
 private:
   std::vector<flex::Vertex> vertices{
-      {{.5f, .5f, .0f}, {}, {1.0, 1.0, 1.0}, {1.0, 1.0}},   // top right
-      {{.5f, -.5f, .0f}, {}, {0.0, 0.0, 0.0}, {1.0, 0.0}},  // bottom right
-      {{-.5f, -.5f, .0f}, {}, {1.0, 0.0, 0.0}, {0.0, 0.0}}, // bottom left
-      {{-.5f, .5f, .0f}, {}, {0.0, 0.0, 1.0}, {0.0, 1.0}},  // top left
+      {{.5f, .5f, .0f},
+       {1.0, 1.0, 1.0},
+       {1.0, 1.0, 1.0},
+       {1.0, 1.0}}, // top right
+      {{.5f, -.5f, .0f},
+       {1.0, 1.0, 1.0},
+       {0.0, 0.0, 0.0},
+       {1.0, 0.0}}, // bottom right
+      {{-.5f, -.5f, .0f},
+       {1.0, 1.0, 1.0},
+       {1.0, 0.0, 0.0},
+       {0.0, 0.0}}, // bottom left
+      {{-.5f, .5f, .0f},
+       {1.0, 1.0, 1.0},
+       {0.0, 0.0, 1.0},
+       {0.0, 1.0}}, // top left
   };
 
   std::vector<unsigned int> indices{
@@ -74,7 +86,7 @@ public:
   void quit() { flex::log("Quit"); }
 
   void camera_movement(float delta) {
-    glm::vec3 movement;
+    glm::vec3 movement{0.0};
     float velocity = delta * 30.0f;
 
     if (window.is_key_pressed(FLEX_SCANCODE_W)) {
