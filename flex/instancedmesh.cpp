@@ -50,12 +50,10 @@ void InstancedMesh::set_transforms(const std::vector<glm::mat4> transforms) {
                         transforms.size() * sizeof(glm::mat4));
 }
 
-void InstancedMesh::draw_instanced(GraphicsSystem &graphics) {
-  auto shader = graphics.get_shader(flex::SHADER_INSTANCED);
+void InstancedMesh::draw_instanced(gl::Shader &shader) {
+  this->bind_textures(shader);
 
-  this->bind_textures(*shader);
-
-  shader->set("model", glm::mat4(1.0f));
+  shader.set("model", glm::mat4(1.0f));
 
   m_va.bind();
   m_ib.bind(gl::ELEMENT_ARRAY_BUFFER);

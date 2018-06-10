@@ -33,21 +33,20 @@ struct GltfNode {
 };
 
 class GltfModel : public Model {
+public:
+  GltfModel(const std::string &path);
+  ~GltfModel();
+
+  void draw(gl::Shader &shader, glm::vec3 pos = glm::vec3(0.0),
+            glm::vec3 rot = glm::vec3(0.0),
+            glm::vec3 scale = glm::vec3(1.0)) override;
+
 protected:
   std::map<int, gl::Buffer> m_buffers;
   std::map<int, GltfMesh> m_meshes;
   std::vector<GltfNode> m_nodes;
   std::map<int, gl::Texture> m_textures;
 
-  void draw_node(GltfNode &node, glm::mat4 &model, gl::Shader *shader);
-
-  void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
-            glm::vec3 rot = glm::vec3(0.0),
-            glm::vec3 scale = glm::vec3(1.0)) override;
-
-public:
-  GltfModel(const std::string &path);
-  ~GltfModel();
-
+  void draw_node(GltfNode &node, glm::mat4 &model, gl::Shader &shader);
 };
 } // namespace flex

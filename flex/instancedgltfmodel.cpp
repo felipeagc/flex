@@ -1,5 +1,5 @@
 #include "instancedgltfmodel.hpp"
-#include "graphics.hpp"
+
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace flex;
@@ -61,9 +61,7 @@ void InstancedGltfModel::set_transforms(
                         transforms.size() * sizeof(glm::mat4));
 }
 
-void InstancedGltfModel::draw_instanced(GraphicsSystem &graphics) {
-  auto shader = graphics.get_shader(flex::SHADER_INSTANCED);
-
+void InstancedGltfModel::draw_instanced(gl::Shader &shader) {
   auto model = glm::mat4(1.0f);
   for (auto &node : m_nodes) {
     draw_node_instanced(node, model, shader);
@@ -71,7 +69,7 @@ void InstancedGltfModel::draw_instanced(GraphicsSystem &graphics) {
 }
 
 void InstancedGltfModel::draw_node_instanced(GltfNode &node, glm::mat4 &model,
-                                             gl::Shader *shader) {
+                                             gl::Shader &shader) {
   auto node_model = model * node.transform;
 
   if (node.mesh != -1) {
@@ -83,14 +81,14 @@ void InstancedGltfModel::draw_node_instanced(GltfNode &node, glm::mat4 &model,
       if (prim.diffuse_texture_index != -1) {
         auto &texture = m_textures[prim.diffuse_texture_index];
         texture.bind(0);
-        shader->set("texture_diffuse0", (unsigned int)0);
+        shader.set("texture_diffuse0", (unsigned int)0);
 
-        shader->set("is_textured", true);
+        shader.set("is_textured", true);
       } else {
-        shader->set("is_textured", false);
+        shader.set("is_textured", false);
       }
 
-      shader->set("model", node_model);
+      shader.set("model", node_model);
 
       if (prim.index_buffer_index != -1) {
         prim.va.bind();

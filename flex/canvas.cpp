@@ -59,9 +59,9 @@ void Canvas::bind() const { m_fb.bind(); }
 
 void Canvas::unbind() const { m_fb.unbind(); }
 
-void Canvas::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
+void Canvas::draw(gl::Shader &shader, glm::vec3 pos, glm::vec3 rot,
                   glm::vec3 scale) {
-  graphics.draw(m_mesh, pos, rot, scale);
+  m_mesh.draw(shader, pos, rot, scale);
 }
 
 unsigned int Canvas::get_width() const { return m_width; }

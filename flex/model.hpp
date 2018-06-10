@@ -8,7 +8,7 @@ public:
   virtual ~Model(){};
 
 protected:
-  virtual void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
+  virtual void draw(gl::Shader &shader, glm::vec3 pos = glm::vec3(0.0),
                     glm::vec3 rot = glm::vec3(0.0),
                     glm::vec3 scale = glm::vec3(1.0)) override = 0;
 };

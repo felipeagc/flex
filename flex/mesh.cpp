@@ -125,10 +125,8 @@ void Mesh::bind_textures(gl::Shader &shader) {
   shader.set("is_textured", n != 0);
 }
 
-void Mesh::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
+void Mesh::draw(gl::Shader &shader, glm::vec3 pos, glm::vec3 rot,
                 glm::vec3 scale) {
-  auto shader = graphics.get_shader();
-
   auto translation = glm::translate(glm::mat4(1.0f), pos);
   auto rotation =
       glm::rotate(glm::mat4(1.0f), glm::radians(rot.x), {1.0, 0.0, 0.0});
@@ -138,9 +136,9 @@ void Mesh::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
 
   auto model = translation * rotation * scaling;
 
-  shader->set("model", model);
+  shader.set("model", model);
 
-  this->bind_textures(*shader);
+  this->bind_textures(shader);
 
   m_va.bind();
   m_ib.bind(gl::ELEMENT_ARRAY_BUFFER);

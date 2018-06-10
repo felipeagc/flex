@@ -18,8 +18,7 @@ public:
 
   void set_transforms(const std::vector<glm::mat4> transforms);
 
-protected:
-  void draw_instanced(GraphicsSystem &graphics) override;
+  void draw_instanced(gl::Shader &shader) override;
 
 private:
   gl::Buffer m_vb_instanced;

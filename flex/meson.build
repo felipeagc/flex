@@ -2,7 +2,6 @@ flex_sources = [
   'engine.cpp',
   'window.cpp',
   'audio.cpp',
-  'graphics.cpp',
 
   'sprite.cpp',
   'mesh.cpp',

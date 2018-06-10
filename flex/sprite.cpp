@@ -22,11 +22,9 @@ Sprite::Sprite(const std::string &path, gl::TextureFilter filter) {
   m_mesh.add_diffuse_texture(m_texture);
 }
 
-Sprite::~Sprite() {
-  m_texture.destroy();
-}
+Sprite::~Sprite() { m_texture.destroy(); }
 
-void Sprite::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
+void Sprite::draw(gl::Shader &shader, glm::vec3 pos, glm::vec3 rot,
                   glm::vec3 scale) {
-  graphics.draw(m_mesh, pos, rot, scale);
+  m_mesh.draw(shader, pos, rot, scale);
 }

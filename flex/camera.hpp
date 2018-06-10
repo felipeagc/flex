@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "graphics.hpp"
+#include "gl/shader.hpp"
 
 namespace flex {
 class Camera3D {

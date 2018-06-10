@@ -42,6 +42,12 @@ private:
       1, 2, 3, // second triangle
   };
 
+  flex::gl::Shader shader{flex::path("shaders/simple.vert"),
+                                    flex::path("shaders/simple.frag")};
+  flex::gl::Shader shader_instanced{flex::path("shaders/simple.vert"),
+                                              flex::path("shaders/simple.frag"),
+                                              {{"INSTANCED", "true"}}};
+
   flex::Mesh mesh{vertices, indices};
   // flex::InstancedModel cube{flex::path("models/cube.obj"),
   // make_transforms()};
@@ -106,21 +112,19 @@ public:
 
     camera.update(window.get_width(), window.get_height());
     // TODO: find a better way to do this...
-    camera.set_uniforms(*graphics.get_shader_default());
-    camera.set_uniforms(*graphics.get_shader_default_instanced());
+    camera.set_uniforms(shader);
+    camera.set_uniforms(shader_instanced);
 
     model.set_transforms(make_transforms(elapsed_time));
 
     // Drawing stuff
     {
-      graphics.draw_instanced(model);
+      model.draw_instanced(shader_instanced);
     }
 
     {
-      // graphics.draw(model, {2.0, 0.0, 0.0}, {}, {50.0, 50.0, 50.0});
-      // graphics.draw(model, {2.0, 0.0, 0.0});
-      graphics.draw(mesh);
-      graphics.draw(sprite, {-2.0, 0.0, 0.0});
+      mesh.draw(shader);
+      sprite.draw(shader, {-2.0, 0.0, 0.0});
     }
 
     {

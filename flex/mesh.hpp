@@ -6,7 +6,6 @@
 #include "gl/texture.hpp"
 #include "gl/vertex_array.hpp"
 #include "gl/vertex_buffer_layout.hpp"
-#include "graphics.hpp"
 #include <glm/glm.hpp>
 #include <memory>
 #include <vector>
@@ -38,11 +37,11 @@ public:
   void add_normal_texture(gl::Texture texture);
   void add_height_texture(gl::Texture texture);
 
-protected:
-  void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
+  void draw(gl::Shader &shader, glm::vec3 pos = glm::vec3(0.0),
             glm::vec3 rot = glm::vec3(0.0),
             glm::vec3 scale = glm::vec3(1.0)) override;
 
+protected:
   void bind_textures(gl::Shader &shader);
 
   gl::Buffer m_vb;

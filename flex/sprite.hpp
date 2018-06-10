@@ -18,8 +18,7 @@ public:
   Sprite(const std::string &path, gl::TextureFilter filter = gl::FILTER_LINEAR);
   ~Sprite();
 
-protected:
-  void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
+  void draw(gl::Shader &shader, glm::vec3 pos = glm::vec3(0.0),
             glm::vec3 rot = glm::vec3(0.0),
             glm::vec3 scale = glm::vec3(1.0)) override;
 };

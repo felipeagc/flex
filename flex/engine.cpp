@@ -10,5 +10,3 @@ Engine::~Engine() {}
 Window &Engine::get_window() { return m_window; };
 
 AudioSystem &Engine::get_audio() { return m_audio; }
-
-GraphicsSystem &Engine::get_graphics() { return m_graphics; }

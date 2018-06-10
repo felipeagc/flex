@@ -13,11 +13,12 @@ public:
 
   void set_transforms(const std::vector<glm::mat4> transforms);
 
+  void draw_instanced(gl::Shader &shader) override;
+
 protected:
-  void draw_instanced(GraphicsSystem &graphics) override;
 
   void draw_node_instanced(GltfNode &node, glm::mat4 &model,
-                           gl::Shader *shader);
+                           gl::Shader &shader);
 
 private:
   gl::Buffer m_vb_instanced;

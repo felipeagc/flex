@@ -1,5 +1,5 @@
 #include "gltfmodel.hpp"
-#include "graphics.hpp"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/euler_angles.hpp>
@@ -217,9 +217,8 @@ GltfModel::~GltfModel() {
   }
 }
 
-void GltfModel::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
+void GltfModel::draw(gl::Shader &shader, glm::vec3 pos, glm::vec3 rot,
                      glm::vec3 scale) {
-  auto shader = graphics.get_shader();
 
   auto translation = glm::translate(glm::mat4(1.0f), pos);
   auto rotation =
@@ -236,7 +235,7 @@ void GltfModel::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
 }
 
 void GltfModel::draw_node(GltfNode &node, glm::mat4 &model,
-                          gl::Shader *shader) {
+                          gl::Shader &shader) {
   auto node_model = model * node.transform;
 
   if (node.mesh != -1) {
@@ -248,14 +247,14 @@ void GltfModel::draw_node(GltfNode &node, glm::mat4 &model,
       if (prim.diffuse_texture_index != -1) {
         auto &texture = m_textures[prim.diffuse_texture_index];
         texture.bind(0);
-        shader->set("texture_diffuse0", (unsigned int)0);
+        shader.set("texture_diffuse0", (unsigned int)0);
 
-        shader->set("is_textured", true);
+        shader.set("is_textured", true);
       } else {
-        shader->set("is_textured", false);
+        shader.set("is_textured", false);
       }
 
-      shader->set("model", node_model);
+      shader.set("model", node_model);
 
       if (prim.index_buffer_index != -1) {
         prim.va.bind();

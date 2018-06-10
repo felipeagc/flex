@@ -7,7 +7,6 @@
 #include "engine.hpp"
 #include "filesystem.hpp"
 #include "gltfmodel.hpp"
-#include "graphics.hpp"
 #include "input/input.hpp"
 #include "input/keycodes.hpp"
 #include "input/mousebutton.hpp"

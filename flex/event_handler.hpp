@@ -7,8 +7,8 @@ namespace flex {
 class EventHandler {
 public:
   EventHandler(Engine &engine)
-      : engine(engine), window(engine.get_window()), audio(engine.get_audio()),
-        graphics(engine.get_graphics()){};
+      : engine(engine), window(engine.get_window()),
+        audio(engine.get_audio()){};
   virtual ~EventHandler(){};
 
   virtual void load(){};
@@ -27,6 +27,5 @@ protected:
   Engine &engine;
   Window &window;
   AudioSystem &audio;
-  GraphicsSystem &graphics;
 };
 } // namespace flex

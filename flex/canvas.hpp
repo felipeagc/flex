@@ -5,7 +5,6 @@
 #include "gl/renderbuffer.hpp"
 #include "gl/shader.hpp"
 #include "gl/texture.hpp"
-#include "graphics.hpp"
 #include "mesh.hpp"
 #include <memory>
 
@@ -21,11 +20,9 @@ public:
   unsigned int get_width() const;
   unsigned int get_height() const;
 
-protected:
-  void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
+  void draw(gl::Shader &shader, glm::vec3 pos = glm::vec3(0.0),
             glm::vec3 rot = glm::vec3(0.0),
             glm::vec3 scale = glm::vec3(1.0)) override;
-
 
 private:
   static const std::vector<Vertex> VERTICES;
