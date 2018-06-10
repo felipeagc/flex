@@ -20,7 +20,7 @@ std::vector<glm::mat4> make_transforms(float time = 0) {
         auto pos = glm::vec3(
             x * size, (y * size) + sin((time + x + z) * 2.0) * 2.0, z * size);
         auto translation = glm::translate(glm::mat4(1.0f), pos);
-        auto scale = glm::scale(translation, glm::vec3(100.0));
+        auto scale = glm::scale(translation, glm::vec3(1.0));
         transforms.push_back(scale);
       }
     }
@@ -51,7 +51,7 @@ private:
   flex::Mesh mesh{vertices, indices};
   // flex::InstancedModel cube{flex::path("models/cube.obj"),
   // make_transforms()};
-  flex::InstancedGltfModel model{flex::path("models/boombox.glb"),
+  flex::InstancedGltfModel model{flex::path("models/helmet.glb"),
                                  make_transforms()};
 
   flex::Audio shot{flex::path("audio/shotgun.wav")};
