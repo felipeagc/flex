@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
 
@@ -13,7 +14,8 @@ namespace flex {
 namespace gl {
 class Shader {
 public:
-  Shader(const std::string &vertex_path, const std::string &fragment_path);
+  Shader(const std::string &vertex_path, const std::string &fragment_path,
+         std::map<std::string, std::string> options = {});
   ~Shader();
 
   void use() const;

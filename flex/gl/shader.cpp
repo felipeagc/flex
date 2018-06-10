@@ -2,9 +2,14 @@
 
 using namespace flex::gl;
 
-Shader::Shader(const std::string &vertex_path,
-               const std::string &fragment_path) {
+Shader::Shader(const std::string &vertex_path, const std::string &fragment_path,
+               std::map<std::string, std::string> options) {
   // Shader file loading
+  std::string defines;
+  for (auto &pair : options) {
+    defines += "#define " + pair.first + " " + pair.second + "\n";
+  }
+
   std::string vertex_code;
   std::string fragment_code;
   std::ifstream v_shader_file;
@@ -25,10 +30,19 @@ Shader::Shader(const std::string &vertex_path,
     f_shader_file.close();
     // convert stream into string
     vertex_code = vShaderStream.str();
+    vertex_code =
+        vertex_code.substr(0, vertex_code.find("\n")) +
+        "\n" + defines +
+        vertex_code.substr(vertex_code.find("\n"), vertex_code.size());
     fragment_code = fShaderStream.str();
+    fragment_code =
+        fragment_code.substr(0, fragment_code.find("\n")) +
+        "\n" + defines +
+        fragment_code.substr(fragment_code.find("\n"), fragment_code.size());
   } catch (std::ifstream::failure &e) {
     flex::log(L_ERROR, L_GL, "Error: Shader file not succesfully read");
   }
+
   const char *vertex_shader_source = vertex_code.c_str();
   const char *fragment_shader_source = fragment_code.c_str();
 

@@ -44,9 +44,9 @@ private:
 
   flex::gl::Shader m_shader{flex::path("shaders/simple.vert"),
                             flex::path("shaders/simple.frag")};
-  flex::gl::Shader m_shader_instanced{
-      flex::path("shaders/simple_instanced.vert"),
-      flex::path("shaders/simple.frag")};
+  flex::gl::Shader m_shader_instanced{flex::path("shaders/simple.vert"),
+                                      flex::path("shaders/simple.frag"),
+                                      {{"INSTANCED", "true"}}};
 
   flex::Mesh mesh{vertices, indices};
   // flex::InstancedModel cube{flex::path("models/cube.obj"),
