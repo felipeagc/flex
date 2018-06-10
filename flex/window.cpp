@@ -98,6 +98,15 @@ void Window::update(EventHandler &event_handler) {
     case SDL_MOUSEBUTTONUP:
       event_handler.button_up(e.button.button, e.button.x, e.button.y);
       break;
+    case SDL_MOUSEWHEEL: {
+      int x = e.wheel.x;
+      int y = e.wheel.y;
+      if (e.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) {
+        x *= -1;
+        y *= -1;
+      }
+      event_handler.mouse_wheel(x, y);
+    } break;
     case SDL_WINDOWEVENT:
       switch (e.window.event) {
       case SDL_WINDOWEVENT_RESIZED:

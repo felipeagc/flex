@@ -56,6 +56,10 @@ public:
       }
     }
   }
+
+  void mouse_wheel(int x, int y) {
+    scenes[current_scene]->mouse_wheel(x, y);
+  }
 };
 } // namespace game
 

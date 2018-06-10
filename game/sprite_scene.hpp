@@ -8,10 +8,10 @@ public:
   using flex::EventHandler::EventHandler;
 
   virtual void update(float delta) override;
+  virtual void mouse_wheel(int x, int y) override;
 
 private:
-  // TODO: replace with Camera2D
-  flex::Camera3D camera{window.get_width(), window.get_height()};
+  flex::Camera2D camera{window.get_width(), window.get_height()};
 
   flex::gl::Shader shader{flex::path("shaders/simple.vert"),
                           flex::path("shaders/simple.frag")};

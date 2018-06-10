@@ -14,8 +14,6 @@ Camera3D::Camera3D(int width, int height, glm::vec3 position, float fov,
   this->update_projection(width, height);
 }
 
-Camera3D::~Camera3D() {}
-
 glm::mat4 Camera3D::get_view_matrix() {
   return glm::lookAt(m_pos, m_pos + m_front, m_up);
 }
@@ -73,4 +71,63 @@ void Camera3D::update_directions() {
 
   m_right = glm::normalize(glm::cross(m_front, m_world_up));
   m_up = glm::normalize(glm::cross(m_right, m_front));
+}
+
+Camera2D::Camera2D(int width, int height, glm::vec2 pos, float rotation,
+                   glm::vec2 scale) {
+  m_pos = pos;
+  m_rotation = rotation;
+  m_scale = scale;
+
+  this->update_projection(width, height);
+}
+
+glm::mat4 Camera2D::get_view_matrix() {
+  auto translation =
+      glm::translate(glm::mat4(1.0), glm::vec3(m_pos.x, m_pos.y, 0.0));
+  auto rotation =
+      glm::rotate(glm::mat4(1.0), glm::radians(m_rotation), {0.0, 0.0, 1.0});
+  auto scale = glm::scale(glm::mat4(1.0), {m_scale.x, m_scale.y, 1.0});
+
+  return scale * rotation * translation;
+}
+
+glm::mat4 Camera2D::get_projection_matrix() { return m_projection; }
+
+void Camera2D::update(int width, int height) {
+  this->update_projection(width, height);
+}
+
+void Camera2D::set_uniforms(gl::Shader &shader) {
+  shader.set("view", get_view_matrix());
+  shader.set("proj", get_projection_matrix());
+}
+
+void Camera2D::set_pos(glm::vec2 pos) {
+  m_pos = pos;
+}
+
+glm::vec2 Camera2D::get_pos() const {
+  return m_pos;
+}
+
+void Camera2D::set_rot(float degrees) {
+  m_rotation = degrees;
+}
+
+float Camera2D::get_rot() const {
+  return m_rotation;
+}
+
+void Camera2D::set_scale(glm::vec2 scale) {
+  m_scale = scale;
+}
+
+glm::vec2 Camera2D::get_scale() const {
+  return m_scale;
+}
+
+void Camera2D::update_projection(int width, int height) {
+  m_projection =
+    glm::ortho((float) -width/2, (float)width/2, (float)height/2, (float) -height/2, m_near, m_far);
 }

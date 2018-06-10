@@ -28,14 +28,10 @@ void Texture::unbind(GLuint unit) {
 
 GLuint Texture::get_id() const { return m_id; }
 
-const std::string &Texture::get_path() const { return m_path; }
-
 void Texture::load_from_file(const std::string &path) {
-  m_path = path;
-
-  int width, height, n_components;
+  int n_components;
   unsigned char *data =
-      stbi_load(path.c_str(), &width, &height, &n_components, 0);
+      stbi_load(path.c_str(), &m_width, &m_height, &n_components, 0);
   if (data) {
     GLenum format = GL_RGB;
     if (n_components == 1)
@@ -47,7 +43,7 @@ void Texture::load_from_file(const std::string &path) {
 
     this->bind();
 
-    GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
+    GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format,
                          GL_UNSIGNED_BYTE, data));
 
     GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
@@ -66,6 +62,8 @@ void Texture::load_from_file(const std::string &path) {
 
 void Texture::load_from_data(void *data, unsigned int width,
                              unsigned int height, GLenum format) {
+  m_width = width;
+  m_height = height;
   this->bind();
   GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
                        GL_UNSIGNED_BYTE, data));
@@ -86,4 +84,12 @@ void Texture::set_min_filter(TextureFilter filter) {
 void Texture::set_mag_filter(TextureFilter filter) {
   this->bind();
   GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter));
+}
+
+int Texture::get_width() {
+  return m_width;
+}
+
+int Texture::get_height() {
+  return m_height;
 }

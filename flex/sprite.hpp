@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace flex {
-class Sprite : public Drawable {
+class Sprite : public Drawable2D {
 private:
   static const std::vector<Vertex> VERTICES;
   static const std::vector<unsigned int> INDICES;
@@ -18,8 +18,7 @@ public:
   Sprite(const std::string &path, gl::TextureFilter filter = gl::FILTER_LINEAR);
   ~Sprite();
 
-  void draw(gl::Shader &shader, glm::vec3 pos = glm::vec3(0.0),
-            glm::vec3 rot = glm::vec3(0.0),
-            glm::vec3 scale = glm::vec3(1.0)) override;
+  void draw(gl::Shader &shader, glm::vec2 pos = glm::vec2(0.0),
+            float rotation = 0.0, glm::vec2 scale = glm::vec2(1.0)) override;
 };
 } // namespace flex

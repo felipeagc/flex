@@ -18,7 +18,6 @@ public:
   static void unbind(GLuint unit = 0);
 
   GLuint get_id() const;
-  const std::string &get_path() const;
 
   void load_from_file(const std::string &path);
   void load_from_data(void *data, unsigned int width, unsigned height,
@@ -27,9 +26,12 @@ public:
   void set_min_filter(TextureFilter filter);
   void set_mag_filter(TextureFilter filter);
 
+  int get_width();
+  int get_height();
+
 private:
   GLuint m_id;
-  std::string m_path;
+  int m_width = -1, m_height = -1;
 };
 
 } // namespace gl

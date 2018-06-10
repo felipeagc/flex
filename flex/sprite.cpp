@@ -3,10 +3,10 @@
 using namespace flex;
 
 const std::vector<Vertex> Sprite::VERTICES = {
-    {{1.0f, 1.0f, .0f}, {}, {1.0, 0.0}},   // top right
-    {{1.0f, -1.0f, .0f}, {}, {1.0, 1.0}},  // bottom right
-    {{-1.0f, -1.0f, .0f}, {}, {0.0, 1.0}}, // bottom left
-    {{-1.0f, 1.0f, .0f}, {}, {0.0, 0.0}},  // top left
+    {{0.5f, 0.5f, .0f}, {}, {1.0, 1.0}},   // top right
+    {{0.5f, -0.5f, .0f}, {}, {1.0, 0.0}},  // bottom right
+    {{-0.5f, -0.5f, .0f}, {}, {0.0, 0.0}}, // bottom left
+    {{-0.5f, 0.5f, .0f}, {}, {0.0, 1.0}},  // top left
 };
 
 const std::vector<unsigned int> Sprite::INDICES{
@@ -24,7 +24,9 @@ Sprite::Sprite(const std::string &path, gl::TextureFilter filter) {
 
 Sprite::~Sprite() { m_texture.destroy(); }
 
-void Sprite::draw(gl::Shader &shader, glm::vec3 pos, glm::vec3 rot,
-                  glm::vec3 scale) {
-  m_mesh.draw(shader, pos, rot, scale);
+void Sprite::draw(gl::Shader &shader, glm::vec2 pos, float rotation,
+                  glm::vec2 scale) {
+  m_mesh.draw(
+      shader, {pos.x, pos.y, 0.0}, {0.0, 0.0, rotation},
+      {scale.x * m_texture.get_width(), scale.y * m_texture.get_height(), 1.0});
 }

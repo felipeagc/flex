@@ -23,6 +23,7 @@ public:
   virtual void button_up(input::MouseButton button, int x, int y){};
   virtual void button_down(input::MouseButton button, int x, int y){};
 
+  virtual void mouse_wheel(int x, int y){};
 protected:
   Engine &engine;
   Window &window;
