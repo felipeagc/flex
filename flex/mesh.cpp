@@ -9,10 +9,10 @@
 using namespace flex;
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
-           std::vector<std::shared_ptr<gl::Texture>> diffuse_textures,
-           std::vector<std::shared_ptr<gl::Texture>> specular_textures,
-           std::vector<std::shared_ptr<gl::Texture>> normal_textures,
-           std::vector<std::shared_ptr<gl::Texture>> height_textures)
+           std::vector<gl::Texture> diffuse_textures,
+           std::vector<gl::Texture> specular_textures,
+           std::vector<gl::Texture> normal_textures,
+           std::vector<gl::Texture> height_textures)
     : m_vertices(vertices), m_indices(indices),
       m_diffuse_textures(diffuse_textures),
       m_specular_textures(specular_textures),
@@ -35,6 +35,18 @@ Mesh::~Mesh() {
   m_va.destroy();
   m_vb.destroy();
   m_ib.destroy();
+
+  for (auto &texture : m_diffuse_textures)
+    texture.destroy();
+
+  for (auto &texture : m_specular_textures)
+    texture.destroy();
+
+  for (auto &texture : m_normal_textures)
+    texture.destroy();
+
+  for (auto &texture : m_height_textures)
+    texture.destroy();
 }
 
 void Mesh::set_vertices(std::vector<Vertex> vertices) {
@@ -67,19 +79,19 @@ void Mesh::set_vertices_and_indices(std::vector<Vertex> vertices,
   this->set_indices(indices);
 }
 
-void Mesh::add_diffuse_texture(std::shared_ptr<gl::Texture> texture) {
+void Mesh::add_diffuse_texture(gl::Texture texture) {
   this->m_diffuse_textures.push_back(texture);
 }
 
-void Mesh::add_specular_texture(std::shared_ptr<gl::Texture> texture) {
+void Mesh::add_specular_texture(gl::Texture texture) {
   this->m_specular_textures.push_back(texture);
 }
 
-void Mesh::add_normal_texture(std::shared_ptr<gl::Texture> texture) {
+void Mesh::add_normal_texture(gl::Texture texture) {
   this->m_normal_textures.push_back(texture);
 }
 
-void Mesh::add_height_texture(std::shared_ptr<gl::Texture> texture) {
+void Mesh::add_height_texture(gl::Texture texture) {
   this->m_height_textures.push_back(texture);
 }
 
@@ -87,25 +99,25 @@ void Mesh::bind_textures(gl::Shader &shader) {
   unsigned int n = 0;
 
   for (unsigned int i = 0; i < m_diffuse_textures.size(); i++) {
-    m_diffuse_textures[i]->bind(n);
+    m_diffuse_textures[i].bind(n);
     shader.set("texture_diffuse" + std::to_string(i), n);
     n++;
   }
 
   for (unsigned int i = 0; i < m_specular_textures.size(); i++) {
-    m_specular_textures[i]->bind(n);
+    m_specular_textures[i].bind(n);
     shader.set("texture_specular" + std::to_string(i), n);
     n++;
   }
 
   for (unsigned int i = 0; i < m_normal_textures.size(); i++) {
-    m_normal_textures[i]->bind(n);
+    m_normal_textures[i].bind(n);
     shader.set("texture_normal" + std::to_string(i), n);
     n++;
   }
 
   for (unsigned int i = 0; i < m_height_textures.size(); i++) {
-    m_height_textures[i]->bind(n);
+    m_height_textures[i].bind(n);
     shader.set("texture_height" + std::to_string(i), n);
     n++;
   }
@@ -116,11 +128,6 @@ void Mesh::bind_textures(gl::Shader &shader) {
 void Mesh::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
                 glm::vec3 scale) {
   auto shader = graphics.get_shader();
-  if (shader == nullptr) {
-    flex::log(L_WARN, L_RENDER,
-              "Couldn't draw mesh: no shader currently bound");
-    return;
-  }
 
   auto translation = glm::translate(glm::mat4(1.0f), pos);
   auto rotation =

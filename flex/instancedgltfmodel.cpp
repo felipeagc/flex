@@ -62,12 +62,7 @@ void InstancedGltfModel::set_transforms(
 }
 
 void InstancedGltfModel::draw_instanced(GraphicsSystem &graphics) {
-  auto shader = graphics.get_shader();
-  if (shader == nullptr) {
-    flex::log(L_ERROR, L_RENDER,
-              "Couldn't draw mesh: no shader currently bound");
-    return;
-  }
+  auto shader = graphics.get_shader(flex::SHADER_INSTANCED);
 
   auto model = glm::mat4(1.0f);
   for (auto &node : m_nodes) {
@@ -113,6 +108,6 @@ void InstancedGltfModel::draw_node_instanced(GltfNode &node, glm::mat4 &model,
   }
 
   for (auto &child : node.children) {
-    draw_node(child, node_model, shader);
+    draw_node_instanced(child, node_model, shader);
   }
 }

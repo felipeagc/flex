@@ -210,16 +210,16 @@ GltfModel::~GltfModel() {
     auto &buffer = bpair.second;
     buffer.destroy();
   }
+
+  for (auto &tpair : m_textures) {
+    auto &texture = tpair.second;
+    texture.destroy();
+  }
 }
 
 void GltfModel::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
                      glm::vec3 scale) {
   auto shader = graphics.get_shader();
-  if (shader == nullptr) {
-    flex::log(L_WARN, L_RENDER,
-              "Couldn't draw mesh: no shader currently bound");
-    return;
-  }
 
   auto translation = glm::translate(glm::mat4(1.0f), pos);
   auto rotation =

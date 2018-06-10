@@ -2,13 +2,13 @@
 
 using namespace flex;
 
-InstancedMesh::InstancedMesh(
-    std::vector<Vertex> vertices, std::vector<unsigned int> indices,
-    std::vector<glm::mat4> transforms,
-    std::vector<std::shared_ptr<gl::Texture>> diffuse_textures,
-    std::vector<std::shared_ptr<gl::Texture>> specular_textures,
-    std::vector<std::shared_ptr<gl::Texture>> normal_textures,
-    std::vector<std::shared_ptr<gl::Texture>> height_textures)
+InstancedMesh::InstancedMesh(std::vector<Vertex> vertices,
+                             std::vector<unsigned int> indices,
+                             std::vector<glm::mat4> transforms,
+                             std::vector<gl::Texture> diffuse_textures,
+                             std::vector<gl::Texture> specular_textures,
+                             std::vector<gl::Texture> normal_textures,
+                             std::vector<gl::Texture> height_textures)
     : Mesh(vertices, indices, diffuse_textures, specular_textures,
            normal_textures, height_textures) {
   m_transforms = transforms;
@@ -42,9 +42,7 @@ InstancedMesh::InstancedMesh(const Mesh &mesh,
   m_va.add_buffer(m_vb_instanced, layout, true);
 }
 
-InstancedMesh::~InstancedMesh() {
-  m_vb_instanced.destroy();
-}
+InstancedMesh::~InstancedMesh() { m_vb_instanced.destroy(); }
 
 void InstancedMesh::set_transforms(const std::vector<glm::mat4> transforms) {
   m_transforms = transforms;
@@ -53,12 +51,7 @@ void InstancedMesh::set_transforms(const std::vector<glm::mat4> transforms) {
 }
 
 void InstancedMesh::draw_instanced(GraphicsSystem &graphics) {
-  auto shader = graphics.get_shader();
-  if (shader == nullptr) {
-    flex::log(L_ERROR, L_RENDER,
-              "Couldn't draw mesh: no shader currently bound");
-    return;
-  }
+  auto shader = graphics.get_shader(flex::SHADER_INSTANCED);
 
   this->bind_textures(*shader);
 

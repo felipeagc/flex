@@ -12,11 +12,10 @@ private:
   static const std::vector<unsigned int> INDICES;
 
   Mesh m_mesh{VERTICES, INDICES};
-  std::shared_ptr<gl::Texture> m_texture;
+  gl::Texture m_texture;
 
 public:
   Sprite(const std::string &path, gl::TextureFilter filter = gl::FILTER_LINEAR);
-  Sprite(std::shared_ptr<gl::Texture> texture);
   ~Sprite();
 
 protected:

@@ -12,7 +12,9 @@ Texture::Texture(TextureFilter filter) {
   GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode));
 }
 
-Texture::~Texture() { GL_CALL(glDeleteTextures(1, &m_id)); }
+Texture::~Texture() {}
+
+void Texture::destroy() { GL_CALL(glDeleteTextures(1, &m_id)); }
 
 void Texture::bind(GLuint unit) const {
   GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));

@@ -18,14 +18,13 @@ struct Vertex {
   glm::vec2 tex_coords;
 };
 
-// TODO: get rid of all these ugly shared_ptrs
 class Mesh : public Drawable {
 public:
   Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
-       std::vector<std::shared_ptr<gl::Texture>> diffuse_textures = {},
-       std::vector<std::shared_ptr<gl::Texture>> specular_textures = {},
-       std::vector<std::shared_ptr<gl::Texture>> normal_textures = {},
-       std::vector<std::shared_ptr<gl::Texture>> height_textures = {});
+       std::vector<gl::Texture> diffuse_textures = {},
+       std::vector<gl::Texture> specular_textures = {},
+       std::vector<gl::Texture> normal_textures = {},
+       std::vector<gl::Texture> height_textures = {});
 
   virtual ~Mesh();
 
@@ -34,10 +33,10 @@ public:
   void set_vertices_and_indices(std::vector<Vertex> vertices,
                                 std::vector<GLuint> indices);
 
-  void add_diffuse_texture(std::shared_ptr<gl::Texture> texture);
-  void add_specular_texture(std::shared_ptr<gl::Texture> texture);
-  void add_normal_texture(std::shared_ptr<gl::Texture> texture);
-  void add_height_texture(std::shared_ptr<gl::Texture> texture);
+  void add_diffuse_texture(gl::Texture texture);
+  void add_specular_texture(gl::Texture texture);
+  void add_normal_texture(gl::Texture texture);
+  void add_height_texture(gl::Texture texture);
 
 protected:
   void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
@@ -51,10 +50,10 @@ protected:
   gl::VertexArray m_va;
 
   std::vector<Vertex> m_vertices;
-  std::vector<GLuint> m_indices;
-  std::vector<std::shared_ptr<gl::Texture>> m_diffuse_textures;
-  std::vector<std::shared_ptr<gl::Texture>> m_specular_textures;
-  std::vector<std::shared_ptr<gl::Texture>> m_normal_textures;
-  std::vector<std::shared_ptr<gl::Texture>> m_height_textures;
+  std::vector<unsigned int> m_indices;
+  std::vector<gl::Texture> m_diffuse_textures;
+  std::vector<gl::Texture> m_specular_textures;
+  std::vector<gl::Texture> m_normal_textures;
+  std::vector<gl::Texture> m_height_textures;
 };
 } // namespace flex

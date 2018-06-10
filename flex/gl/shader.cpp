@@ -31,13 +31,11 @@ Shader::Shader(const std::string &vertex_path, const std::string &fragment_path,
     // convert stream into string
     vertex_code = vShaderStream.str();
     vertex_code =
-        vertex_code.substr(0, vertex_code.find("\n")) +
-        "\n" + defines +
+        vertex_code.substr(0, vertex_code.find("\n")) + "\n" + defines +
         vertex_code.substr(vertex_code.find("\n"), vertex_code.size());
     fragment_code = fShaderStream.str();
     fragment_code =
-        fragment_code.substr(0, fragment_code.find("\n")) +
-        "\n" + defines +
+        fragment_code.substr(0, fragment_code.find("\n")) + "\n" + defines +
         fragment_code.substr(fragment_code.find("\n"), fragment_code.size());
   } catch (std::ifstream::failure &e) {
     flex::log(L_ERROR, L_GL, "Error: Shader file not succesfully read");

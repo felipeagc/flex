@@ -13,7 +13,7 @@ namespace flex {
 class Canvas : public Drawable {
 public:
   Canvas(unsigned int width, unsigned int height);
-  ~Canvas();
+  virtual ~Canvas();
 
   void bind() const;
   void unbind() const;
@@ -33,7 +33,7 @@ private:
 
   unsigned int m_width, m_height;
 
-  std::shared_ptr<gl::Texture> m_texture{new gl::Texture{}};
+  gl::Texture m_texture;
   gl::Renderbuffer m_rb;
   gl::Framebuffer m_fb;
   Mesh m_mesh{VERTICES, INDICES, {m_texture}};

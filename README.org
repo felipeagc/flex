@@ -4,7 +4,9 @@
   - [[https://www.khronos.org/opengl/wiki/Vertex_Specification_Best_Practices][Khronos Group: Vertex Specification Best Practices]]
   - [[https://www.youtube.com/watch?v=cWo-sghCp8Y][glTF loading tutorial on youtube]]
 ** TO-DOs
-*** TODO Add shader compilation options and pass those as #defines to the shaders
+*** TODO Make demo scene switching system
+*** TODO Add destroy() method to all GL objects
+*** TODO Start to work on lighting
 *** TODO Make EventHandler class and make App a subclass of that
 *** TODO Add Camera2D
 *** TODO Statically link the libraries:

@@ -12,6 +12,8 @@ public:
   Texture(TextureFilter filter = FILTER_LINEAR);
   ~Texture();
 
+  void destroy();
+
   void bind(GLuint unit = 0) const;
   static void unbind(GLuint unit = 0);
 

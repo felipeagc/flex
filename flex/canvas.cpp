@@ -19,7 +19,7 @@ Canvas::Canvas(unsigned int width, unsigned int height)
   m_fb.bind();
 
   // Get the texture ready
-  m_texture->bind();
+  m_texture.bind();
 
   GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
                        GL_UNSIGNED_BYTE, NULL));
@@ -35,12 +35,12 @@ Canvas::Canvas(unsigned int width, unsigned int height)
 
   // Link them to the framebuffer
   GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                 GL_TEXTURE_2D, m_texture->get_id(), 0));
+                                 GL_TEXTURE_2D, m_texture.get_id(), 0));
   GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
                                     GL_RENDERBUFFER, m_rb.get_id()));
 
   m_rb.unbind();
-  m_texture->unbind();
+  m_texture.unbind();
 
   if (!gl::Framebuffer::is_complete()) {
     flex::log(L_ERROR, L_RENDER, "Framebuffer is not complete!");
@@ -49,7 +49,9 @@ Canvas::Canvas(unsigned int width, unsigned int height)
   m_fb.unbind();
 }
 
-Canvas::~Canvas() {}
+Canvas::~Canvas() {
+  m_texture.destroy();
+}
 
 void Canvas::bind() const { m_fb.bind(); }
 

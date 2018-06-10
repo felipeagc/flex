@@ -53,6 +53,7 @@ Window::Window(const std::string &title, int width, int height) {
   flex::log(L_DEBUG, L_GL, "GL context initialized successfully");
 
   GL_CALL(glEnable(GL_DEPTH_TEST));
+  GL_CALL(glEnable(GL_CULL_FACE));
   GL_CALL(glViewport(0, 0, width, height));
 
   SDL_GL_SetSwapInterval(0);

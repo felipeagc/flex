@@ -15,19 +15,16 @@ const std::vector<unsigned int> Sprite::INDICES{
 };
 
 Sprite::Sprite(const std::string &path, gl::TextureFilter filter) {
-  m_texture = std::make_shared<gl::Texture>(filter);
-  m_texture->load_from_file(path);
+  m_texture.load_from_file(path);
+  m_texture.set_min_filter(filter);
+  m_texture.set_mag_filter(filter);
 
   m_mesh.add_diffuse_texture(m_texture);
 }
 
-Sprite::Sprite(std::shared_ptr<gl::Texture> texture) {
-  m_texture = texture;
-
-  m_mesh.add_diffuse_texture(m_texture);
+Sprite::~Sprite() {
+  m_texture.destroy();
 }
-
-Sprite::~Sprite() {}
 
 void Sprite::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
                   glm::vec3 scale) {
