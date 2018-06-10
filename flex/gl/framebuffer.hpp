@@ -7,7 +7,9 @@ namespace gl {
 class Framebuffer {
 public:
   Framebuffer();
-  ~Framebuffer();
+  virtual ~Framebuffer();
+
+  void destroy();
 
   void bind() const;
   void unbind() const;

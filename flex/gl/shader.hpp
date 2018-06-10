@@ -16,7 +16,7 @@ class Shader {
 public:
   Shader(const std::string &vertex_path, const std::string &fragment_path,
          std::map<std::string, std::string> options = {});
-  ~Shader();
+  virtual ~Shader();
 
   void use() const;
 

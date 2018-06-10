@@ -51,6 +51,8 @@ Canvas::Canvas(unsigned int width, unsigned int height)
 
 Canvas::~Canvas() {
   m_texture.destroy();
+  m_fb.destroy();
+  m_rb.destroy();
 }
 
 void Canvas::bind() const { m_fb.bind(); }

@@ -4,7 +4,9 @@ using namespace flex::gl;
 
 Framebuffer::Framebuffer() { GL_CALL(glGenFramebuffers(1, &m_id)); }
 
-Framebuffer::~Framebuffer() { GL_CALL(glDeleteFramebuffers(1, &m_id)); }
+Framebuffer::~Framebuffer() {}
+
+void Framebuffer::destroy() { GL_CALL(glDeleteFramebuffers(1, &m_id)); }
 
 void Framebuffer::bind() const {
   GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, m_id));

@@ -7,7 +7,9 @@ namespace gl {
 class Renderbuffer {
 public:
   Renderbuffer();
-  ~Renderbuffer();
+  virtual ~Renderbuffer();
+
+  void destroy();
 
   void bind() const;
   void unbind() const;
