@@ -7,6 +7,7 @@ namespace flex {
 namespace gl {
 
 struct VertexElement {
+  unsigned int position;
   GLuint type;
   unsigned int count;
   bool normalized;
@@ -29,18 +30,18 @@ public:
   VertexBufferLayout() : m_stride(0){};
   ~VertexBufferLayout(){};
 
-  void push_float(unsigned int count) {
-    m_elements.push_back({GL_FLOAT, count, false});
+  void push_float(unsigned int count, unsigned int position) {
+    m_elements.push_back({position, GL_FLOAT, count, false});
     m_stride += VertexElement::get_size_of_type(GL_FLOAT) * count;
   }
 
-  void push_uint(unsigned int count) {
-    m_elements.push_back({GL_UNSIGNED_INT, count, false});
+  void push_uint(unsigned int count, unsigned int position) {
+    m_elements.push_back({position, GL_UNSIGNED_INT, count, false});
     m_stride += VertexElement::get_size_of_type(GL_UNSIGNED_INT) * count;
   }
 
-  void push_ubyte(unsigned int count) {
-    m_elements.push_back({GL_UNSIGNED_BYTE, count, false});
+  void push_ubyte(unsigned int count, unsigned int position) {
+    m_elements.push_back({position, GL_UNSIGNED_BYTE, count, false});
     m_stride += VertexElement::get_size_of_type(GL_UNSIGNED_BYTE) * count;
   }
 

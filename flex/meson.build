@@ -7,15 +7,13 @@ flex_sources = [
 
   'sprite.cpp',
   'mesh.cpp',
-  'model.cpp',
   'instancedmesh.cpp',
-  'instancedmodel.cpp',
+  'gltfmodel.cpp',
+  'instancedgltfmodel.cpp',
   'camera.cpp',
   'canvas.cpp',
 
   'gl/buffer.cpp',
-  'gl/vertex_buffer.cpp',
-  'gl/index_buffer.cpp',
   'gl/vertex_array.cpp',
   'gl/texture.cpp',
   'gl/framebuffer.cpp',

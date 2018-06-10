@@ -4,16 +4,24 @@
 
 namespace flex {
 namespace gl {
+enum BindTarget {
+  ARRAY_BUFFER = GL_ARRAY_BUFFER,
+  ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
+};
+
 class Buffer {
 public:
   Buffer();
-  virtual ~Buffer();
+  ~Buffer();
 
-  virtual void buffer(const void *data, const GLuint size) = 0;
-  virtual void buffer_sub_data(const void *data, const GLuint size, const GLintptr offset) = 0;
+  void buffer(BindTarget target, const void *data, const GLuint size);
+  void buffer_sub_data(BindTarget target, const void *data, const GLuint size,
+                       const GLintptr offset);
 
-  virtual void bind() const = 0;
-  static void unbind();
+  void bind(BindTarget target) const;
+  static void unbind(BindTarget target);
+
+  void destroy();
 
 protected:
   GLuint m_buffer;

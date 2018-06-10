@@ -3,10 +3,10 @@
 using namespace flex;
 
 const std::vector<Vertex> Canvas::VERTICES = {
-    {{1.0f, 1.0f, .0f}, {}, {1.0, 1.0, 1.0}, {1.0, 1.0}},   // top right
-    {{1.0f, -1.0f, .0f}, {}, {1.0, 1.0, 1.0}, {1.0, 0.0}},  // bottom right
-    {{-1.0f, -1.0f, .0f}, {}, {1.0, 1.0, 1.0}, {0.0, 0.0}}, // bottom left
-    {{-1.0f, 1.0f, .0f}, {}, {1.0, 1.0, 1.0}, {0.0, 1.0}},  // top left
+    {{1.0f, 1.0f, .0f}, {}, {1.0, 1.0}},   // top right
+    {{1.0f, -1.0f, .0f}, {}, {1.0, 0.0}},  // bottom right
+    {{-1.0f, -1.0f, .0f}, {}, {0.0, 0.0}}, // bottom left
+    {{-1.0f, 1.0f, .0f}, {}, {0.0, 1.0}},  // top left
 };
 
 const std::vector<unsigned int> Canvas::INDICES{

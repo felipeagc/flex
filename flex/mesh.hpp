@@ -1,11 +1,10 @@
 #pragma once
 
 #include "drawable.hpp"
-#include "gl/index_buffer.hpp"
+#include "gl/buffer.hpp"
 #include "gl/shader.hpp"
 #include "gl/texture.hpp"
 #include "gl/vertex_array.hpp"
-#include "gl/vertex_buffer.hpp"
 #include "gl/vertex_buffer_layout.hpp"
 #include "graphics.hpp"
 #include <glm/glm.hpp>
@@ -16,10 +15,10 @@ namespace flex {
 struct Vertex {
   glm::vec3 pos;
   glm::vec3 normal;
-  glm::vec3 color;
   glm::vec2 tex_coords;
 };
 
+// TODO: get rid of all these ugly shared_ptrs
 class Mesh : public Drawable {
 public:
   Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
@@ -28,7 +27,7 @@ public:
        std::vector<std::shared_ptr<gl::Texture>> normal_textures = {},
        std::vector<std::shared_ptr<gl::Texture>> height_textures = {});
 
-  ~Mesh();
+  virtual ~Mesh();
 
   void set_vertices(std::vector<Vertex> vertices);
   void set_indices(std::vector<GLuint> indices);
@@ -40,8 +39,6 @@ public:
   void add_normal_texture(std::shared_ptr<gl::Texture> texture);
   void add_height_texture(std::shared_ptr<gl::Texture> texture);
 
-  void set_texture_filter(gl::TextureFilter filter);
-
 protected:
   void draw(GraphicsSystem &graphics, glm::vec3 pos = glm::vec3(0.0),
             glm::vec3 rot = glm::vec3(0.0),
@@ -49,9 +46,9 @@ protected:
 
   void bind_textures(gl::Shader &shader);
 
-  std::shared_ptr<gl::VertexBuffer> m_vb = std::make_shared<gl::VertexBuffer>();
-  std::shared_ptr<gl::IndexBuffer> m_ib = std::make_shared<gl::IndexBuffer>();
-  std::shared_ptr<gl::VertexArray> m_va = std::make_shared<gl::VertexArray>();
+  gl::Buffer m_vb;
+  gl::Buffer m_ib;
+  gl::VertexArray m_va;
 
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;

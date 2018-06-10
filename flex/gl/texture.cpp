@@ -1,7 +1,5 @@
 #include "texture.hpp"
-#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#undef STB_IMAGE_IMPLEMENTATION
 
 using namespace flex::gl;
 
@@ -65,9 +63,9 @@ void Texture::load_from_file(const std::string &path) {
 }
 
 void Texture::load_from_data(void *data, unsigned int width,
-                             unsigned int height) {
+                             unsigned int height, GLenum format) {
   this->bind();
-  GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+  GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
                        GL_UNSIGNED_BYTE, data));
 
   GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
@@ -78,9 +76,12 @@ void Texture::load_from_data(void *data, unsigned int width,
   flex::log(L_DEBUG, L_IMPORT, "Texture loaded from data");
 }
 
-void Texture::set_filter(TextureFilter filter) {
+void Texture::set_min_filter(TextureFilter filter) {
   this->bind();
-  auto mode = filter == FILTER_LINEAR ? GL_LINEAR : GL_NEAREST;
-  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mode));
-  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode));
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter));
+}
+
+void Texture::set_mag_filter(TextureFilter filter) {
+  this->bind();
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter));
 }
