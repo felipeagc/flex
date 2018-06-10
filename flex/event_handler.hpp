@@ -2,18 +2,14 @@
 
 #include "engine.hpp"
 #include "input/input.hpp"
-#include <memory>
 
 namespace flex {
-class Window;
-class Engine;
-
-class App {
-
+class EventHandler {
 public:
-  App(Engine &engine);
-
-  virtual ~App(){};
+  EventHandler(Engine &engine)
+      : engine(engine), window(engine.get_window()), audio(engine.get_audio()),
+        graphics(engine.get_graphics()){};
+  virtual ~EventHandler(){};
 
   virtual void load(){};
   virtual void update(float delta){};

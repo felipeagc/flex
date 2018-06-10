@@ -1,5 +1,5 @@
 #include "window.hpp"
-#include "app.hpp"
+#include "event_handler.hpp"
 #include "gl/gl.hpp"
 #include "input/input.hpp"
 
@@ -53,7 +53,6 @@ Window::Window(const std::string &title, int width, int height) {
   flex::log(L_DEBUG, L_GL, "GL context initialized successfully");
 
   GL_CALL(glEnable(GL_DEPTH_TEST));
-  GL_CALL(glEnable(GL_CULL_FACE));
   GL_CALL(glViewport(0, 0, width, height));
 
   SDL_GL_SetSwapInterval(0);
@@ -75,7 +74,7 @@ Window::~Window() {
   SDL_Quit();
 }
 
-void Window::update(App &app) {
+void Window::update(EventHandler &event_handler) {
   SDL_Event e;
   gl::clear_color(0.2f, 0.3f, 0.3f, 1.0f);
   gl::clear_buffers();
@@ -88,22 +87,22 @@ void Window::update(App &app) {
       this->m_should_quit = true;
       break;
     case SDL_KEYUP:
-      app.key_up(e.key.keysym.sym, e.key.repeat);
+      event_handler.key_up(e.key.keysym.sym, e.key.repeat);
       break;
     case SDL_KEYDOWN:
-      app.key_down(e.key.keysym.sym, e.key.repeat);
+      event_handler.key_down(e.key.keysym.sym, e.key.repeat);
       break;
     case SDL_MOUSEBUTTONDOWN:
-      app.button_down(e.button.button, e.button.x, e.button.y);
+      event_handler.button_down(e.button.button, e.button.x, e.button.y);
       break;
     case SDL_MOUSEBUTTONUP:
-      app.button_up(e.button.button, e.button.x, e.button.y);
+      event_handler.button_up(e.button.button, e.button.x, e.button.y);
       break;
     case SDL_WINDOWEVENT:
       switch (e.window.event) {
       case SDL_WINDOWEVENT_RESIZED:
         GL_CALL(glViewport(0, 0, e.window.data1, e.window.data2));
-        app.resized(e.window.data1, e.window.data2);
+        event_handler.resized(e.window.data1, e.window.data2);
         break;
       }
       break;
@@ -114,7 +113,7 @@ void Window::update(App &app) {
 
   float now = (float)SDL_GetTicks() / 1000.0;
 
-  app.update(now - m_last_time);
+  event_handler.update(now - m_last_time);
 
   ImGui::Render();
   ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
@@ -124,14 +123,14 @@ void Window::update(App &app) {
   SDL_GL_SwapWindow(m_window);
 }
 
-void Window::run(App &app) {
-  app.load();
+void Window::run(EventHandler &event_handler) {
+  event_handler.load();
 
   while (!should_quit()) {
-    update(app);
+    update(event_handler);
   }
 
-  app.quit();
+  event_handler.quit();
 
   flex::log(L_DEBUG, L_WINDOW, "Quitting...");
 }

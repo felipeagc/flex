@@ -28,7 +28,7 @@ std::vector<glm::mat4> make_transforms(float time = 0) {
   return transforms;
 }
 
-class MyApp : public flex::App {
+class MyApp : public flex::EventHandler {
 private:
   std::vector<flex::Vertex> vertices{
       {{.5f, .5f, .0f}, {1.0, 1.0, 1.0}, {1.0, 1.0}},   // top right
@@ -61,7 +61,8 @@ private:
   double elapsed_time = 0;
 
 public:
-  using flex::App::App;
+  // Inherit constructor
+  using flex::EventHandler::EventHandler;
 
   void load() { window.set_relative_mouse(true); }
 
@@ -144,7 +145,7 @@ public:
 };
 
 int main() {
-  flex::Engine engine("Half-Life 3", 800, 600);
+  flex::Engine engine{"Half-Life 3", 800, 600};
   MyApp app{engine};
 
   engine.get_window().run(app);

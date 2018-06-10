@@ -6,7 +6,7 @@
 #include <string>
 
 namespace flex {
-class App;
+class EventHandler;
 
 class Window {
 private:
@@ -16,13 +16,13 @@ private:
 
   float m_last_time = 0.0;
 
-  void update(App &app);
+  void update(EventHandler &event_handler);
 
 public:
   Window(const std::string &title, int width, int height);
   ~Window();
 
-  void run(App &app);
+  void run(EventHandler &event_handler);
   bool should_quit() const;
 
   int get_width() const;
