@@ -43,10 +43,10 @@ private:
   };
 
   flex::gl::Shader shader{flex::path("shaders/simple.vert"),
-                                    flex::path("shaders/simple.frag")};
+                          flex::path("shaders/simple.frag")};
   flex::gl::Shader shader_instanced{flex::path("shaders/simple.vert"),
-                                              flex::path("shaders/simple.frag"),
-                                              {{"INSTANCED", "true"}}};
+                                    flex::path("shaders/simple.frag"),
+                                    {{"INSTANCED", "true"}}};
 
   flex::Mesh mesh{vertices, indices};
   // flex::InstancedModel cube{flex::path("models/cube.obj"),
@@ -118,9 +118,7 @@ public:
     model.set_transforms(make_transforms(elapsed_time));
 
     // Drawing stuff
-    {
-      model.draw_instanced(shader_instanced);
-    }
+    { model.draw_instanced(shader_instanced); }
 
     {
       mesh.draw(shader);
