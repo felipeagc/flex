@@ -13,14 +13,15 @@ glm::vec3 lerp(glm::vec3 v1, glm::vec3 v2, float t) {
 std::vector<glm::mat4> make_transforms(float time = 0) {
   std::vector<glm::mat4> transforms;
   float size = 15.0;
-  int amount = 30;
+  int amount = 10;
   for (int x = -amount / 2; x < amount / 2; x++) {
     for (int y = -amount / 2; y < amount / 2; y++) {
       for (int z = -amount / 2; z < amount / 2; z++) {
         auto pos = glm::vec3(
             x * size, (y * size) + sin((time + x + z) * 2.0) * 2.0, z * size);
         auto translation = glm::translate(glm::mat4(1.0f), pos);
-        transforms.push_back(translation);
+        auto scale = glm::scale(translation, glm::vec3(100.0));
+        transforms.push_back(scale);
       }
     }
   }
@@ -30,22 +31,10 @@ std::vector<glm::mat4> make_transforms(float time = 0) {
 class MyApp : public flex::App {
 private:
   std::vector<flex::Vertex> vertices{
-      {{.5f, .5f, .0f},
-       {1.0, 1.0, 1.0},
-       {1.0, 1.0, 1.0},
-       {1.0, 1.0}}, // top right
-      {{.5f, -.5f, .0f},
-       {1.0, 1.0, 1.0},
-       {0.0, 0.0, 0.0},
-       {1.0, 0.0}}, // bottom right
-      {{-.5f, -.5f, .0f},
-       {1.0, 1.0, 1.0},
-       {1.0, 0.0, 0.0},
-       {0.0, 0.0}}, // bottom left
-      {{-.5f, .5f, .0f},
-       {1.0, 1.0, 1.0},
-       {0.0, 0.0, 1.0},
-       {0.0, 1.0}}, // top left
+      {{.5f, .5f, .0f}, {1.0, 1.0, 1.0}, {1.0, 1.0}},   // top right
+      {{.5f, -.5f, .0f}, {1.0, 1.0, 1.0}, {1.0, 0.0}},  // bottom right
+      {{-.5f, -.5f, .0f}, {1.0, 1.0, 1.0}, {0.0, 0.0}}, // bottom left
+      {{-.5f, .5f, .0f}, {1.0, 1.0, 1.0}, {0.0, 1.0}},  // top left
   };
 
   std::vector<unsigned int> indices{
@@ -60,7 +49,10 @@ private:
       flex::path("shaders/simple.frag")};
 
   flex::Mesh mesh{vertices, indices};
-  flex::InstancedModel cube{flex::path("models/cube.obj"), make_transforms()};
+  // flex::InstancedModel cube{flex::path("models/cube.obj"),
+  // make_transforms()};
+  flex::InstancedGltfModel model{flex::path("models/boombox.glb"),
+                                 make_transforms()};
 
   flex::Audio shot{flex::path("audio/shotgun.wav")};
 
@@ -77,17 +69,13 @@ private:
 public:
   using flex::App::App;
 
-  void load() {
-    window.set_relative_mouse(true);
-
-    cube.set_texture_filter(flex::gl::FILTER_NEAREST);
-  }
+  void load() { window.set_relative_mouse(true); }
 
   void quit() { flex::log("Quit"); }
 
   void camera_movement(float delta) {
     glm::vec3 movement{0.0};
-    float velocity = delta * 30.0f;
+    float velocity = delta * 10.0f;
 
     if (window.is_key_pressed(FLEX_SCANCODE_W)) {
       movement += camera.get_front() * velocity;
@@ -125,17 +113,19 @@ public:
     camera.set_uniforms(m_shader);
     camera.set_uniforms(m_shader_instanced);
 
-    cube.set_transforms(make_transforms(elapsed_time));
+    model.set_transforms(make_transforms(elapsed_time));
 
     // Drawing stuff
     {
       graphics.use_shader(m_shader_instanced);
-      graphics.draw_instanced(cube);
+      graphics.draw_instanced(model);
     }
 
     {
       graphics.use_shader(m_shader);
 
+      // graphics.draw(model, {2.0, 0.0, 0.0}, {}, {50.0, 50.0, 50.0});
+      // graphics.draw(model, {2.0, 0.0, 0.0});
       graphics.draw(mesh);
       graphics.draw(sprite, {-2.0, 0.0, 0.0});
     }

@@ -61,7 +61,7 @@ glm::vec3 Camera3D::get_right() const { return m_right; }
 
 void Camera3D::update_projection(int width, int height) {
   m_projection = glm::perspective(glm::radians(m_fov),
-                                  (float)width / (float)height, 0.1f, 1000.0f);
+                                  (float)width / (float)height, m_near, m_far);
 }
 
 void Camera3D::update_directions() {

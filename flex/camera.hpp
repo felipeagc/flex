@@ -44,6 +44,9 @@ private:
   float m_pitch;
   float m_fov;
 
+  float m_near = 0.01f;
+  float m_far = 300.0f;
+
   void update_projection(int width, int height);
   void update_directions();
 };

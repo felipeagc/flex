@@ -14,7 +14,7 @@ public:
       std::vector<std::shared_ptr<gl::Texture>> normal_textures = {},
       std::vector<std::shared_ptr<gl::Texture>> height_textures = {});
   InstancedMesh(const Mesh &mesh, std::vector<glm::mat4> transforms);
-  ~InstancedMesh();
+  virtual ~InstancedMesh();
 
   void set_transforms(const std::vector<glm::mat4> transforms);
 
@@ -22,8 +22,7 @@ protected:
   void draw_instanced(GraphicsSystem &graphics) override;
 
 private:
-  std::shared_ptr<gl::VertexBuffer> m_vb_instanced =
-      std::make_shared<gl::VertexBuffer>();
+  gl::Buffer m_vb_instanced;
   std::vector<glm::mat4> m_transforms;
 };
 } // namespace flex

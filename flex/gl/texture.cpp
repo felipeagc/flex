@@ -1,5 +1,4 @@
 #include "texture.hpp"
-#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 using namespace flex::gl;
@@ -63,9 +62,26 @@ void Texture::load_from_file(const std::string &path) {
   }
 }
 
-void Texture::set_filter(TextureFilter filter) {
+void Texture::load_from_data(void *data, unsigned int width,
+                             unsigned int height, GLenum format) {
   this->bind();
-  auto mode = filter == FILTER_LINEAR ? GL_LINEAR : GL_NEAREST;
-  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mode));
-  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode));
+  GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
+                       GL_UNSIGNED_BYTE, data));
+
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+
+  GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
+
+  flex::log(L_DEBUG, L_IMPORT, "Texture loaded from data");
+}
+
+void Texture::set_min_filter(TextureFilter filter) {
+  this->bind();
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter));
+}
+
+void Texture::set_mag_filter(TextureFilter filter) {
+  this->bind();
+  GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter));
 }

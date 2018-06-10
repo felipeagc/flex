@@ -12,40 +12,44 @@ InstancedMesh::InstancedMesh(
     : Mesh(vertices, indices, diffuse_textures, specular_textures,
            normal_textures, height_textures) {
   m_transforms = transforms;
-  m_vb_instanced->buffer(transforms.data(),
-                         transforms.size() * sizeof(glm::mat4));
+  m_vb_instanced.buffer(gl::ARRAY_BUFFER, transforms.data(),
+                        transforms.size() * sizeof(glm::mat4));
 
   flex::gl::VertexBufferLayout layout;
-  layout.push_float(4); // vec4
-  layout.push_float(4); // vec4
-  layout.push_float(4); // vec4
-  layout.push_float(4); // vec4
+  int pos = 3;
+  layout.push_float(4, pos++); // vec4
+  layout.push_float(4, pos++); // vec4
+  layout.push_float(4, pos++); // vec4
+  layout.push_float(4, pos++); // vec4
 
-  m_va->add_buffer(*m_vb_instanced, layout, true);
+  m_va.add_buffer(m_vb_instanced, layout, true);
 }
 
 InstancedMesh::InstancedMesh(const Mesh &mesh,
                              std::vector<glm::mat4> transforms)
     : Mesh(mesh) {
   m_transforms = transforms;
-  m_vb_instanced->buffer(transforms.data(),
-                         transforms.size() * sizeof(glm::mat4));
+  m_vb_instanced.buffer(gl::ARRAY_BUFFER, transforms.data(),
+                        transforms.size() * sizeof(glm::mat4));
 
   flex::gl::VertexBufferLayout layout;
-  layout.push_float(4); // vec4
-  layout.push_float(4); // vec4
-  layout.push_float(4); // vec4
-  layout.push_float(4); // vec4
+  int pos = 3;
+  layout.push_float(4, pos++); // vec4
+  layout.push_float(4, pos++); // vec4
+  layout.push_float(4, pos++); // vec4
+  layout.push_float(4, pos++); // vec4
 
-  m_va->add_buffer(*m_vb_instanced, layout, true);
+  m_va.add_buffer(m_vb_instanced, layout, true);
 }
 
-InstancedMesh::~InstancedMesh() {}
+InstancedMesh::~InstancedMesh() {
+  m_vb_instanced.destroy();
+}
 
 void InstancedMesh::set_transforms(const std::vector<glm::mat4> transforms) {
   m_transforms = transforms;
-  m_vb_instanced->buffer(transforms.data(),
-                         transforms.size() * sizeof(glm::mat4));
+  m_vb_instanced.buffer(gl::ARRAY_BUFFER, transforms.data(),
+                        transforms.size() * sizeof(glm::mat4));
 }
 
 void InstancedMesh::draw_instanced(GraphicsSystem &graphics) {
@@ -58,7 +62,9 @@ void InstancedMesh::draw_instanced(GraphicsSystem &graphics) {
 
   this->bind_textures(*shader);
 
-  m_va->bind();
-  m_ib->bind();
+  shader->set("model", glm::mat4(1.0f));
+
+  m_va.bind();
+  m_ib.bind(gl::ELEMENT_ARRAY_BUFFER);
   gl::draw_elements_instanced(m_indices.size(), m_transforms.size());
 }

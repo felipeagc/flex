@@ -7,15 +7,13 @@ flex_sources = [
 
   'sprite.cpp',
   'mesh.cpp',
-  'model.cpp',
   'instancedmesh.cpp',
-  'instancedmodel.cpp',
+  'gltfmodel.cpp',
+  'instancedgltfmodel.cpp',
   'camera.cpp',
   'canvas.cpp',
 
   'gl/buffer.cpp',
-  'gl/vertex_buffer.cpp',
-  'gl/index_buffer.cpp',
   'gl/vertex_array.cpp',
   'gl/texture.cpp',
   'gl/framebuffer.cpp',
@@ -34,6 +32,7 @@ flex_deps = [
   dependency('stb_image', fallback: ['stb_image', 'stb_image_dep']),
   dependency('soloud', fallback: ['soloud', 'soloud_dep']),
   dependency('imgui', fallback: ['imgui', 'imgui_dep']),
+  dependency('tinygltf', fallback: ['tinygltf', 'tinygltf_dep']),
 ]
 
 conf_data = configuration_data()

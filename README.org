@@ -4,8 +4,9 @@
   - [[https://www.khronos.org/opengl/wiki/Vertex_Specification_Best_Practices][Khronos Group: Vertex Specification Best Practices]]
   - [[https://www.youtube.com/watch?v=cWo-sghCp8Y][glTF loading tutorial on youtube]]
 ** TO-DOs
+*** TODO Add shader compilation options and pass those as #defines to the shaders
+*** TODO Make EventHandler class and make App a subclass of that
 *** TODO Add Camera2D
-*** TODO Add glTF support with embedded textures
 *** TODO Statically link the libraries:
     - glm
     - libepoxy
@@ -13,4 +14,3 @@
 *** TODO Optimize camera to do less updating
 *** TODO Canvas drawing
 *** TODO Multipass rendering
-*** TODO Use different VBOs for each vertex attribute

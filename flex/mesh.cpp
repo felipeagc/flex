@@ -17,27 +17,33 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
       m_diffuse_textures(diffuse_textures),
       m_specular_textures(specular_textures),
       m_normal_textures(normal_textures), m_height_textures(height_textures) {
-  m_vb->buffer(&vertices.data()[0], sizeof(Vertex) * vertices.size());
+  m_vb.buffer(gl::ARRAY_BUFFER, &vertices.data()[0],
+              sizeof(Vertex) * vertices.size());
 
-  flex::gl::VertexBufferLayout layout;
-  layout.push_float(3); // position
-  layout.push_float(3); // normal
-  layout.push_float(3); // color
-  layout.push_float(2); // tex_coords
+  gl::VertexBufferLayout layout;
+  layout.push_float(3, 0); // position
+  layout.push_float(3, 1); // normal
+  layout.push_float(2, 2); // tex_coords
 
-  m_ib->buffer(&indices.data()[0], sizeof(GLuint) * indices.size());
+  m_ib.buffer(gl::ELEMENT_ARRAY_BUFFER, &indices.data()[0],
+              sizeof(GLuint) * indices.size());
 
-  m_va->add_buffer(*m_vb, layout);
+  m_va.add_buffer(m_vb, layout);
 }
 
-Mesh::~Mesh() {}
+Mesh::~Mesh() {
+  m_va.destroy();
+  m_vb.destroy();
+  m_ib.destroy();
+}
 
 void Mesh::set_vertices(std::vector<Vertex> vertices) {
   if (vertices.size() == m_vertices.size()) {
-    m_vb->buffer_sub_data(&vertices.data()[0], sizeof(Vertex) * vertices.size(),
-                          0);
+    m_vb.buffer_sub_data(gl::ARRAY_BUFFER, &vertices.data()[0],
+                         sizeof(Vertex) * vertices.size(), 0);
   } else {
-    m_vb->buffer(&vertices.data()[0], sizeof(Vertex) * vertices.size());
+    m_vb.buffer(gl::ARRAY_BUFFER, &vertices.data()[0],
+                sizeof(Vertex) * vertices.size());
   }
 
   m_vertices = vertices;
@@ -45,10 +51,11 @@ void Mesh::set_vertices(std::vector<Vertex> vertices) {
 
 void Mesh::set_indices(std::vector<GLuint> indices) {
   if (indices.size() == m_indices.size()) {
-    m_ib->buffer_sub_data(&indices.data()[0], sizeof(GLuint) * indices.size(),
-                          0);
+    m_ib.buffer_sub_data(gl::ELEMENT_ARRAY_BUFFER, &indices.data()[0],
+                         sizeof(GLuint) * indices.size(), 0);
   } else {
-    m_ib->buffer(&indices.data()[0], sizeof(GLuint) * indices.size());
+    m_ib.buffer(gl::ELEMENT_ARRAY_BUFFER, &indices.data()[0],
+                sizeof(GLuint) * indices.size());
   }
 
   m_indices = indices;
@@ -74,21 +81,6 @@ void Mesh::add_normal_texture(std::shared_ptr<gl::Texture> texture) {
 
 void Mesh::add_height_texture(std::shared_ptr<gl::Texture> texture) {
   this->m_height_textures.push_back(texture);
-}
-
-void Mesh::set_texture_filter(gl::TextureFilter filter) {
-  for (auto &tex : m_diffuse_textures) {
-    tex->set_filter(filter);
-  }
-  for (auto &tex : m_specular_textures) {
-    tex->set_filter(filter);
-  }
-  for (auto &tex : m_normal_textures) {
-    tex->set_filter(filter);
-  }
-  for (auto &tex : m_height_textures) {
-    tex->set_filter(filter);
-  }
 }
 
 void Mesh::bind_textures(gl::Shader &shader) {
@@ -143,7 +135,7 @@ void Mesh::draw(GraphicsSystem &graphics, glm::vec3 pos, glm::vec3 rot,
 
   this->bind_textures(*shader);
 
-  m_va->bind();
-  m_ib->bind();
+  m_va.bind();
+  m_ib.bind(gl::ELEMENT_ARRAY_BUFFER);
   gl::draw_elements(m_indices.size());
 }
