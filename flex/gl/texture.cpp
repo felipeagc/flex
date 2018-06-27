@@ -28,10 +28,11 @@ void Texture::unbind(GLuint unit) {
 
 GLuint Texture::get_id() const { return m_id; }
 
-void Texture::load_from_file(const std::string &path) {
+void Texture::load_from_file(const char *path) {
   int n_components;
+  stbi_set_flip_vertically_on_load(true);
   unsigned char *data =
-      stbi_load(path.c_str(), &m_width, &m_height, &n_components, 0);
+      stbi_load(path, &m_width, &m_height, &n_components, 0);
   if (data) {
     GLenum format = GL_RGB;
     if (n_components == 1)
@@ -51,13 +52,14 @@ void Texture::load_from_file(const std::string &path) {
 
     GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 
-    flex::log(L_DEBUG, L_IMPORT, "Texture loaded: " + path);
+    flex::log(L_DEBUG, L_IMPORT, "Texture loaded: %s", path);
 
     stbi_image_free(data);
   } else {
-    flex::log(L_ERROR, L_IMPORT, "Texture failed to load at path: " + path);
+    flex::log(L_ERROR, L_IMPORT, "Texture failed to load at path: %s", path);
     stbi_image_free(data);
   }
+  stbi_set_flip_vertically_on_load(false);
 }
 
 void Texture::load_from_data(void *data, unsigned int width,

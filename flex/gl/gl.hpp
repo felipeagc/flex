@@ -21,9 +21,7 @@ static inline void clear_error() {
 static inline bool log_call(const char *function, const char *file,
                             const int line) {
   while (GLenum error = glGetError()) {
-    flex::log(L_ERROR, L_GL,
-              "Error (" + std::to_string(error) + "): " + function + " in " +
-                  file + " at line " + std::to_string(line));
+    flex::log(L_ERROR, L_GL, "Error (%s): %s in %s at line %d", error, function, file, line);
     return false;
   }
   return true;

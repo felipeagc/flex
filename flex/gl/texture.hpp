@@ -19,7 +19,7 @@ public:
 
   GLuint get_id() const;
 
-  void load_from_file(const std::string &path);
+  void load_from_file(const char* path);
   void load_from_data(void *data, unsigned int width, unsigned height,
                       GLenum format);
 

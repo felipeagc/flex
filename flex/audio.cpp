@@ -4,7 +4,7 @@ using namespace flex;
 
 Audio::Audio(const std::string &path) {
   m_wav.load(path.c_str());
-  flex::log(L_DEBUG, L_AUDIO, "Loaded audio file: " + path);
+  flex::log(L_DEBUG, L_AUDIO, "Loaded audio file: '%s'", path.c_str());
 }
 
 Audio::~Audio() {}

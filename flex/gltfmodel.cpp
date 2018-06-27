@@ -75,12 +75,12 @@ GltfModel::GltfModel(const std::string &path) {
   }
 
   if (!err.empty()) {
-    flex::log(L_ERROR, L_IMPORT, err);
+    flex::log(L_ERROR, L_IMPORT, err.c_str());
     return;
   }
 
   if (!ret) {
-    flex::log(L_ERROR, L_IMPORT, "Failed to parse glTF: '" + path + "'");
+    flex::log(L_ERROR, L_IMPORT, "Failed to parse glTF: '%s'", path.c_str());
     return;
   }
 

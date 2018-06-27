@@ -6,7 +6,7 @@
 #include "gl/shader.hpp"
 #include "gl/texture.hpp"
 #include "mesh.hpp"
-#include <memory>
+#include "window.hpp"
 
 namespace flex {
 class Canvas : public Drawable {
@@ -15,7 +15,9 @@ public:
   virtual ~Canvas();
 
   void bind() const;
-  void unbind() const;
+  void unbind(Window &window) const;
+
+  void resize(unsigned int width, unsigned int height);
 
   unsigned int get_width() const;
   unsigned int get_height() const;
@@ -27,6 +29,8 @@ public:
 private:
   static const std::vector<Vertex> VERTICES;
   static const std::vector<unsigned int> INDICES;
+
+  void create();
 
   unsigned int m_width, m_height;
 

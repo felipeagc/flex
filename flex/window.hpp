@@ -1,9 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <imgui.h>
-#include <imgui_impl_sdl_gl3.h>
-#include <string>
+#include <stack>
 
 namespace flex {
 class EventHandler;
@@ -19,14 +17,14 @@ private:
   void update(EventHandler &event_handler);
 
 public:
-  Window(const std::string &title, int width, int height);
+  Window(const char* title, unsigned int width, unsigned int height);
   ~Window();
 
   void run(EventHandler &event_handler);
   bool should_quit() const;
 
-  int get_width() const;
-  int get_height() const;
+  unsigned int get_width() const;
+  unsigned int get_height() const;
 
   void set_relative_mouse(bool relative);
   bool get_relative_mouse();

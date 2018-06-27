@@ -4,6 +4,8 @@
   - [[https://www.khronos.org/opengl/wiki/Vertex_Specification_Best_Practices][Khronos Group: Vertex Specification Best Practices]]
   - [[https://www.youtube.com/watch?v=cWo-sghCp8Y][glTF loading tutorial on youtube]]
 ** TO-DOs
+*** TODO Add aliases for primitive types (i32, u32, etc)
+*** DONE Canvas drawing
 *** TODO Animation support
 *** TODO Basic Blinn-Phong lighting
 *** TODO PBR
@@ -12,5 +14,4 @@
     - libepoxy
     - SDL2
 *** TODO Optimize camera to do less updating
-*** TODO Canvas drawing
 *** TODO Multipass rendering

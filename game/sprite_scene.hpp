@@ -9,6 +9,7 @@ public:
 
   virtual void update(float delta) override;
   virtual void mouse_wheel(int x, int y) override;
+  virtual void resized(unsigned int w, unsigned int h) override;
 
 private:
   flex::Camera2D camera{window.get_width(), window.get_height()};

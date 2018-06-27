@@ -2,7 +2,7 @@
 
 using namespace flex;
 
-Engine::Engine(const std::string &title, int width, int height)
+Engine::Engine(const char* title, int width, int height)
     : m_window(title, width, height) {}
 
 Engine::~Engine() {}

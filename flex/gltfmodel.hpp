@@ -6,7 +6,6 @@
 #include "gl/vertex_array.hpp"
 #include "model.hpp"
 #include <map>
-#include <memory>
 
 namespace flex {
 struct GltfPrimitive {

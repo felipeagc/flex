@@ -2,23 +2,24 @@
 #include "event_handler.hpp"
 #include "gl/gl.hpp"
 #include "input/input.hpp"
+#include "imgui.hpp"
 
 using namespace flex;
 
-Window::Window(const std::string &title, int width, int height) {
+Window::Window(const char* title, unsigned int width,
+               unsigned int height) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-    flex::log(L_ERROR, L_WINDOW,
-              "SDL_Init Error: " + std::string(SDL_GetError()));
+    flex::log(L_ERROR, L_WINDOW, "SDL_Init Error: '%s'", SDL_GetError());
     std::exit(1);
   }
 
-  this->m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
-                                    SDL_WINDOWPOS_CENTERED, width, height,
-                                    SDL_WINDOW_OPENGL);
+  this->m_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED,
+                                    SDL_WINDOWPOS_CENTERED, (int)width,
+                                    (int)height, SDL_WINDOW_OPENGL);
 
   if (this->m_window == NULL) {
-    flex::log(L_ERROR, L_WINDOW,
-              "Could not create SDL window: " + std::string(SDL_GetError()));
+    flex::log(L_ERROR, L_WINDOW, "Could not create SDL window: '%s'",
+              SDL_GetError());
     SDL_Quit();
     std::exit(1);
   }
@@ -40,9 +41,7 @@ Window::Window(const std::string &title, int width, int height) {
   int minor;
   SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &minor);
 
-  flex::log(L_DEBUG, L_GL,
-            "Using OpenGL version " + std::to_string(major) + "." +
-                std::to_string(minor));
+  flex::log(L_DEBUG, L_GL, "Using OpenGL version %d.%d", major, minor);
 
   m_context = SDL_GL_CreateContext(m_window);
   if (m_context == NULL) {
@@ -55,7 +54,8 @@ Window::Window(const std::string &title, int width, int height) {
   GL_CALL(glEnable(GL_DEPTH_TEST));
   GL_CALL(glViewport(0, 0, width, height));
 
-  SDL_GL_SetSwapInterval(0);
+  // Enable vsync
+  SDL_GL_SetSwapInterval(1);
 
   // Init ImGui
   IMGUI_CHECKVERSION();
@@ -111,7 +111,7 @@ void Window::update(EventHandler &event_handler) {
       switch (e.window.event) {
       case SDL_WINDOWEVENT_RESIZED:
         GL_CALL(glViewport(0, 0, e.window.data1, e.window.data2));
-        event_handler.resized(e.window.data1, e.window.data2);
+        event_handler.resized((unsigned int) e.window.data1, (unsigned int) e.window.data2);
         break;
       }
       break;
@@ -146,16 +146,16 @@ void Window::run(EventHandler &event_handler) {
 
 bool Window::should_quit() const { return m_should_quit; }
 
-int Window::get_width() const {
+unsigned int Window::get_width() const {
   int width;
   SDL_GetWindowSize(m_window, &width, NULL);
-  return width;
+  return (unsigned int)width;
 }
 
-int Window::get_height() const {
+unsigned int Window::get_height() const {
   int height;
   SDL_GetWindowSize(m_window, NULL, &height);
-  return height;
+  return (unsigned int)height;
 }
 
 void Window::set_relative_mouse(bool relative) {

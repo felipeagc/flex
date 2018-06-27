@@ -3,6 +3,8 @@ flex_sources = [
   'window.cpp',
   'audio.cpp',
 
+  'logging.cpp',
+
   'sprite.cpp',
   'mesh.cpp',
   'instancedmesh.cpp',

@@ -64,9 +64,8 @@ Shader::Shader(const std::string &vertex_path, const std::string &fragment_path,
   success = success && check_compile_errors(m_program, "PROGRAM");
 
   if (success) {
-    flex::log(L_DEBUG, L_GL,
-              "Loaded shader program: '" + vertex_path + "', '" +
-                  fragment_path + "'");
+    flex::log(L_DEBUG, L_GL, "Loaded shader program: '%s', '%s'",
+              vertex_path.c_str(), fragment_path.c_str());
   }
 
   GL_CALL(glDeleteShader(vertex_shader));
@@ -85,16 +84,16 @@ bool Shader::check_compile_errors(GLuint shader, std::string type) {
     if (!success) {
       GL_CALL(glGetShaderInfoLog(shader, 1024, NULL, info_log));
       flex::log(L_ERROR, L_GL,
-                "Error: Shader compilation error of type: " + type + "/n" +
-                    info_log);
+                "Error: Shader compilation error of type: %s/n%s", type.c_str(),
+                info_log);
     }
   } else {
     GL_CALL(glGetProgramiv(shader, GL_LINK_STATUS, &success));
     if (!success) {
       GL_CALL(glGetProgramInfoLog(shader, 1024, NULL, info_log));
       flex::log(L_ERROR, L_GL,
-                "Error: Shader program linking error of type: " + type + "/n" +
-                    info_log);
+                "Error: Shader program linking error of type: %s/n%s", type.c_str(),
+                info_log);
     }
   }
 

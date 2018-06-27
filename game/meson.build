@@ -3,6 +3,7 @@ game_sources = [
   'instancing_scene.cpp',
   'sprite_scene.cpp',
   'mesh_scene.cpp',
+  'canvas_scene.cpp',
 ]
 
 game_deps = [

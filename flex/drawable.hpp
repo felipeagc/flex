@@ -2,7 +2,6 @@
 
 #include "gl/shader.hpp"
 #include <glm/glm.hpp>
-#include <vector>
 
 namespace flex {
 class Drawable {

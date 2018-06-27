@@ -15,7 +15,7 @@ public:
   virtual void update(float delta){};
   virtual void quit(){};
 
-  virtual void resized(int w, int h){};
+  virtual void resized(unsigned int w, unsigned int h){};
 
   virtual void key_up(input::Key key, bool repeat){};
   virtual void key_down(input::Key key, bool repeat){};

@@ -1,15 +1,13 @@
 #include "instancing_scene.hpp"
 
-using namespace game;
+#include <glm/gtc/matrix_transform.hpp>
 
-glm::vec3 lerp(glm::vec3 v1, glm::vec3 v2, float t) {
-  return v1 + t * (v2 - v1);
-}
+using namespace game;
 
 std::vector<glm::mat4> InstancingScene::make_transforms(float time) {
   std::vector<glm::mat4> transforms;
-  float size = 15.0;
-  int amount = 10;
+  float size = 10.0;
+  int amount = 5;
   for (int x = -amount / 2; x < amount / 2; x++) {
     for (int y = -amount / 2; y < amount / 2; y++) {
       for (int z = -amount / 2; z < amount / 2; z++) {
@@ -42,7 +40,8 @@ void InstancingScene::camera_movement(float delta) {
   }
 
   camera_target += movement;
-  glm::vec3 smoothed_pos = lerp(camera.get_pos(), camera_target, delta * 10.0f);
+  glm::vec3 smoothed_pos =
+      flex::lerp(camera.get_pos(), camera_target, delta * 10.0f);
 
   camera.set_pos(smoothed_pos);
 

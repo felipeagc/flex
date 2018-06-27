@@ -1,9 +1,11 @@
 #include "camera.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace flex;
 
-Camera3D::Camera3D(int width, int height, glm::vec3 position, float fov,
-                   glm::vec3 up, float yaw, float pitch) {
+Camera3D::Camera3D(unsigned int width, unsigned int height, glm::vec3 position,
+                   float fov, glm::vec3 up, float yaw, float pitch) {
   m_pos = position;
   m_fov = fov;
   m_world_up = up;
@@ -20,7 +22,7 @@ glm::mat4 Camera3D::get_view_matrix() {
 
 glm::mat4 Camera3D::get_projection_matrix() { return m_projection; }
 
-void Camera3D::update(int width, int height) {
+void Camera3D::update(unsigned int width, unsigned int height) {
   this->update_directions();
   this->update_projection(width, height);
 }
@@ -57,7 +59,7 @@ glm::vec3 Camera3D::get_front() const { return m_front; }
 
 glm::vec3 Camera3D::get_right() const { return m_right; }
 
-void Camera3D::update_projection(int width, int height) {
+void Camera3D::update_projection(unsigned int width, unsigned int height) {
   m_projection = glm::perspective(glm::radians(m_fov),
                                   (float)width / (float)height, m_near, m_far);
 }
@@ -73,8 +75,8 @@ void Camera3D::update_directions() {
   m_up = glm::normalize(glm::cross(m_right, m_front));
 }
 
-Camera2D::Camera2D(int width, int height, glm::vec2 pos, float rotation,
-                   glm::vec2 scale) {
+Camera2D::Camera2D(unsigned int width, unsigned int height, glm::vec2 pos,
+                   float rotation, glm::vec2 scale) {
   m_pos = pos;
   m_rotation = rotation;
   m_scale = scale;
@@ -94,7 +96,7 @@ glm::mat4 Camera2D::get_view_matrix() {
 
 glm::mat4 Camera2D::get_projection_matrix() { return m_projection; }
 
-void Camera2D::update(int width, int height) {
+void Camera2D::update(unsigned int width, unsigned int height) {
   this->update_projection(width, height);
 }
 
@@ -103,31 +105,20 @@ void Camera2D::set_uniforms(gl::Shader &shader) {
   shader.set("proj", get_projection_matrix());
 }
 
-void Camera2D::set_pos(glm::vec2 pos) {
-  m_pos = pos;
-}
+void Camera2D::set_pos(glm::vec2 pos) { m_pos = pos; }
 
-glm::vec2 Camera2D::get_pos() const {
-  return m_pos;
-}
+glm::vec2 Camera2D::get_pos() const { return m_pos; }
 
-void Camera2D::set_rot(float degrees) {
-  m_rotation = degrees;
-}
+void Camera2D::set_rot(float degrees) { m_rotation = degrees; }
 
-float Camera2D::get_rot() const {
-  return m_rotation;
-}
+float Camera2D::get_rot() const { return m_rotation; }
 
-void Camera2D::set_scale(glm::vec2 scale) {
-  m_scale = scale;
-}
+void Camera2D::set_scale(glm::vec2 scale) { m_scale = scale; }
 
-glm::vec2 Camera2D::get_scale() const {
-  return m_scale;
-}
+glm::vec2 Camera2D::get_scale() const { return m_scale; }
 
-void Camera2D::update_projection(int width, int height) {
+void Camera2D::update_projection(unsigned int width, unsigned int height) {
   m_projection =
-    glm::ortho((float) -width/2, (float)width/2, (float)height/2, (float) -height/2, m_near, m_far);
+      glm::ortho(-((float)width) / 2, (float)width / 2, -(float)height / 2,
+                 (float)height / 2, m_near, m_far);
 }

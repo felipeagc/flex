@@ -15,7 +15,7 @@ const std::vector<unsigned int> Sprite::INDICES{
 };
 
 Sprite::Sprite(const std::string &path, gl::TextureFilter filter) {
-  m_texture.load_from_file(path);
+  m_texture.load_from_file(path.c_str());
   m_texture.set_min_filter(filter);
   m_texture.set_mag_filter(filter);
 
