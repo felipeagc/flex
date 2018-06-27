@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../types.hpp"
 #include "gl.hpp"
 #include <string>
 
@@ -14,24 +15,24 @@ public:
 
   void destroy();
 
-  void bind(GLuint unit = 0) const;
-  static void unbind(GLuint unit = 0);
+  void bind(u32 unit = 0) const;
+  static void unbind(u32 unit = 0);
 
   GLuint get_id() const;
 
-  void load_from_file(const char* path);
-  void load_from_data(void *data, unsigned int width, unsigned height,
+  void load_from_file(const char *path);
+  void load_from_data(void *data, u32 width, u32 height,
                       GLenum format);
 
   void set_min_filter(TextureFilter filter);
   void set_mag_filter(TextureFilter filter);
 
-  int get_width();
-  int get_height();
+  i32 get_width();
+  i32 get_height();
 
 private:
-  GLuint m_id;
-  int m_width = -1, m_height = -1;
+  u32 m_id;
+  i32 m_width = -1, m_height = -1;
 };
 
 } // namespace gl

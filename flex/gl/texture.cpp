@@ -16,12 +16,12 @@ Texture::~Texture() {}
 
 void Texture::destroy() { GL_CALL(glDeleteTextures(1, &m_id)); }
 
-void Texture::bind(GLuint unit) const {
+void Texture::bind(u32 unit) const {
   GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
   GL_CALL(glBindTexture(GL_TEXTURE_2D, m_id));
 }
 
-void Texture::unbind(GLuint unit) {
+void Texture::unbind(u32 unit) {
   GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
   GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 }
@@ -29,9 +29,9 @@ void Texture::unbind(GLuint unit) {
 GLuint Texture::get_id() const { return m_id; }
 
 void Texture::load_from_file(const char *path) {
-  int n_components;
+  i32 n_components;
   stbi_set_flip_vertically_on_load(true);
-  unsigned char *data =
+  u8 *data =
       stbi_load(path, &m_width, &m_height, &n_components, 0);
   if (data) {
     GLenum format = GL_RGB;
@@ -63,7 +63,7 @@ void Texture::load_from_file(const char *path) {
 }
 
 void Texture::load_from_data(void *data, unsigned int width,
-                             unsigned int height, GLenum format) {
+                             u32 height, GLenum format) {
   m_width = width;
   m_height = height;
   this->bind();
@@ -88,10 +88,10 @@ void Texture::set_mag_filter(TextureFilter filter) {
   GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter));
 }
 
-int Texture::get_width() {
+i32 Texture::get_width() {
   return m_width;
 }
 
-int Texture::get_height() {
+i32 Texture::get_height() {
   return m_height;
 }

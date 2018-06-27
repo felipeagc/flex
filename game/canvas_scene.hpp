@@ -26,7 +26,8 @@ private:
   flex::gl::Shader shader{flex::path("shaders/simple.vert"),
                           flex::path("shaders/simple.frag")};
 
-  flex::Sprite sprite{flex::path("sprites/sprite.png")};
+  flex::Sprite sprite{flex::path("sprites/sprite.png"),
+                      flex::gl::FILTER_NEAREST};
 
   flex::GltfModel model{flex::path("models/helmet.glb")};
 
