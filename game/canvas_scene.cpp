@@ -2,9 +2,9 @@
 
 using namespace game;
 
-void CanvasScene::camera_movement(float delta) {
+void CanvasScene::camera_movement(f32 delta) {
   glm::vec3 movement{0.0};
-  float velocity = delta * 10.0f;
+  f32 velocity = delta * 10.0f;
 
   if (window.is_key_pressed(FLEX_SCANCODE_W)) {
     movement += canvas_camera.get_front() * velocity;
@@ -25,15 +25,15 @@ void CanvasScene::camera_movement(float delta) {
   canvas_camera.set_pos(smoothed_pos);
 
   if (window.get_relative_mouse()) {
-    const float sensitivity = 0.1f;
-    int x, y;
+    const f32 sensitivity = 0.1f;
+    i32 x, y;
     window.get_relative_mouse_pos(&x, &y);
     canvas_camera.set_pitch(canvas_camera.get_pitch() - (y * sensitivity));
     canvas_camera.set_yaw(canvas_camera.get_yaw() + (x * sensitivity));
   }
 }
 
-void CanvasScene::update(float delta) {
+void CanvasScene::update(f32 delta) {
   // Canvas drawing
   canvas.bind();
   {
@@ -58,6 +58,6 @@ void CanvasScene::update(float delta) {
   canvas.draw(shader);
 }
 
-void CanvasScene::resized(unsigned int w, unsigned int h) {
+void CanvasScene::resized(u32 w, u32 h) {
   canvas.resize(w/2, h/2);
 }

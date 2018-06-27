@@ -2,12 +2,13 @@
 
 #include "drawable.hpp"
 #include "mesh.hpp"
+#include "types.hpp"
 
 namespace flex {
 class InstancedMesh : public Mesh, public InstancedDrawable {
 public:
   InstancedMesh(
-      std::vector<Vertex> vertices, std::vector<unsigned int> indices,
+      std::vector<Vertex> vertices, std::vector<u32> indices,
       std::vector<glm::mat4> transforms,
       std::vector<gl::Texture> diffuse_textures = {},
       std::vector<gl::Texture> specular_textures = {},

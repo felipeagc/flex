@@ -28,7 +28,7 @@ public:
     current_scene->load();
   }
 
-  void update(float delta) {
+  void update(f32 delta) {
     current_scene->update(delta);
 
     if (ImGui::BeginMainMenuBar()) {
@@ -63,13 +63,13 @@ public:
     }
   }
 
-  void mouse_wheel(int x, int y) { current_scene->mouse_wheel(x, y); }
+  void mouse_wheel(i32 x, i32 y) { current_scene->mouse_wheel(x, y); }
 
-  void resized(unsigned int w, unsigned int h) { current_scene->resized(w, h); }
+  void resized(u32 w, u32 h) { current_scene->resized(w, h); }
 };
 } // namespace game
 
-int main() {
+i32 main() {
   flex::Engine engine{"Half-Life 3", 800, 600};
   game::MyApp app{engine};
 

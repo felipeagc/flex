@@ -16,8 +16,8 @@ AudioSystem::AudioSystem() {
 
 AudioSystem::~AudioSystem() { m_soloud.deinit(); }
 
-AudioHandle AudioSystem::play(Audio &audio, float volume, float pan, int paused,
-                              int bus) {
+AudioHandle AudioSystem::play(Audio &audio, f32 volume, f32 pan, i32 paused,
+                              i32 bus) {
   return m_soloud.play(audio.m_wav, volume, pan, paused, bus);
 }
 

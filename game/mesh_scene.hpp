@@ -7,7 +7,7 @@ class MeshScene : public flex::EventHandler {
 public:
   using flex::EventHandler::EventHandler;
 
-  virtual void update(float delta) override;
+  virtual void update(f32 delta) override;
 
 private:
   std::vector<flex::Vertex> vertices{
@@ -17,7 +17,7 @@ private:
       {{-.5f, .5f, .0f}, {1.0, 1.0, 1.0}, {0.0, 1.0}},  // top left
   };
 
-  std::vector<unsigned int> indices{
+  std::vector<u32> indices{
       0, 1, 3, // first triangle
       1, 2, 3, // second triangle
   };

@@ -2,7 +2,7 @@
 
 using namespace game;
 
-void MeshScene::update(float delta) {
+void MeshScene::update(f32 delta) {
   camera.update(window.get_width(), window.get_height());
   camera.set_uniforms(shader);
 

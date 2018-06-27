@@ -9,12 +9,12 @@ const std::vector<Vertex> Canvas::VERTICES = {
     {{-0.5f, 0.5f, .0f}, {}, {0.0, 1.0}},  // top left
 };
 
-const std::vector<unsigned int> Canvas::INDICES{
+const std::vector<u32> Canvas::INDICES{
     0, 1, 3, // first triangle
     1, 2, 3, // second triangle
 };
 
-Canvas::Canvas(unsigned int width, unsigned int height)
+Canvas::Canvas(u32 width, u32 height)
     : m_width(width), m_height(height) {
   create();
 }
@@ -81,11 +81,11 @@ void Canvas::draw(gl::Shader &shader, glm::vec3 pos, glm::vec3 rot,
   m_texture.unbind();
 }
 
-unsigned int Canvas::get_width() const { return m_width; }
+u32 Canvas::get_width() const { return m_width; }
 
-unsigned int Canvas::get_height() const { return m_height; }
+u32 Canvas::get_height() const { return m_height; }
 
-void Canvas::resize(unsigned int width, unsigned int height) {
+void Canvas::resize(u32 width, u32 height) {
   m_texture.destroy();
   m_rb.destroy();
   m_fb.destroy();

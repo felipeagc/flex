@@ -2,9 +2,9 @@
 
 using namespace game;
 
-void SpriteScene::update(float delta) {
+void SpriteScene::update(f32 delta) {
   glm::vec2 movement(0.0);
-  float velocity = delta * 100.0;
+  f32 velocity = delta * 100.0;
   if (window.is_key_pressed(FLEX_SCANCODE_W)) {
     movement -= glm::vec2(0.0, velocity);
   }
@@ -28,15 +28,15 @@ void SpriteScene::update(float delta) {
   sprite.draw(shader, {100.0, 100.0}, -30.0, {5.0, 5.0});
 }
 
-void SpriteScene::resized(unsigned int w, unsigned int h) {
+void SpriteScene::resized(u32 w, u32 h) {
   camera.update(window.get_width(), window.get_height());
 }
 
-void SpriteScene::mouse_wheel(int x, int y) {
+void SpriteScene::mouse_wheel(i32 x, i32 y) {
   if (window.is_key_pressed(FLEX_SCANCODE_LCTRL)) {
-    camera.set_rot(camera.get_rot() + (float) y * 2.0);
+    camera.set_rot(camera.get_rot() + (f32)y * 2.0);
   } else {
-    glm::vec2 delta = {(float)y / 2.0, (float)y / 2.0};
+    glm::vec2 delta = {(f32)y / 2.0, (f32)y / 2.0};
     if ((camera.get_scale() + delta).x > 0.0) {
       camera.set_scale(camera.get_scale() + delta);
     }

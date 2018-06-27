@@ -4,13 +4,13 @@
 
 using namespace game;
 
-std::vector<glm::mat4> InstancingScene::make_transforms(float time) {
+std::vector<glm::mat4> InstancingScene::make_transforms(f32 time) {
   std::vector<glm::mat4> transforms;
-  float size = 10.0;
-  int amount = 5;
-  for (int x = -amount / 2; x < amount / 2; x++) {
-    for (int y = -amount / 2; y < amount / 2; y++) {
-      for (int z = -amount / 2; z < amount / 2; z++) {
+  f32 size = 10.0;
+  i32 amount = 5;
+  for (i32 x = -amount / 2; x < amount / 2; x++) {
+    for (i32 y = -amount / 2; y < amount / 2; y++) {
+      for (i32 z = -amount / 2; z < amount / 2; z++) {
         auto pos = glm::vec3(
             x * size, (y * size) + sin((time + x + z) * 2.0) * 2.0, z * size);
         auto translation = glm::translate(glm::mat4(1.0f), pos);
@@ -22,9 +22,9 @@ std::vector<glm::mat4> InstancingScene::make_transforms(float time) {
   return transforms;
 }
 
-void InstancingScene::camera_movement(float delta) {
+void InstancingScene::camera_movement(f32 delta) {
   glm::vec3 movement{0.0};
-  float velocity = delta * 10.0f;
+  f32 velocity = delta * 10.0f;
 
   if (window.is_key_pressed(FLEX_SCANCODE_W)) {
     movement += camera.get_front() * velocity;
@@ -46,15 +46,15 @@ void InstancingScene::camera_movement(float delta) {
   camera.set_pos(smoothed_pos);
 
   if (window.get_relative_mouse()) {
-    const float sensitivity = 0.1f;
-    int x, y;
+    const f32 sensitivity = 0.1f;
+    i32 x, y;
     window.get_relative_mouse_pos(&x, &y);
     camera.set_pitch(camera.get_pitch() - (y * sensitivity));
     camera.set_yaw(camera.get_yaw() + (x * sensitivity));
   }
 }
 
-void InstancingScene::update(float delta) {
+void InstancingScene::update(f32 delta) {
   elapsed_time += delta;
   camera_movement(delta);
 

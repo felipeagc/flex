@@ -7,10 +7,10 @@ class CanvasScene : public flex::EventHandler {
 public:
   using flex::EventHandler::EventHandler;
 
-  virtual void update(float delta) override;
-  virtual void resized(unsigned int w, unsigned int h) override;
+  virtual void update(f32 delta) override;
+  virtual void resized(u32 w, u32 h) override;
 
-  void camera_movement(float delta);
+  void camera_movement(f32 delta);
 
 private:
   flex::Canvas canvas{400, 300};

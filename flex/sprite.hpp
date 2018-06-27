@@ -3,12 +3,13 @@
 #include "drawable.hpp"
 #include "gl/texture.hpp"
 #include "mesh.hpp"
+#include "types.hpp"
 
 namespace flex {
 class Sprite : public Drawable2D {
 private:
   static const std::vector<Vertex> VERTICES;
-  static const std::vector<unsigned int> INDICES;
+  static const std::vector<u32> INDICES;
 
   Mesh m_mesh{VERTICES, INDICES};
   gl::Texture m_texture;
@@ -18,6 +19,6 @@ public:
   virtual ~Sprite();
 
   void draw(gl::Shader &shader, glm::vec2 pos = glm::vec2(0.0),
-            float rotation = 0.0, glm::vec2 scale = glm::vec2(1.0)) override;
+            f32 rotation = 0.0, glm::vec2 scale = glm::vec2(1.0)) override;
 };
 } // namespace flex

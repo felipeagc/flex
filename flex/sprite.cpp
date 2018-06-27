@@ -9,7 +9,7 @@ const std::vector<Vertex> Sprite::VERTICES = {
     {{-0.5f, 0.5f, .0f}, {}, {0.0, 1.0}},  // top left
 };
 
-const std::vector<unsigned int> Sprite::INDICES{
+const std::vector<u32> Sprite::INDICES{
     0, 1, 3, // first triangle
     1, 2, 3, // second triangle
 };
@@ -24,7 +24,7 @@ Sprite::Sprite(const std::string &path, gl::TextureFilter filter) {
 
 Sprite::~Sprite() { m_texture.destroy(); }
 
-void Sprite::draw(gl::Shader &shader, glm::vec2 pos, float rotation,
+void Sprite::draw(gl::Shader &shader, glm::vec2 pos, f32 rotation,
                   glm::vec2 scale) {
   m_mesh.draw(
       shader, {pos.x, pos.y, 0.0}, {0.0, 0.0, rotation},

@@ -19,3 +19,4 @@
 #include "sprite.hpp"
 #include "window.hpp"
 #include "util.hpp"
+#include "types.hpp"

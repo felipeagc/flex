@@ -7,13 +7,13 @@ class InstancingScene : public flex::EventHandler {
 public:
   using flex::EventHandler::EventHandler;
 
-  virtual void update(float delta) override;
+  virtual void update(f32 delta) override;
 
 private:
-  double elapsed_time = 0;
+  f64 elapsed_time = 0;
 
-  std::vector<glm::mat4> make_transforms(float time = 0);
-  void camera_movement(float delta);
+  std::vector<glm::mat4> make_transforms(f32 time = 0);
+  void camera_movement(f32 delta);
 
   flex::Camera3D camera{window.get_width(), window.get_height()};
   glm::vec3 camera_target{camera.get_pos()};

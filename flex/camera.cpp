@@ -4,8 +4,8 @@
 
 using namespace flex;
 
-Camera3D::Camera3D(unsigned int width, unsigned int height, glm::vec3 position,
-                   float fov, glm::vec3 up, float yaw, float pitch) {
+Camera3D::Camera3D(u32 width, u32 height, glm::vec3 position, f32 fov,
+                   glm::vec3 up, f32 yaw, f32 pitch) {
   m_pos = position;
   m_fov = fov;
   m_world_up = up;
@@ -22,7 +22,7 @@ glm::mat4 Camera3D::get_view_matrix() {
 
 glm::mat4 Camera3D::get_projection_matrix() { return m_projection; }
 
-void Camera3D::update(unsigned int width, unsigned int height) {
+void Camera3D::update(u32 width, u32 height) {
   this->update_directions();
   this->update_projection(width, height);
 }
@@ -36,11 +36,11 @@ void Camera3D::set_pos(glm::vec3 pos) { m_pos = pos; }
 
 glm::vec3 Camera3D::get_pos() const { return m_pos; }
 
-void Camera3D::set_yaw(float yaw) { m_yaw = yaw; }
+void Camera3D::set_yaw(f32 yaw) { m_yaw = yaw; }
 
-float Camera3D::get_yaw() const { return m_yaw; }
+f32 Camera3D::get_yaw() const { return m_yaw; }
 
-void Camera3D::set_pitch(float pitch) {
+void Camera3D::set_pitch(f32 pitch) {
   if (pitch > 89.0f)
     m_pitch = 89.0f;
   else if (pitch < -89.0f)
@@ -49,19 +49,19 @@ void Camera3D::set_pitch(float pitch) {
     m_pitch = pitch;
 }
 
-float Camera3D::get_pitch() const { return m_pitch; }
+f32 Camera3D::get_pitch() const { return m_pitch; }
 
-void Camera3D::set_fov(float fov) { m_fov = fov; }
+void Camera3D::set_fov(f32 fov) { m_fov = fov; }
 
-float Camera3D::get_fov() const { return m_fov; }
+f32 Camera3D::get_fov() const { return m_fov; }
 
 glm::vec3 Camera3D::get_front() const { return m_front; }
 
 glm::vec3 Camera3D::get_right() const { return m_right; }
 
-void Camera3D::update_projection(unsigned int width, unsigned int height) {
-  m_projection = glm::perspective(glm::radians(m_fov),
-                                  (float)width / (float)height, m_near, m_far);
+void Camera3D::update_projection(u32 width, u32 height) {
+  m_projection = glm::perspective(glm::radians(m_fov), (f32)width / (f32)height,
+                                  m_near, m_far);
 }
 
 void Camera3D::update_directions() {
@@ -75,8 +75,8 @@ void Camera3D::update_directions() {
   m_up = glm::normalize(glm::cross(m_right, m_front));
 }
 
-Camera2D::Camera2D(unsigned int width, unsigned int height, glm::vec2 pos,
-                   float rotation, glm::vec2 scale) {
+Camera2D::Camera2D(u32 width, u32 height, glm::vec2 pos, f32 rotation,
+                   glm::vec2 scale) {
   m_pos = pos;
   m_rotation = rotation;
   m_scale = scale;
@@ -96,7 +96,7 @@ glm::mat4 Camera2D::get_view_matrix() {
 
 glm::mat4 Camera2D::get_projection_matrix() { return m_projection; }
 
-void Camera2D::update(unsigned int width, unsigned int height) {
+void Camera2D::update(u32 width, u32 height) {
   this->update_projection(width, height);
 }
 
@@ -109,16 +109,15 @@ void Camera2D::set_pos(glm::vec2 pos) { m_pos = pos; }
 
 glm::vec2 Camera2D::get_pos() const { return m_pos; }
 
-void Camera2D::set_rot(float degrees) { m_rotation = degrees; }
+void Camera2D::set_rot(f32 degrees) { m_rotation = degrees; }
 
-float Camera2D::get_rot() const { return m_rotation; }
+f32 Camera2D::get_rot() const { return m_rotation; }
 
 void Camera2D::set_scale(glm::vec2 scale) { m_scale = scale; }
 
 glm::vec2 Camera2D::get_scale() const { return m_scale; }
 
-void Camera2D::update_projection(unsigned int width, unsigned int height) {
-  m_projection =
-      glm::ortho(-((float)width) / 2, (float)width / 2, -(float)height / 2,
-                 (float)height / 2, m_near, m_far);
+void Camera2D::update_projection(u32 width, u32 height) {
+  m_projection = glm::ortho(-((f32)width) / 2, (f32)width / 2, -(f32)height / 2,
+                            (f32)height / 2, m_near, m_far);
 }

@@ -3,7 +3,7 @@
 using namespace flex;
 
 InstancedMesh::InstancedMesh(std::vector<Vertex> vertices,
-                             std::vector<unsigned int> indices,
+                             std::vector<u32> indices,
                              std::vector<glm::mat4> transforms,
                              std::vector<gl::Texture> diffuse_textures,
                              std::vector<gl::Texture> specular_textures,
@@ -16,7 +16,7 @@ InstancedMesh::InstancedMesh(std::vector<Vertex> vertices,
                         transforms.size() * sizeof(glm::mat4));
 
   flex::gl::VertexBufferLayout layout;
-  int pos = 3;
+  i32 pos = 3;
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
@@ -33,7 +33,7 @@ InstancedMesh::InstancedMesh(const Mesh &mesh,
                         transforms.size() * sizeof(glm::mat4));
 
   flex::gl::VertexBufferLayout layout;
-  int pos = 3;
+  i32 pos = 3;
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4

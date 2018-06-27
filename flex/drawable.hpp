@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gl/shader.hpp"
+#include "types.hpp"
 #include <glm/glm.hpp>
 
 namespace flex {
@@ -18,8 +19,7 @@ public:
   virtual ~Drawable2D(){};
 
   virtual void draw(gl::Shader &shader, glm::vec2 pos = glm::vec2(0.0),
-                    float rotation = 0.0f,
-                    glm::vec2 scale = glm::vec2(1.0)) = 0;
+                    f32 rotation = 0.0f, glm::vec2 scale = glm::vec2(1.0)) = 0;
 };
 
 class InstancedDrawable {

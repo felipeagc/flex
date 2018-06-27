@@ -8,7 +8,7 @@
 
 using namespace flex;
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<u32> indices,
            std::vector<gl::Texture> diffuse_textures,
            std::vector<gl::Texture> specular_textures,
            std::vector<gl::Texture> normal_textures,
@@ -26,7 +26,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
   layout.push_float(2, 2); // tex_coords
 
   m_ib.buffer(gl::ELEMENT_ARRAY_BUFFER, &indices.data()[0],
-              sizeof(GLuint) * indices.size());
+              sizeof(u32) * indices.size());
 
   m_va.add_buffer(m_vb, layout);
 }
@@ -61,20 +61,20 @@ void Mesh::set_vertices(std::vector<Vertex> vertices) {
   m_vertices = vertices;
 }
 
-void Mesh::set_indices(std::vector<GLuint> indices) {
+void Mesh::set_indices(std::vector<u32> indices) {
   if (indices.size() == m_indices.size()) {
     m_ib.buffer_sub_data(gl::ELEMENT_ARRAY_BUFFER, &indices.data()[0],
-                         sizeof(GLuint) * indices.size(), 0);
+                         sizeof(u32) * indices.size(), 0);
   } else {
     m_ib.buffer(gl::ELEMENT_ARRAY_BUFFER, &indices.data()[0],
-                sizeof(GLuint) * indices.size());
+                sizeof(u32) * indices.size());
   }
 
   m_indices = indices;
 }
 
 void Mesh::set_vertices_and_indices(std::vector<Vertex> vertices,
-                                    std::vector<GLuint> indices) {
+                                    std::vector<u32> indices) {
   this->set_vertices(vertices);
   this->set_indices(indices);
 }
@@ -96,27 +96,27 @@ void Mesh::add_height_texture(gl::Texture texture) {
 }
 
 void Mesh::bind_textures(gl::Shader &shader) {
-  unsigned int n = 0;
+  u32 n = 0;
 
-  for (unsigned int i = 0; i < m_diffuse_textures.size(); i++) {
+  for (u32 i = 0; i < m_diffuse_textures.size(); i++) {
     m_diffuse_textures[i].bind(n);
     shader.set("texture_diffuse" + std::to_string(i), n);
     n++;
   }
 
-  for (unsigned int i = 0; i < m_specular_textures.size(); i++) {
+  for (u32 i = 0; i < m_specular_textures.size(); i++) {
     m_specular_textures[i].bind(n);
     shader.set("texture_specular" + std::to_string(i), n);
     n++;
   }
 
-  for (unsigned int i = 0; i < m_normal_textures.size(); i++) {
+  for (u32 i = 0; i < m_normal_textures.size(); i++) {
     m_normal_textures[i].bind(n);
     shader.set("texture_normal" + std::to_string(i), n);
     n++;
   }
 
-  for (unsigned int i = 0; i < m_height_textures.size(); i++) {
+  for (u32 i = 0; i < m_height_textures.size(); i++) {
     m_height_textures[i].bind(n);
     shader.set("texture_height" + std::to_string(i), n);
     n++;

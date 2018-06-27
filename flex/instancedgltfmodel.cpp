@@ -1,5 +1,6 @@
 #include "instancedgltfmodel.hpp"
 
+#include "types.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace flex;
@@ -12,7 +13,7 @@ InstancedGltfModel::InstancedGltfModel(const std::string &path,
                         transforms.size() * sizeof(glm::mat4));
 
   flex::gl::VertexBufferLayout layout;
-  int pos = 3;
+  i32 pos = 3;
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
@@ -36,7 +37,7 @@ InstancedGltfModel::InstancedGltfModel(const GltfModel &model,
                         transforms.size() * sizeof(glm::mat4));
 
   flex::gl::VertexBufferLayout layout;
-  int pos = 3;
+  i32 pos = 3;
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
   layout.push_float(4, pos++); // vec4
@@ -81,7 +82,7 @@ void InstancedGltfModel::draw_node_instanced(GltfNode &node, glm::mat4 &model,
       if (prim.diffuse_texture_index != -1) {
         auto &texture = m_textures[prim.diffuse_texture_index];
         texture.bind(0);
-        shader.set("texture_diffuse0", (unsigned int)0);
+        shader.set("texture_diffuse0", (u32)0);
 
         shader.set("is_textured", true);
       } else {

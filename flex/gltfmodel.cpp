@@ -88,7 +88,7 @@ GltfModel::GltfModel(const std::string &path) {
     const auto &buffer_view = model.bufferViews[i];
     const auto &buffer = model.buffers[buffer_view.buffer];
 
-    GLuint target = GL_ARRAY_BUFFER;
+    u32 target = GL_ARRAY_BUFFER;
     if (buffer_view.target != 0)
       target = buffer_view.target;
 
@@ -154,7 +154,7 @@ GltfModel::GltfModel(const std::string &path) {
         if (material.values.count("baseColorTexture")) {
           auto &tex_val = material.values["baseColorTexture"];
           primitive.diffuse_texture_index =
-              (int)tex_val.json_double_value["index"];
+              (i32)tex_val.json_double_value["index"];
         }
       }
 
@@ -247,7 +247,7 @@ void GltfModel::draw_node(GltfNode &node, glm::mat4 &model,
       if (prim.diffuse_texture_index != -1) {
         auto &texture = m_textures[prim.diffuse_texture_index];
         texture.bind(0);
-        shader.set("texture_diffuse0", (unsigned int)0);
+        shader.set("texture_diffuse0", (u32)0);
 
         shader.set("is_textured", true);
       } else {
